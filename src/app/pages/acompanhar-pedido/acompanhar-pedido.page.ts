@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-acompanhar-pedido',
   templateUrl: './acompanhar-pedido.page.html',
   styleUrls: ['./acompanhar-pedido.page.scss'],
+  standalone: false
 })
 export class AcompanharPedidoPage implements OnInit {
 

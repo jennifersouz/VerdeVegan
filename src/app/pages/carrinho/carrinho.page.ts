@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-carrinho',
   templateUrl: './carrinho.page.html',
   styleUrls: ['./carrinho.page.scss'],
+  standalone: false
 })
 export class CarrinhoPage implements OnInit {
 

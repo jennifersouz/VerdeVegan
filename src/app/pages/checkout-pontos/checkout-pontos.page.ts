@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-checkout-pontos',
   templateUrl: './checkout-pontos.page.html',
   styleUrls: ['./checkout-pontos.page.scss'],
+  standalone: false
 })
 export class CheckoutPontosPage implements OnInit {
 

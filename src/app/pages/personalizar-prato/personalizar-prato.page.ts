@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-personalizar-prato',
   templateUrl: './personalizar-prato.page.html',
   styleUrls: ['./personalizar-prato.page.scss'],
+  standalone: false
 })
 export class PersonalizarPratoPage implements OnInit {
 

@@ -1,0 +1,122 @@
+<ion-content [fullscreen]="true" class="registo-content">
+
+  <div class="registo-container">
+
+    <div class="logo-area">
+      <img src="assets/img/logo.png" alt="Logótipo VerdeVegan" class="logo-img">
+    </div>
+
+    <div class="titulo-area">
+      <h1>Criar conta</h1>
+      <p>Junta-te à VerdeVegan e come melhor.</p>
+    </div>
+
+    <form [formGroup]="registoForm" (ngSubmit)="criarConta()">
+
+      <!-- Nome -->
+      <div class="grupo-campo">
+        <ion-label>Nome *</ion-label>
+
+        <ion-item lines="none" class="campo">
+          <ion-input
+            type="text"
+            placeholder="Nome e apelido"
+            formControlName="nome">
+          </ion-input>
+        </ion-item>
+
+        <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('nome')?.invalid">
+          <p class="erro">Introduz o teu nome.</p>
+        </ion-text>
+      </div>
+
+      <!-- Email -->
+      <div class="grupo-campo">
+        <ion-label>Email *</ion-label>
+
+        <ion-item lines="none" class="campo">
+          <ion-input
+            type="email"
+            placeholder="exemplo@email.com"
+            formControlName="email">
+          </ion-input>
+        </ion-item>
+
+        <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('email')?.invalid">
+          <p class="erro">Introduz um email válido.</p>
+        </ion-text>
+      </div>
+
+      <!-- Palavra-passe -->
+      <div class="grupo-campo">
+        <ion-label>Palavra-passe *</ion-label>
+
+        <ion-item lines="none" class="campo campo-password">
+          <ion-input
+            type="text"
+            placeholder="Mínimo 8 caracteres"
+            formControlName="palavraPasse"
+            [class.password-hidden]="!mostrarPalavraPasse">
+          </ion-input>
+
+          <ion-button
+            fill="clear"
+            slot="end"
+            type="button"
+            class="eye-button"
+            (click)="alternarVisibilidadePalavraPasse()">
+            <ion-icon [name]="mostrarPalavraPasse ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <p class="ajuda">Use letras, números e símbolos.</p>
+
+        <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('palavraPasse')?.invalid">
+          <p class="erro">A palavra-passe deve ter pelo menos 8 caracteres.</p>
+        </ion-text>
+      </div>
+
+      <!-- Confirmar palavra-passe -->
+      <div class="grupo-campo">
+        <ion-label>Confirmar palavra-passe *</ion-label>
+
+        <ion-item lines="none" class="campo campo-password">
+          <ion-input
+            type="text"
+            placeholder="Repete a palavra-passe"
+            formControlName="confirmarPalavraPasse"
+            [class.password-hidden]="!mostrarConfirmarPalavraPasse">
+          </ion-input>
+
+          <ion-button
+            fill="clear"
+            slot="end"
+            type="button"
+            class="eye-button"
+            (click)="alternarVisibilidadeConfirmarPalavraPasse()">
+            <ion-icon [name]="mostrarConfirmarPalavraPasse ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <ion-text color="danger" *ngIf="formSubmetido && registoForm.hasError('palavrasPasseDiferentes')">
+          <p class="erro">As palavras-passe não coincidem.</p>
+        </ion-text>
+      </div>
+
+      <ion-button
+        expand="block"
+        type="submit"
+        class="botao-principal">
+        Criar conta
+      </ion-button>
+
+    </form>
+
+    <p class="login-link">
+      Já tens conta?
+      <span (click)="irParaLogin()">Entrar</span>
+    </p>
+
+  </div>
+
+</ion-content>

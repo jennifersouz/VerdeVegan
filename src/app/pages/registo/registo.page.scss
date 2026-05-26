@@ -1,0 +1,133 @@
+.registo-content {
+  --background: #ffffff;
+}
+
+.registo-container {
+  min-height: 100%;
+  padding: 40px 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 44px;
+}
+
+.logo-img {
+  width: 92px;
+  height: auto;
+  object-fit: contain;
+}
+
+.titulo-area {
+  margin-bottom: 30px;
+}
+
+.titulo-area h1 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  font-weight: 800;
+  color: #202020;
+}
+
+.titulo-area p {
+  margin: 0;
+  font-size: 17px;
+  color: #666666;
+  line-height: 1.4;
+}
+
+.grupo-campo {
+  margin-bottom: 18px;
+}
+
+.grupo-campo ion-label {
+  display: block;
+  margin: 0 0 8px 4px;
+  color: #2b2b2b;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.campo {
+  --background: #f7f7f7;
+  --border-radius: 14px;
+  --padding-start: 18px;
+  --padding-end: 8px;
+  --inner-padding-end: 0;
+  min-height: 58px;
+}
+
+.campo ion-input {
+  --color: #222222;
+  --placeholder-color: #8a8a8a;
+  --placeholder-opacity: 1;
+  font-size: 18px;
+}
+
+.campo-password {
+  display: flex;
+  align-items: center;
+}
+
+
+.password-hidden::part(native) {
+  -webkit-text-security: disc;
+}
+
+.eye-button {
+  --background: transparent;
+  --background-hover: transparent;
+  --background-focused: transparent;
+  --background-activated: transparent;
+  --box-shadow: none;
+  --color: #5f6f5f;
+
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+}
+
+.eye-button ion-icon {
+  font-size: 23px;
+}
+
+.ajuda {
+  margin: 8px 0 0 4px;
+  font-size: 16px;
+  color: #666666;
+}
+
+.erro {
+  margin: 8px 0 0 4px;
+  font-size: 13px;
+}
+
+.botao-principal {
+  margin-top: 8px;
+  height: 56px;
+  --background: #245c1f;
+  --background-activated: #1e4f1a;
+  --border-radius: 14px;
+  --box-shadow: none;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.login-link {
+  margin-top: 28px;
+  text-align: center;
+  color: #555555;
+  font-size: 16px;
+}
+
+.login-link span {
+  color: #245c1f;
+  font-weight: 700;
+  cursor: pointer;
+}

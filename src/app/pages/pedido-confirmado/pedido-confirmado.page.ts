@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-pedido-confirmado',
   templateUrl: './pedido-confirmado.page.html',
   styleUrls: ['./pedido-confirmado.page.scss'],
+  standalone: false
 })
 export class PedidoConfirmadoPage implements OnInit {
 
