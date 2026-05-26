@@ -1,0 +1,7 @@
+{
+  "name": "verde-vegan",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

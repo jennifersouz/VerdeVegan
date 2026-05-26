@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "nome": "Pizza Marguerita",
+    "categoria": "Massas",
+    "restaurante": "Pizzaria Luzzo",
+    "descricao": "Pizza clássica italiana com molho de tomate, mozzarella fresca e manjericão.",
+    "preco": 24.5,
+    "avaliacao": 4.8,
+    "tempo": "30-40min",
+    "calorias": "~450 kcal",
+    "porcao": "2 Pessoas",
+    "imagem": "assets/img/pratos/pizzaMargherita.jpg",
+    "personalizavel": true
+  },
+  {
+    "id": 2,
+    "nome": "Lasanha de Beringela",
+    "categoria": "Massas",
+    "restaurante": "Massas Caseiras",
+    "descricao": "Massa fresca com camadas de beringela grelhada, molho de tomate e fatias de queijo.",
+    "preco": 15.75,
+    "avaliacao": 4.8,
+    "tempo": "30-40min",
+    "imagem": "assets/img/pratos/lasagna.jpg",
+    "personalizavel": true
+  },
+  {
+    "id": 3,
+    "nome": "Wraps de Legumes",
+    "categoria": "Hambúrgueres",
+    "restaurante": "Vida Ativa",
+    "descricao": "Wrap leve com legumes grelhados, molho de maionese e ervas frescas.",
+    "preco": 8.5,
+    "avaliacao": 4.8,
+    "tempo": "30-40min",
+    "imagem": "assets/img/pratos/wrap.jpg",
+    "personalizavel": false
+  }
+]
