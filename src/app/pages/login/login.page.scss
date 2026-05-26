@@ -1,0 +1,152 @@
+.login-content {
+  --background: #ffffff;
+}
+
+.login-container {
+  min-height: 100%;
+  padding: 40px 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 54px;
+}
+
+.logo-img {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+}
+
+.titulo-area {
+  margin-bottom: 28px;
+}
+
+.titulo-area h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #202020;
+}
+
+.titulo-area p {
+  margin: 0;
+  font-size: 17px;
+  color: #6b6b75;
+  line-height: 1.4;
+}
+
+.grupo-campo {
+  margin-bottom: 20px;
+}
+
+.grupo-campo ion-label {
+  display: block;
+  margin: 0 0 8px 0;
+  color: #2b2b2b;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* Caixa dos inputs */
+.campo-input {
+  width: 100%;
+  min-height: 54px;
+  border: 1px solid #b9d3ad;
+  border-radius: 10px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+}
+
+.campo-input:focus-within {
+  border-color: #2f5d27;
+}
+
+/* Input normal */
+.campo-input input {
+  width: 100%;
+  height: 100%;
+  min-height: 52px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #222222;
+  font-size: 18px;
+  font-family: inherit;
+}
+
+.campo-input input::placeholder {
+  color: #8a8a8a;
+  opacity: 1;
+}
+
+/* Campo com botão de olho */
+.campo-password {
+  padding-right: 6px;
+}
+
+.eye-button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  color: #6d746f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.eye-button ion-icon {
+  font-size: 22px;
+}
+
+.forgot-area {
+  text-align: right;
+  margin-top: -6px;
+  margin-bottom: 34px;
+}
+
+.forgot-area span {
+  color: #3d6332;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.erro {
+  margin: 8px 0 0 0;
+  font-size: 13px;
+}
+
+.botao-principal {
+  height: 58px;
+  --background: #2f5d27;
+  --background-activated: #254d1f;
+  --border-radius: 10px;
+  --box-shadow: none;
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: none;
+}
+
+.registo-link {
+  margin-top: 24px;
+  text-align: center;
+  color: #222222;
+  font-size: 17px;
+}
+
+.registo-link span {
+  color: #2f5d27;
+  font-weight: 800;
+  cursor: pointer;
+}

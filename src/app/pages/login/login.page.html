@@ -1,0 +1,75 @@
+<ion-content [fullscreen]="true" class="login-content">
+
+  <div class="login-container">
+
+    <div class="logo-area">
+      <img src="assets/img/logo.png" alt="Logótipo VerdeVegan" class="logo-img">
+    </div>
+
+    <div class="titulo-area">
+      <h1>Bem-vindo de volta!</h1>
+      <p>Entra na tua conta para continuar.</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="entrar()">
+
+      <!-- Email -->
+      <div class="grupo-campo">
+        <ion-label>Email *</ion-label>
+
+        <div class="campo-input">
+          <input
+            type="email"
+            placeholder="exemplo@email.com"
+            formControlName="email">
+        </div>
+
+        <ion-text color="danger" *ngIf="formSubmetido && loginForm.get('email')?.invalid">
+          <p class="erro">Introduz um email válido.</p>
+        </ion-text>
+      </div>
+
+      <!-- Palavra-passe -->
+      <div class="grupo-campo">
+        <ion-label>Palavra-passe *</ion-label>
+
+        <div class="campo-input campo-password">
+          <input
+            [type]="mostrarPalavraPasse ? 'text' : 'password'"
+            placeholder="Mínimo 8 caracteres"
+            formControlName="palavraPasse">
+
+          <button
+            type="button"
+            class="eye-button"
+            (click)="alternarVisibilidadePalavraPasse()">
+            <ion-icon [name]="mostrarPalavraPasse ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+        </div>
+
+        <ion-text color="danger" *ngIf="formSubmetido && loginForm.get('palavraPasse')?.invalid">
+          <p class="erro">A palavra-passe deve ter pelo menos 8 caracteres.</p>
+        </ion-text>
+      </div>
+
+      <div class="forgot-area">
+        <span (click)="esqueciPalavraPasse()">Esqueci a palavra-passe</span>
+      </div>
+
+      <ion-button
+        expand="block"
+        type="submit"
+        class="botao-principal">
+        Entrar
+      </ion-button>
+
+    </form>
+
+    <p class="registo-link">
+      Não tens conta?
+      <span (click)="irParaRegisto()">Criar conta</span>
+    </p>
+
+  </div>
+
+</ion-content>
