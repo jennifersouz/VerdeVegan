@@ -29,7 +29,7 @@
 .titulo-area h1 {
   margin: 0 0 10px;
   font-size: 32px;
-  font-weight: 800;
+  font-weight: 600;
   color: #202020;
 }
 
@@ -48,7 +48,7 @@
   display: block;
   margin: 0 0 8px 0;
   color: #2b2b2b;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 18px;
 }
 
@@ -103,6 +103,7 @@
   padding: 0;
   margin-left: 8px;
   cursor: pointer;
+  font-family: inherit;
 }
 
 .eye-button ion-icon {
@@ -128,7 +129,7 @@
   --border-radius: 14px;
   --box-shadow: none;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: none;
 }
 
