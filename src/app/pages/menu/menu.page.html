@@ -25,13 +25,17 @@
 
     <!-- Pesquisa -->
     <section class="pesquisa-area">
-      <ion-icon name="search-outline"></ion-icon>
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
 
       <input
         type="text"
         placeholder="Procurar pratos ou restaurantes..."
         [(ngModel)]="termoPesquisa"
         (input)="filtrarPratos()">
+
+      <button type="button" class="filter-button" (click)="abrirFiltros()">
+        <ion-icon name="options-outline"></ion-icon>
+      </button>
     </section>
 
     <!-- Categorias -->
@@ -126,6 +130,113 @@
       </p>
 
     </section>
+
+  </div>
+
+  <!-- MODAL DE FILTROS -->
+  <div class="filtros-overlay" *ngIf="filtrosAberto" (click)="fecharFiltros()">
+
+    <div class="filtros-modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-handle"></div>
+
+      <h2>Filtros</h2>
+
+      <div class="filtro-grupo">
+        <p>Ordenar por:</p>
+
+        <div class="filtro-grid">
+          <button
+            type="button"
+            [class.ativo]="filtroOrdenacao === 'Popular'"
+            (click)="selecionarOrdenacao('Popular')">
+            Popular
+          </button>
+
+          <button
+            type="button"
+            [class.ativo]="filtroOrdenacao === 'Avaliação'"
+            (click)="selecionarOrdenacao('Avaliação')">
+            Avaliação
+          </button>
+
+          <button
+            type="button"
+            [class.ativo]="filtroOrdenacao === 'PrecoAsc'"
+            (click)="selecionarOrdenacao('PrecoAsc')">
+            Preço ↑
+          </button>
+
+          <button
+            type="button"
+            [class.ativo]="filtroOrdenacao === 'PrecoDesc'"
+            (click)="selecionarOrdenacao('PrecoDesc')">
+            Preço ↓
+          </button>
+        </div>
+      </div>
+
+      <div class="filtro-grupo">
+        <p>Preço máximo:</p>
+
+        <input
+          type="range"
+          min="0"
+          max="50"
+          step="1"
+          [(ngModel)]="precoMaximo">
+
+        <div class="range-valores">
+          <span>0€</span>
+          <span>{{ precoMaximo }}€</span>
+        </div>
+      </div>
+
+      <div class="filtro-grupo">
+        <p>Avaliação mínima:</p>
+
+        <div class="filtro-grid">
+          <button
+            type="button"
+            [class.ativo]="avaliacaoMinima === 'Todas'"
+            (click)="selecionarAvaliacao('Todas')">
+            Todas
+          </button>
+
+          <button
+            type="button"
+            [class.ativo]="avaliacaoMinima === '3'"
+            (click)="selecionarAvaliacao('3')">
+            3+ ⭐
+          </button>
+
+          <button
+            type="button"
+            [class.ativo]="avaliacaoMinima === '4'"
+            (click)="selecionarAvaliacao('4')">
+            4+ ⭐
+          </button>
+
+          <button
+            type="button"
+            [class.ativo]="avaliacaoMinima === '4.5'"
+            (click)="selecionarAvaliacao('4.5')">
+            4.5+ ⭐
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-botoes">
+        <button type="button" class="btn-cancelar" (click)="fecharFiltros()">
+          Cancelar
+        </button>
+
+        <button type="button" class="btn-concluir" (click)="concluirFiltros()">
+          Concluir
+        </button>
+      </div>
+
+    </div>
 
   </div>
 

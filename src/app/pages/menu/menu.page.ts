@@ -66,4 +66,36 @@ export class MenuPage implements OnInit {
   public terminarSessao() {
     this.router.navigateByUrl('/login');
   }
+
+  public filtrosAberto = false;
+
+  public filtroOrdenacao = 'Popular';
+  public precoMaximo = 50;
+  public avaliacaoMinima = 'Todas';
+
+  public abrirFiltros() {
+    this.filtrosAberto = true;
+  }
+
+  public fecharFiltros() {
+    this.filtrosAberto = false;
+  }
+
+  public selecionarOrdenacao(valor: string) {
+    this.filtroOrdenacao = valor;
+  }
+
+  public selecionarAvaliacao(valor: string) {
+    this.avaliacaoMinima = valor;
+  }
+
+  public concluirFiltros() {
+    console.log('Filtros aplicados:', {
+      ordenacao: this.filtroOrdenacao,
+      precoMaximo: this.precoMaximo,
+      avaliacaoMinima: this.avaliacaoMinima
+    });
+
+    this.filtrosAberto = false;
+  }
 }
