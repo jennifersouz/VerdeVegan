@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MenuPageRoutingModule } from './menu-routing.module';
-
 import { MenuPage } from './menu.page';
 
 @NgModule({

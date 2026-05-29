@@ -1,0 +1,275 @@
+.menu-container {
+  min-height: 100%;
+  padding: 34px 28px 110px;
+}
+
+/* Topo */
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 34px;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img {
+  width: 58px;
+  height: auto;
+  display: block;
+}
+
+.logout-button {
+  border: none;
+  background: transparent;
+  color: #3f744d;
+  padding: 6px;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-button ion-icon {
+  font-size: 29px;
+}
+
+/* Morada */
+
+.morada-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 34px;
+}
+
+.morada-icon {
+  width: 28px;
+  display: flex;
+  justify-content: center;
+}
+
+.morada-icon ion-icon {
+  font-size: 24px;
+  color: #4c7a56;
+}
+
+.morada-texto {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.morada-texto span {
+  font-size: 15px;
+  color: #707783;
+}
+
+.morada-texto strong {
+  margin-top: 2px;
+  font-size: 18px;
+  color: #1f1f1f;
+  font-weight: 600;
+}
+
+.morada-seta {
+  font-size: 20px;
+  color: #9aa0a8;
+}
+
+/* Intro */
+
+.intro-area {
+  margin-bottom: 28px;
+}
+
+.intro-area h1 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+  color: #111827;
+  font-weight: 500;
+}
+
+/* Pesquisa */
+
+.pesquisa-area {
+  height: 64px;
+  border: 1px solid #e1e4e8;
+  border-radius: 13px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  margin-bottom: 40px;
+}
+
+.pesquisa-area ion-icon {
+  font-size: 25px;
+  color: #9aa0a8;
+  margin-right: 14px;
+}
+
+.pesquisa-area input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #1f2937;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.pesquisa-area input::placeholder {
+  color: #737b87;
+  opacity: 1;
+}
+
+/* Secções */
+
+.secao {
+  margin-bottom: 42px;
+}
+
+.secao h2 {
+  margin: 0 0 20px;
+  font-size: 26px;
+  color: #111111;
+  font-weight: 700;
+}
+
+/* Categorias */
+
+.categorias-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: none;
+}
+
+.categorias-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.categoria-chip {
+  min-width: fit-content;
+  height: 46px;
+  border: none;
+  border-radius: 23px;
+  background: #9ca3af;
+  color: #ffffff;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(31, 41, 55, 0.12);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.categoria-chip span {
+  font-size: 17px;
+}
+
+.categoria-chip.ativa {
+  background: #2f5d27;
+}
+
+/* Cards */
+
+.destaques-area {
+  margin-bottom: 0;
+}
+
+.prato-card {
+  background: #dcebd8;
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 12px rgba(31, 41, 55, 0.06);
+  cursor: pointer;
+}
+
+.prato-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.prato-info {
+  padding: 22px 24px 24px;
+}
+
+.prato-info h3 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.prato-descricao {
+  margin: 0 0 14px;
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.prato-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.prato-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #4b5563;
+  font-size: 15px;
+}
+
+.prato-meta ion-icon[name="star"] {
+  color: #f1c232;
+}
+
+.prato-meta ion-icon {
+  font-size: 17px;
+}
+
+.prato-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.restaurante {
+  color: #6b7280;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.prato-bottom strong {
+  color: #3f744d;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.sem-resultados {
+  margin: 10px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+  text-align: center;
+}

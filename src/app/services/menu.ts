@@ -1,8 +1,28 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Prato {
+  id: number;
+  nome: string;
+  categoria: string;
+  restaurante: string;
+  descricao: string;
+  preco: number;
+  avaliacao: number;
+  tempo: string;
+  imagem: string;
+  destaque: boolean;
+}
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class Menu {
-  
+export class MenuService {
+
+  constructor(private http: HttpClient) {}
+
+  public carregarPratos(): Observable<Prato[]> { //Observable = dados que chegam depois
+    return this.http.get<Prato[]>('assets/data/pratos.json');
+  }
 }

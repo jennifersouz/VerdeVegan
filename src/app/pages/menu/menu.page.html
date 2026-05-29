@@ -1,13 +1,132 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>menu</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="menu-content">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="menu-container">
+
+    <!-- Morada -->
+    <section class="morada-card">
+
+      <div class="morada-icon">
+        <ion-icon name="location"></ion-icon>
+      </div>
+
+      <div class="morada-texto">
+        <span>Entregar em</span>
+        <strong>Rua das Flores, 123</strong>
+      </div>
+
+      <ion-icon name="chevron-down-outline" class="morada-seta"></ion-icon>
+
+    </section>
+
+    <!-- Pergunta principal -->
+    <section class="intro-area">
+      <h1>O que gostarias de comer hoje?</h1>
+    </section>
+
+    <!-- Pesquisa -->
+    <section class="pesquisa-area">
+      <ion-icon name="search-outline"></ion-icon>
+
+      <input
+        type="text"
+        placeholder="Procurar pratos ou restaurantes..."
+        [(ngModel)]="termoPesquisa"
+        (input)="filtrarPratos()">
+    </section>
+
+    <!-- Categorias -->
+    <section class="secao">
+      <h2>Categorias</h2>
+
+      <div class="categorias-scroll">
+
+        <button
+          type="button"
+          class="categoria-chip"
+          [class.ativa]="categoriaSelecionada === 'Todas'"
+          (click)="selecionarCategoria('Todas')">
+          Todas
+        </button>
+
+        <button
+          type="button"
+          class="categoria-chip"
+          [class.ativa]="categoriaSelecionada === 'Pizza'"
+          (click)="selecionarCategoria('Pizza')">
+          <span>🍕</span>
+          Pizza
+        </button>
+
+        <button
+          type="button"
+          class="categoria-chip"
+          [class.ativa]="categoriaSelecionada === 'Massas'"
+          (click)="selecionarCategoria('Massas')">
+          <span>🍝</span>
+          Massas
+        </button>
+
+        <button
+          type="button"
+          class="categoria-chip"
+          [class.ativa]="categoriaSelecionada === 'Hambúrgueres'"
+          (click)="selecionarCategoria('Hambúrgueres')">
+          <span>🍔</span>
+          Hambúrg.
+        </button>
+
+      </div>
+    </section>
+
+    <!-- Destaques -->
+    <section class="secao destaques-area">
+      <h2>Destaques</h2>
+
+      <article
+        class="prato-card"
+        *ngFor="let prato of pratosFiltrados"
+        (click)="abrirDetalhe(prato.id)">
+
+        <img
+          [src]="prato.imagem"
+          [alt]="prato.nome"
+          class="prato-img">
+
+        <div class="prato-info">
+
+          <h3>{{ prato.nome }}</h3>
+
+          <p class="prato-descricao">
+            {{ prato.descricao }}
+          </p>
+
+          <div class="prato-meta">
+            <span>
+              <ion-icon name="star"></ion-icon>
+              {{ prato.avaliacao }}
+            </span>
+
+            <span>
+              <ion-icon name="time-outline"></ion-icon>
+              {{ prato.tempo }}
+            </span>
+          </div>
+
+          <div class="prato-bottom">
+            <span class="restaurante">{{ prato.restaurante }}</span>
+            <strong>{{ prato.preco | number:'1.2-2' }} €</strong>
+          </div>
+
+        </div>
+
+      </article>
+
+      <p class="sem-resultados" *ngIf="pratosFiltrados.length === 0">
+        Não encontrámos pratos para essa pesquisa.
+      </p>
+
+    </section>
+
+  </div>
+
 </ion-content>

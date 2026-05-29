@@ -10,7 +10,7 @@
     "tempo": "30-40min",
     "calorias": "~450 kcal",
     "porcao": "2 Pessoas",
-    "imagem": "assets/img/pratos/pizzaMargherita.jpg",
+    "imagem": "assets/img/pizzaMargherita.jpg",
     "personalizavel": true
   },
   {
@@ -22,7 +22,7 @@
     "preco": 15.75,
     "avaliacao": 4.8,
     "tempo": "30-40min",
-    "imagem": "assets/img/pratos/lasagna.jpg",
+    "imagem": "assets/img/lasagna.jpg",
     "personalizavel": true
   },
   {
@@ -34,7 +34,19 @@
     "preco": 8.5,
     "avaliacao": 4.8,
     "tempo": "30-40min",
-    "imagem": "assets/img/pratos/wrap.jpg",
+    "imagem": "assets/img/wrap.jpg",
     "personalizavel": false
+  },
+  {
+    "id": 4,
+    "nome": "Hambúrguer Vegan",
+    "categoria": "Hambúrgueres",
+    "restaurante": "Green Burger",
+    "descricao": "Hambúrguer vegetal com alface, tomate, cebola roxa e molho vegan.",
+    "preco": 12.9,
+    "avaliacao": 4.6,
+    "tempo": "20-30min",
+    "imagem": "assets/img/hamburguer.jpg",
+    "destaque": true
   }
 ]
