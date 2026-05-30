@@ -4,65 +4,27 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    redirectTo: 'splash',
+    pathMatch: 'full'
   },
   {
-    path: 'inicio',
-    loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
-  },
-  {
-    path: 'menu',
-    loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
-  },
-  {
-    path: 'carrinho',
-    loadChildren: () => import('./pages/carrinho/carrinho.module').then( m => m.CarrinhoPageModule)
-  },
-  {
-    path: 'checkout-pontos',
-    loadChildren: () => import('./pages/checkout-pontos/checkout-pontos.module').then( m => m.CheckoutPontosPageModule)
-  },
-  {
-    path: 'checkout-morada',
-    loadChildren: () => import('./pages/checkout-morada/checkout-morada.module').then( m => m.CheckoutMoradaPageModule)
-  },
-  {
-    path: 'checkout-pagamento',
-    loadChildren: () => import('./pages/checkout-pagamento/checkout-pagamento.module').then( m => m.CheckoutPagamentoPageModule)
-  },
-  {
-    path: 'pedido-confirmado',
-    loadChildren: () => import('./pages/pedido-confirmado/pedido-confirmado.module').then( m => m.PedidoConfirmadoPageModule)
-  },
-  {
-    path: 'pedidos',
-    loadChildren: () => import('./pages/pedidos/pedidos.module').then( m => m.PedidosPageModule)
-  },
-  {
-    path: 'detalhe-pedido',
-    loadChildren: () => import('./pages/detalhe-pedido/detalhe-pedido.module').then( m => m.DetalhePedidoPageModule)
-  },
-  {
-    path: 'acompanhar-pedido',
-    loadChildren: () => import('./pages/acompanhar-pedido/acompanhar-pedido.module').then( m => m.AcompanharPedidoPageModule)
-  },
-  {
-    path: 'avaliacao',
-    loadChildren: () => import('./pages/avaliacao/avaliacao.module').then( m => m.AvaliacaoPageModule)
-  },
-  {
-    path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
-  },
-  {
-    path: 'registo',
-    loadChildren: () => import('./pages/registo/registo.module').then( m => m.RegistoPageModule)
+    path: 'splash',
+    loadChildren: () => import('./pages/splash/splash.module').then(m => m.SplashPageModule)
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
+  },
+  {
+    path: 'registo',
+    loadChildren: () => import('./pages/registo/registo.module').then(m => m.RegistoPageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   }
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
