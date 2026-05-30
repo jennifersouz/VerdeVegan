@@ -5,7 +5,7 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
@@ -28,34 +28,25 @@ const routes: Routes = [
         path: 'perfil',
         loadChildren: () => import('../pages/perfil/perfil.module').then(m => m.PerfilPageModule)
       },
-
-      // Detalhe com tab bar
       {
         path: 'detalhe-prato/:id',
         loadChildren: () => import('../pages/detalhe-prato/detalhe-prato.module').then(m => m.DetalhePratoPageModule)
       },
-
-      // Personalizar com tab bar
       {
         path: 'personalizar-prato/:id',
         loadChildren: () => import('../pages/personalizar-prato/personalizar-prato.module').then(m => m.PersonalizarPratoPageModule)
       },
-
       {
         path: '',
-        redirectTo: '/tabs/inicio',
+        redirectTo: 'inicio',
         pathMatch: 'full'
       }
     ]
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/inicio',
-    pathMatch: 'full'
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class TabsPageRoutingModule {}

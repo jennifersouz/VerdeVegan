@@ -50,7 +50,7 @@ export class PersonalizarPratoPage implements OnInit {
         }
 
         if (!this.prato.personalizavel) {
-          this.router.navigateByUrl(`/detalhe-prato/${this.prato.id}`);
+          this.router.navigateByUrl(`/tabs/detalhe-prato/${this.prato.id}`);
           return;
         }
 
@@ -73,7 +73,7 @@ export class PersonalizarPratoPage implements OnInit {
 
   public voltar() {
     if (this.prato) {
-      this.router.navigateByUrl(`/detalhe-prato/${this.prato.id}`);
+      this.router.navigateByUrl(`/tabs/detalhe-prato/${this.prato.id}`);
       return;
     }
 
