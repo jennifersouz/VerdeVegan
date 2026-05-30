@@ -3,6 +3,29 @@
   padding: 34px 28px 110px;
 }
 
+.menu-loading {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #3f744d;
+}
+
+.menu-loading p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.erro-carregamento {
+  margin-top: 18px;
+  color: #c0392b;
+  text-align: center;
+  font-size: 16px;
+}
+
 /* Topo */
 
 .topo {
@@ -406,4 +429,43 @@
   color: #6b7280;
   font-size: 15px;
   text-align: center;
+}
+
+.tipos-menu-area {
+  margin-bottom: 34px;
+}
+
+.tipos-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: none;
+}
+
+.tipos-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.tipo-chip {
+  min-width: fit-content;
+  height: 46px;
+  border: none;
+  border-radius: 23px;
+  background: #eef4eb;
+  color: #2f5d27;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(31, 41, 55, 0.08);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tipo-chip.ativa {
+  background: #2f5d27;
+  color: #ffffff;
 }

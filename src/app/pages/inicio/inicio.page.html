@@ -1,13 +1,166 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>inicio</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="inicio-content" scrollY="true">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">inicio</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div *ngIf="carregando" class="inicio-loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando sugestões...</p>
+  </div>
+
+  <div class="inicio-container" *ngIf="!carregando">
+
+    <!-- Morada -->
+    <section class="morada-card">
+      <div class="morada-icon">
+        <ion-icon name="location"></ion-icon>
+      </div>
+
+      <div class="morada-texto">
+        <span>Entregar em</span>
+        <strong>Rua das Flores, 123</strong>
+      </div>
+
+      <ion-icon name="chevron-down-outline" class="morada-seta"></ion-icon>
+    </section>
+
+    <!-- Saudação -->
+    <section class="intro-area">
+      <p>Olá! 👋</p>
+      <h1>O que gostarias hoje?</h1>
+    </section>
+
+    <!-- Pesquisa -->
+    <section class="pesquisa-area">
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+
+      <input
+        type="text"
+        placeholder="Procurar pratos ou restaurantes..."
+        [(ngModel)]="termoPesquisa"
+        (keydown.enter)="pesquisarNoMenu()">
+
+      <button type="button" class="search-button" (click)="pesquisarNoMenu()">
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </button>
+    </section>
+
+    <!-- Tipos principais -->
+    <section class="secao tipos-area">
+      <div class="secao-header">
+        <h2>Escolhe uma opção</h2>
+      </div>
+
+      <div class="tipo-card refeicoes-card" (click)="abrirMenuComTipo('Refeições')">
+        <div class="tipo-info">
+          <div class="tipo-icon">
+            <span>🍽️</span>
+          </div>
+
+          <div>
+            <h3>Refeições</h3>
+            <p>Pratos principais, bowls, massas, pizzas e hambúrgueres.</p>
+          </div>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+
+      <div class="tipo-card bebidas-card" (click)="abrirMenuComTipo('Bebidas')">
+        <div class="tipo-info">
+          <div class="tipo-icon">
+            <span>🥤</span>
+          </div>
+
+          <div>
+            <h3>Bebidas</h3>
+            <p>Sumos naturais, smoothies, chás e águas.</p>
+          </div>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+
+      <div class="tipo-card sobremesas-card" (click)="abrirMenuComTipo('Sobremesas')">
+        <div class="tipo-info">
+          <div class="tipo-icon">
+            <span>🍰</span>
+          </div>
+
+          <div>
+            <h3>Sobremesas</h3>
+            <p>Doces vegan, bolos, mousses e panquecas.</p>
+          </div>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+    </section>
+
+    <!-- Destaques -->
+    <section class="secao destaques-area">
+      <div class="secao-header">
+        <h2>Destaques</h2>
+
+        <button type="button" class="ver-todos-button" (click)="abrirMenuComTipo('Refeições')">
+          Ver todos
+        </button>
+      </div>
+
+      <article
+        class="prato-card"
+        *ngFor="let prato of pratosFiltrados"
+        (click)="abrirDetalhe(prato.id)">
+
+        <img
+          [src]="prato.imagem"
+          [alt]="prato.nome"
+          class="prato-img">
+
+        <div class="prato-info">
+
+          <div class="prato-topo">
+            <span class="tipo-tag">{{ prato.tipo }}</span>
+            <span class="categoria-tag">{{ prato.categoria }}</span>
+          </div>
+
+          <h3>{{ prato.nome }}</h3>
+
+          <p class="prato-descricao">
+            {{ prato.descricao }}
+          </p>
+
+          <div class="prato-meta">
+            <span>
+              <ion-icon name="star"></ion-icon>
+              {{ prato.avaliacao }}
+            </span>
+
+            <span>
+              <ion-icon name="time-outline"></ion-icon>
+              {{ prato.tempo }}
+            </span>
+
+            <span>
+              <ion-icon name="flame-outline"></ion-icon>
+              {{ prato.calorias }}
+            </span>
+          </div>
+
+          <div class="prato-bottom">
+            <span class="restaurante">{{ prato.restaurante }}</span>
+            <strong>{{ prato.preco | number:'1.2-2' }} €</strong>
+          </div>
+
+        </div>
+      </article>
+
+      <p class="sem-resultados" *ngIf="pratosFiltrados.length === 0 && !erroCarregamento">
+        Não encontrámos sugestões para mostrar.
+      </p>
+
+      <p class="erro-carregamento" *ngIf="erroCarregamento">
+        {{ erroCarregamento }}
+      </p>
+    </section>
+
+  </div>
+
 </ion-content>

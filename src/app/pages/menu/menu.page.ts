@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService, Prato } from '../../services/menu';
 
 @Component({
@@ -15,27 +15,69 @@ export class MenuPage implements OnInit {
 
   public termoPesquisa = '';
   public categoriaSelecionada = 'Todas';
+  public filtrosAberto = false;
+
+  public filtroOrdenacao = 'Popular';
+  public precoMaximo = 50;
+  public avaliacaoMinima = 'Todas';
+
+  public carregando = true;
+  public erroCarregamento = '';
+
+  public tipoSelecionado = 'Todos';
 
   constructor(
     private menuService: MenuService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.lerParametrosDaRota();
     this.carregarPratos();
   }
 
-  private carregarPratos() {
-    this.menuService.carregarPratos().subscribe({
-      next: (pratos: Prato[]) => {
-        this.pratos = pratos.filter((prato: Prato) => prato.destaque);
-        this.pratosFiltrados = this.pratos;
-      },
-      error: (erro: unknown) => {
-        console.error('Erro ao carregar pratos:', erro);
-      }
-    });
+  ionViewWillEnter() {
+    this.filtrosAberto = false;
+    const elementoAtivo = document.activeElement as HTMLElement | null;
+    elementoAtivo?.blur();
   }
+
+  private lerParametrosDaRota() {
+  const tipo = this.activatedRoute.snapshot.queryParamMap.get('tipo');
+  const categoria = this.activatedRoute.snapshot.queryParamMap.get('categoria');
+  const pesquisa = this.activatedRoute.snapshot.queryParamMap.get('pesquisa');
+
+  if (tipo) {
+    this.tipoSelecionado = tipo;
+  }
+
+  if (categoria) {
+    this.categoriaSelecionada = categoria;
+  }
+
+  if (pesquisa) {
+    this.termoPesquisa = pesquisa;
+  }
+  }
+
+  private carregarPratos() {
+  this.carregando = true;
+  this.erroCarregamento = '';
+
+  this.menuService.carregarPratos().subscribe({
+    next: (pratos: Prato[]) => {
+      this.pratos = pratos;
+      this.filtrarPratos();
+      this.carregando = false;
+    },
+    error: (erro: unknown) => {
+      console.error('Erro ao carregar pratos:', erro);
+      this.erroCarregamento = 'Não foi possível carregar os pratos. Atualize a página.';
+      this.carregando = false;
+    }
+  });
+}
 
   public selecionarCategoria(categoria: string) {
     this.categoriaSelecionada = categoria;
@@ -43,21 +85,64 @@ export class MenuPage implements OnInit {
   }
 
   public filtrarPratos() {
-    const pesquisa = this.termoPesquisa.trim().toLowerCase();
+  const pesquisa = this.termoPesquisa.trim().toLowerCase();
+  const avaliacaoMinima =
+    this.avaliacaoMinima === 'Todas' ? 0 : Number(this.avaliacaoMinima);
 
-    this.pratosFiltrados = this.pratos.filter((prato: Prato) => {
-      const correspondeCategoria =
-        this.categoriaSelecionada === 'Todas' ||
-        prato.categoria === this.categoriaSelecionada;
+  let pratosFiltrados = this.pratos.filter((prato: Prato) => {
+    const correspondeTipo =
+      this.tipoSelecionado === 'Todos' ||
+      prato.tipo === this.tipoSelecionado;
 
-      const correspondePesquisa =
-        prato.nome.toLowerCase().includes(pesquisa) ||
-        prato.restaurante.toLowerCase().includes(pesquisa) ||
-        prato.descricao.toLowerCase().includes(pesquisa);
+    const correspondeCategoria =
+      this.categoriaSelecionada === 'Todas' ||
+      prato.categoria === this.categoriaSelecionada;
 
-      return correspondeCategoria && correspondePesquisa;
-    });
+    const correspondePesquisa =
+      prato.nome.toLowerCase().includes(pesquisa) ||
+      prato.restaurante.toLowerCase().includes(pesquisa) ||
+      prato.descricao.toLowerCase().includes(pesquisa);
+
+    const correspondePreco = prato.preco <= this.precoMaximo;
+    const correspondeAvaliacao = prato.avaliacao >= avaliacaoMinima;
+
+    return (
+      correspondeTipo &&
+      correspondeCategoria &&
+      correspondePesquisa &&
+      correspondePreco &&
+      correspondeAvaliacao
+    );
+  });
+
+  switch (this.filtroOrdenacao) {
+    case 'Avaliação':
+      pratosFiltrados = pratosFiltrados.sort(
+        (a: Prato, b: Prato) => b.avaliacao - a.avaliacao
+      );
+      break;
+
+    case 'PrecoAsc':
+      pratosFiltrados = pratosFiltrados.sort(
+        (a: Prato, b: Prato) => a.preco - b.preco
+      );
+      break;
+
+    case 'PrecoDesc':
+      pratosFiltrados = pratosFiltrados.sort(
+        (a: Prato, b: Prato) => b.preco - a.preco
+      );
+      break;
+
+    default:
+      pratosFiltrados = pratosFiltrados.sort(
+        (a: Prato, b: Prato) => b.avaliacao - a.avaliacao
+      );
+      break;
   }
+
+  this.pratosFiltrados = pratosFiltrados;
+}
 
   public abrirDetalhe(id: number) {
     this.router.navigateByUrl(`/tabs/detalhe-prato/${id}`);
@@ -67,18 +152,14 @@ export class MenuPage implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
-  public filtrosAberto = false;
-
-  public filtroOrdenacao = 'Popular';
-  public precoMaximo = 50;
-  public avaliacaoMinima = 'Todas';
-
   public abrirFiltros() {
     this.filtrosAberto = true;
   }
 
   public fecharFiltros() {
     this.filtrosAberto = false;
+    const elementoAtivo = document.activeElement as HTMLElement | null;
+    elementoAtivo?.blur();
   }
 
   public selecionarOrdenacao(valor: string) {
@@ -90,12 +171,15 @@ export class MenuPage implements OnInit {
   }
 
   public concluirFiltros() {
-    console.log('Filtros aplicados:', {
-      ordenacao: this.filtroOrdenacao,
-      precoMaximo: this.precoMaximo,
-      avaliacaoMinima: this.avaliacaoMinima
-    });
-
+    this.filtrarPratos();
     this.filtrosAberto = false;
+    const elementoAtivo = document.activeElement as HTMLElement | null;
+    elementoAtivo?.blur();
   }
+
+  public selecionarTipo(tipo: string) {
+  this.tipoSelecionado = tipo;
+  this.categoriaSelecionada = 'Todas';
+  this.filtrarPratos();
+}
 }

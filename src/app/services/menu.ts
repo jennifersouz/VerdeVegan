@@ -19,6 +19,7 @@ export interface GrupoPersonalizacao {
 export interface Prato {
   id: number;
   nome: string;
+  tipo: 'Refeições' | 'Bebidas' | 'Sobremesas';
   categoria: string;
   restaurante: string;
   descricao: string;
@@ -27,13 +28,10 @@ export interface Prato {
   tempo: string;
   imagem: string;
   destaque: boolean;
-
   calorias?: string;
   porcao?: string;
   personalizavel?: boolean;
-
-    personalizacoes?: GrupoPersonalizacao[];
-
+  personalizacoes?: GrupoPersonalizacao[];
 }
 
 @Injectable({

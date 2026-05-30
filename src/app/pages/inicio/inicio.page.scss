@@ -1,0 +1,382 @@
+.inicio-content {
+  --background: #ffffff;
+  --overflow: auto;
+}
+
+.inicio-container {
+  min-height: 100%;
+  padding: 34px 28px 118px;
+}
+
+.inicio-loading {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #3f744d;
+}
+
+.inicio-loading p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.erro-carregamento {
+  margin-top: 18px;
+  color: #c0392b;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Morada */
+
+.morada-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 34px;
+}
+
+.morada-icon {
+  width: 28px;
+  display: flex;
+  justify-content: center;
+}
+
+.morada-icon ion-icon {
+  font-size: 24px;
+  color: #4c7a56;
+}
+
+.morada-texto {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.morada-texto span {
+  font-size: 15px;
+  color: #707783;
+}
+
+.morada-texto strong {
+  margin-top: 2px;
+  font-size: 18px;
+  color: #1f1f1f;
+  font-weight: 700;
+}
+
+.morada-seta {
+  font-size: 20px;
+  color: #9aa0a8;
+}
+
+/* Intro */
+
+.intro-area {
+  margin-bottom: 26px;
+}
+
+.intro-area p {
+  margin: 0 0 8px;
+  color: #6b7280;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.intro-area h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+/* Pesquisa */
+
+.pesquisa-area {
+  height: 64px;
+  border: 1px solid #e1e4e8;
+  border-radius: 18px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 12px 0 18px;
+  margin-bottom: 36px;
+  box-shadow: 0 8px 22px rgba(31, 41, 55, 0.06);
+}
+
+.search-icon {
+  font-size: 25px;
+  color: #9aa0a8;
+  margin-right: 14px;
+}
+
+.pesquisa-area input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #1f2937;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.search-button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 14px;
+  background: #eef4eb;
+  color: #2f5d27;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.search-button ion-icon {
+  font-size: 22px;
+}
+
+/* Secções */
+
+.secao {
+  margin-bottom: 42px;
+}
+
+.secao-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.secao-header h2 {
+  margin: 0;
+  color: #111111;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.secao-header span {
+  color: #7b818c;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Cards de tipo */
+
+.tipos-area {
+  margin-bottom: 46px;
+}
+
+.tipo-card {
+  min-height: 104px;
+  border-radius: 24px;
+  padding: 18px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(31, 41, 55, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tipo-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(31, 41, 55, 0.08);
+}
+
+.refeicoes-card {
+  background: #dcebd8;
+}
+
+.bebidas-card {
+  background: #e8f1f7;
+}
+
+.sobremesas-card {
+  background: #f7e9ef;
+}
+
+.tipo-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tipo-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tipo-icon span {
+  font-size: 28px;
+}
+
+.tipo-card h3 {
+  margin: 0 0 5px;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.tipo-card p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.tipo-card ion-icon {
+  font-size: 22px;
+  color: #4b5563;
+  flex-shrink: 0;
+}
+
+/* Destaques */
+
+.destaques-area {
+  margin-bottom: 0;
+}
+
+.ver-todos-button {
+  border: none;
+  background: transparent;
+  color: #2f5d27;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 0;
+  cursor: pointer;
+}
+
+.prato-card {
+  background: #dcebd8;
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  box-shadow: 0 8px 20px rgba(31, 41, 55, 0.08);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.prato-card:active {
+  transform: scale(0.99);
+  box-shadow: 0 4px 12px rgba(31, 41, 55, 0.08);
+}
+
+.prato-img {
+  width: 100%;
+  height: 236px;
+  object-fit: cover;
+  display: block;
+}
+
+.prato-info {
+  padding: 20px 22px 22px;
+}
+
+.prato-topo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tipo-tag,
+.categoria-tag {
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tipo-tag {
+  background: #2f5d27;
+  color: #ffffff;
+}
+
+.categoria-tag {
+  background: rgba(255, 255, 255, 0.76);
+  color: #3f744d;
+}
+
+.prato-info h3 {
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.prato-descricao {
+  margin: 0 0 14px;
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.prato-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.prato-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.prato-meta ion-icon[name="star"] {
+  color: #f1c232;
+}
+
+.prato-meta ion-icon {
+  font-size: 16px;
+}
+
+.prato-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.restaurante {
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.prato-bottom strong {
+  color: #3f744d;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.sem-resultados {
+  margin: 10px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+  text-align: center;
+}

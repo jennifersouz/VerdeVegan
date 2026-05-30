@@ -1,199 +1,774 @@
 [
   {
-  "id": 1,
-  "nome": "Pizza Margherita",
-  "categoria": "Pizza",
-  "restaurante": "Pizzaria Luzzo",
-  "descricao": "Pizza clássica italiana com molho de tomate, mozzarella fresca e manjericão.",
-  "preco": 24.9,
-  "avaliacao": 4.8,
-  "tempo": "30-40min",
-  "imagem": "assets/img/pizzaMargherita.jpg",
-  "destaque": true,
-  "calorias": "~450 kcal",
-  "porcao": "2 Pessoas",
-  "personalizavel": true,
-  "personalizacoes": [
-    {
-      "id": "tamanho",
-      "titulo": "Tamanho",
-      "obrigatorio": true,
-      "escolhaMultipla": false,
-      "opcoes": [
-        {
-          "id": "pequena",
-          "nome": "Pequena (25cm)",
-          "preco": -3
-        },
-        {
-          "id": "media",
-          "nome": "Média (30cm)",
-          "preco": 0
-        },
-        {
-          "id": "grande",
-          "nome": "Grande (35cm)",
-          "preco": 4
-        },
-        {
-          "id": "familiar",
-          "nome": "Familiar (40cm)",
-          "preco": 8
-        }
-      ]
-    },
-    {
-      "id": "massa",
-      "titulo": "Massa",
-      "obrigatorio": true,
-      "escolhaMultipla": false,
-      "opcoes": [
-        {
-          "id": "fina",
-          "nome": "Fina e crocante",
-          "preco": 0
-        },
-        {
-          "id": "grossa",
-          "nome": "Grossa",
-          "preco": 1
-        },
-        {
-          "id": "borda",
-          "nome": "Borda recheada",
-          "preco": 3
-        }
-      ]
-    },
-    {
-      "id": "queijo",
-      "titulo": "Queijo (Soja)",
-      "obrigatorio": false,
-      "escolhaMultipla": true,
-      "opcoes": [
-        {
-          "id": "mozzarella",
-          "nome": "Mozzarella extra (soja)",
-          "preco": 2.5
-        },
-        {
-          "id": "parmesao",
-          "nome": "Parmesão vegan",
-          "preco": 2
-        },
-        {
-          "id": "vegano",
-          "nome": "Mix de Queijos vegan",
-          "preco": 3
-        }
-      ]
-    }
-  ]
-},
-  {
-    "id": 2,
-    "nome": "Lasanha de Beringela",
-    "categoria": "Massas",
-    "restaurante": "Massas Caseiras",
-    "descricao": "Massa fresca com camadas de beringela grelhada, molho de tomate e fatias de queijo.",
-    "preco": 15.75,
+    "id": 1,
+    "nome": "Pizza Margherita Vegan",
+    "tipo": "Refeições",
+    "categoria": "Pizza",
+    "restaurante": "Pizzaria Luzzo",
+    "descricao": "Pizza clássica italiana com molho de tomate, mozzarella vegan e manjericão fresco.",
+    "preco": 14.9,
     "avaliacao": 4.8,
     "tempo": "30-40min",
-    "imagem": "assets/img/lasagna.jpg",
+    "imagem": "assets/img/pizzaMargherita.jpg",
+    "destaque": true,
+    "calorias": "~450 kcal",
+    "porcao": "1-2 Pessoas",
     "personalizavel": true,
-    "porcao": "1 Pessoa",
-    "calorias": "~350 kcal",
-    "destaque": true
+    "personalizacoes": [
+      {
+        "id": "tamanho",
+        "titulo": "Tamanho",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "pequena", "nome": "Pequena", "preco": -2 },
+          { "id": "media", "nome": "Média", "preco": 0 },
+          { "id": "grande", "nome": "Grande", "preco": 4 }
+        ]
+      },
+      {
+        "id": "massa",
+        "titulo": "Tipo de massa",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "fina", "nome": "Fina e crocante", "preco": 0 },
+          { "id": "integral", "nome": "Integral", "preco": 1 },
+          { "id": "sem-gluten", "nome": "Sem glúten", "preco": 2 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "queijo-extra", "nome": "Queijo vegan extra", "preco": 2 },
+          { "id": "cogumelos", "nome": "Cogumelos", "preco": 1.5 },
+          { "id": "azeitonas", "nome": "Azeitonas", "preco": 1 },
+          { "id": "rucula", "nome": "Rúcula", "preco": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nome": "Pizza de Cogumelos",
+    "tipo": "Refeições",
+    "categoria": "Pizza",
+    "restaurante": "Forno Verde",
+    "descricao": "Pizza vegan com cogumelos frescos, molho de tomate, orégãos e queijo vegetal.",
+    "preco": 15.5,
+    "avaliacao": 4.7,
+    "tempo": "30-40min",
+    "imagem": "assets/img/pizzaCogumelo.jpg",
+    "destaque": false,
+    "calorias": "~480 kcal",
+    "porcao": "1-2 Pessoas",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "tamanho",
+        "titulo": "Tamanho",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "media", "nome": "Média", "preco": 0 },
+          { "id": "grande", "nome": "Grande", "preco": 4 },
+          { "id": "familiar", "nome": "Familiar", "preco": 7 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Adicionar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "cebola-roxa", "nome": "Cebola roxa", "preco": 0.8 },
+          { "id": "pimento", "nome": "Pimento assado", "preco": 1 },
+          { "id": "milho", "nome": "Milho", "preco": 0.8 },
+          { "id": "queijo-vegan", "nome": "Queijo vegan extra", "preco": 2 }
+        ]
+      }
+    ]
   },
   {
     "id": 3,
-    "nome": "Wraps de Legumes",
-    "categoria": "Hambúrgueres",
-    "restaurante": "Vida Ativa",
-    "descricao": "Wrap leve com legumes grelhados, molho de maionese e ervas frescas.",
-    "preco": 8.5,
+    "nome": "Lasanha de Beringela",
+    "tipo": "Refeições",
+    "categoria": "Massas",
+    "restaurante": "Massas Caseiras",
+    "descricao": "Lasanha vegan com camadas de beringela grelhada, molho de tomate e béchamel vegetal.",
+    "preco": 12.75,
     "avaliacao": 4.8,
     "tempo": "30-40min",
-    "imagem": "assets/img/wrap.jpg",
-    "personalizavel": true,
-    "calorias": "~300 kcal",
+    "imagem": "assets/img/lasagna.jpg",
+    "destaque": true,
+    "calorias": "~390 kcal",
     "porcao": "1 Pessoa",
-    "destaque": true
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "porcao",
+        "titulo": "Tamanho da porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "normal", "nome": "Normal", "preco": 0 },
+          { "id": "grande", "nome": "Grande", "preco": 3 }
+        ]
+      },
+      {
+        "id": "molho",
+        "titulo": "Molho extra",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "tomate", "nome": "Molho de tomate extra", "preco": 1 },
+          { "id": "bechamel", "nome": "Béchamel vegetal extra", "preco": 1.5 },
+          { "id": "picante", "nome": "Molho picante", "preco": 0.5 }
+        ]
+      }
+    ]
   },
   {
-  "id": 3,
-  "nome": "Hambúrguer Vegan",
-  "categoria": "Hambúrgueres",
-  "restaurante": "Green Burger",
-  "descricao": "Hambúrguer vegetal com alface, tomate, cebola roxa e molho vegan.",
-  "preco": 12.9,
-  "avaliacao": 4.6,
-  "tempo": "20-30min",
-  "imagem": "assets/img/hamburguer.jpg",
-  "destaque": true,
-  "calorias": "~400 kcal",
-  "porcao": "1 Pessoa",
-  "personalizavel": true,
-  "personalizacoes": [
-    {
-      "id": "pao",
-      "titulo": "Pão",
-      "obrigatorio": true,
-      "escolhaMultipla": false,
-      "opcoes": [
-        {
-          "id": "sementes",
-          "nome": "Pão de sementes",
-          "preco": 0
-        },
-        {
-          "id": "integral",
-          "nome": "Pão integral",
-          "preco": 0.5
-        },
-        {
-          "id": "sem-gluten",
-          "nome": "Pão sem glúten",
-          "preco": 1.5
-        }
-      ]
-    },
-    {
-      "id": "molho",
-      "titulo": "Molho",
-      "obrigatorio": true,
-      "escolhaMultipla": false,
-      "opcoes": [
-        {
-          "id": "barbecue",
-          "nome": "Molho barbecue",
-          "preco": 0
-        },
-        {
-          "id": "picante",
-          "nome": "Molho picante",
-          "preco": 0
-        }
-      ]
-    },
-    {
-      "id": "extras",
-      "titulo": "Extras",
-      "obrigatorio": false,
-      "escolhaMultipla": true,
-      "opcoes": [
-        {
-          "id": "abacate",
-          "nome": "Abacate",
-          "preco": 2
-        },
-        {
-          "id": "cogumelos",
-          "nome": "Cogumelos",
-          "preco": 1.5
-        }
-      ]
-    }
-  ]
-}
+    "id": 4,
+    "nome": "Massa Pesto Vegan",
+    "tipo": "Refeições",
+    "categoria": "Massas",
+    "restaurante": "Pasta Verde",
+    "descricao": "Massa fusilli com pesto de manjericão, castanha de caju e tomate cherry.",
+    "preco": 11.9,
+    "avaliacao": 4.6,
+    "tempo": "20-30min",
+    "imagem": "assets/img/massaPesto.jpg",
+    "destaque": false,
+    "calorias": "~430 kcal",
+    "porcao": "1 Pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "massa",
+        "titulo": "Tipo de massa",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "fusilli", "nome": "Fusilli", "preco": 0 },
+          { "id": "penne", "nome": "Penne", "preco": 0 },
+          { "id": "integral", "nome": "Massa integral", "preco": 1 },
+          { "id": "sem-gluten", "nome": "Massa sem glúten", "preco": 2 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "tomate-cherry", "nome": "Tomate cherry extra", "preco": 1 },
+          { "id": "caju", "nome": "Castanha de caju", "preco": 1.5 },
+          { "id": "rucula", "nome": "Rúcula", "preco": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "nome": "Hambúrguer Vegan",
+    "tipo": "Refeições",
+    "categoria": "Hambúrgueres",
+    "restaurante": "Green Burger",
+    "descricao": "Hambúrguer vegetal com alface, tomate, cebola roxa e molho vegan.",
+    "preco": 12.9,
+    "avaliacao": 4.7,
+    "tempo": "20-30min",
+    "imagem": "assets/img/hamburguer.jpg",
+    "destaque": true,
+    "calorias": "~420 kcal",
+    "porcao": "1 Pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "pao",
+        "titulo": "Pão",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "sementes", "nome": "Pão de sementes", "preco": 0 },
+          { "id": "integral", "nome": "Pão integral", "preco": 0.5 },
+          { "id": "sem-gluten", "nome": "Pão sem glúten", "preco": 1.5 }
+        ]
+      },
+      {
+        "id": "molho",
+        "titulo": "Molho",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "alho", "nome": "Molho de alho vegan", "preco": 0 },
+          { "id": "barbecue", "nome": "Barbecue vegan", "preco": 0 },
+          { "id": "picante", "nome": "Picante", "preco": 0 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "abacate", "nome": "Abacate", "preco": 2 },
+          { "id": "cogumelos", "nome": "Cogumelos salteados", "preco": 1.5 },
+          { "id": "queijo-vegan", "nome": "Queijo vegan", "preco": 1.8 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "nome": "Wrap de Legumes",
+    "tipo": "Refeições",
+    "categoria": "Wraps",
+    "restaurante": "Vida Ativa",
+    "descricao": "Wrap leve com legumes grelhados, húmus e ervas frescas.",
+    "preco": 8.5,
+    "avaliacao": 4.5,
+    "tempo": "15-25min",
+    "imagem": "assets/img/wrap.jpg",
+    "destaque": true,
+    "calorias": "~300 kcal",
+    "porcao": "1 Pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "tortilha",
+        "titulo": "Tipo de tortilha",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "trigo", "nome": "Tortilha de trigo", "preco": 0 },
+          { "id": "integral", "nome": "Tortilha integral", "preco": 0.5 },
+          { "id": "sem-gluten", "nome": "Tortilha sem glúten", "preco": 1.5 }
+        ]
+      },
+      {
+        "id": "molho",
+        "titulo": "Molho",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "hummus", "nome": "Húmus", "preco": 0 },
+          { "id": "tahini", "nome": "Tahini", "preco": 0.5 },
+          { "id": "iogurte-vegan", "nome": "Molho de iogurte vegan", "preco": 0.5 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "abacate", "nome": "Abacate", "preco": 1.5 },
+          { "id": "grao", "nome": "Grão-de-bico crocante", "preco": 1 },
+          { "id": "sementes", "nome": "Mix de sementes", "preco": 0.8 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "nome": "Bowl de Quinoa",
+    "tipo": "Refeições",
+    "categoria": "Bowls",
+    "restaurante": "Organic Bowl",
+    "descricao": "Bowl nutritivo com quinoa, grão-de-bico, abacate, tomate cherry e molho tahini.",
+    "preco": 13.5,
+    "avaliacao": 4.9,
+    "tempo": "20-30min",
+    "imagem": "assets/img/bowlQuinoa.jpg",
+    "destaque": true,
+    "calorias": "~520 kcal",
+    "porcao": "1 Pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "base",
+        "titulo": "Base",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "quinoa", "nome": "Quinoa", "preco": 0 },
+          { "id": "arroz-integral", "nome": "Arroz integral", "preco": 0 },
+          { "id": "mix-verdes", "nome": "Mix de folhas verdes", "preco": -1 }
+        ]
+      },
+      {
+        "id": "proteina",
+        "titulo": "Proteína vegetal",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "grao", "nome": "Grão-de-bico", "preco": 0 },
+          { "id": "tofu", "nome": "Tofu grelhado", "preco": 1.5 },
+          { "id": "tempeh", "nome": "Tempeh", "preco": 2 }
+        ]
+      },
+      {
+        "id": "molho",
+        "titulo": "Molho",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "tahini", "nome": "Tahini", "preco": 0 },
+          { "id": "limão", "nome": "Limão e ervas", "preco": 0 },
+          { "id": "amendoim", "nome": "Molho de amendoim", "preco": 0.8 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "nome": "Caril de Grão",
+    "tipo": "Refeições",
+    "categoria": "Pratos Quentes",
+    "restaurante": "Cozinha Verde",
+    "descricao": "Caril cremoso de grão-de-bico com leite de coco, arroz basmati e coentros.",
+    "preco": 12.25,
+    "avaliacao": 4.6,
+    "tempo": "25-35min",
+    "imagem": "assets/img/caril.jpg",
+    "destaque": false,
+    "calorias": "~560 kcal",
+    "porcao": "1 Pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "picante",
+        "titulo": "Nível de picante",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "sem", "nome": "Sem picante", "preco": 0 },
+          { "id": "medio", "nome": "Médio", "preco": 0 },
+          { "id": "forte", "nome": "Forte", "preco": 0 }
+        ]
+      },
+      {
+        "id": "acompanhamento",
+        "titulo": "Acompanhamento",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "basmati", "nome": "Arroz basmati", "preco": 0 },
+          { "id": "integral", "nome": "Arroz integral", "preco": 1 },
+          { "id": "salada", "nome": "Salada fresca", "preco": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "nome": "Limonada Natural",
+    "tipo": "Bebidas",
+    "categoria": "Sumos",
+    "restaurante": "Fresh Bar",
+    "descricao": "Limonada fresca com limão, hortelã e gelo.",
+    "preco": 3.5,
+    "avaliacao": 4.5,
+    "tempo": "5-10min",
+    "imagem": "assets/img/limonada.jpg",
+    "destaque": true,
+    "calorias": "~90 kcal",
+    "porcao": "300ml",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "tamanho",
+        "titulo": "Tamanho",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "300ml", "nome": "300ml", "preco": 0 },
+          { "id": "500ml", "nome": "500ml", "preco": 1.5 }
+        ]
+      },
+      {
+        "id": "acucar",
+        "titulo": "Açúcar",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "sem", "nome": "Sem açúcar", "preco": 0 },
+          { "id": "pouco", "nome": "Pouco açúcar", "preco": 0 },
+          { "id": "normal", "nome": "Normal", "preco": 0 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "hortela", "nome": "Hortelã extra", "preco": 0.3 },
+          { "id": "gengibre", "nome": "Gengibre", "preco": 0.5 },
+          { "id": "gelo", "nome": "Gelo extra", "preco": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "nome": "Sumo Detox Verde",
+    "tipo": "Bebidas",
+    "categoria": "Sumos",
+    "restaurante": "Fresh Bar",
+    "descricao": "Sumo natural com maçã verde, pepino, espinafre, limão e gengibre.",
+    "preco": 4.75,
+    "avaliacao": 4.7,
+    "tempo": "5-10min",
+    "imagem": "assets/img/detox.jpg",
+    "destaque": true,
+    "calorias": "~120 kcal",
+    "porcao": "350ml",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "tamanho",
+        "titulo": "Tamanho",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "350ml", "nome": "350ml", "preco": 0 },
+          { "id": "500ml", "nome": "500ml", "preco": 1.8 }
+        ]
+      },
+      {
+        "id": "intensidade",
+        "titulo": "Intensidade do gengibre",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "suave", "nome": "Suave", "preco": 0 },
+          { "id": "normal", "nome": "Normal", "preco": 0 },
+          { "id": "forte", "nome": "Forte", "preco": 0.4 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "nome": "Smoothie de Frutos Vermelhos",
+    "tipo": "Bebidas",
+    "categoria": "Smoothies",
+    "restaurante": "Smoothie House",
+    "descricao": "Smoothie cremoso com frutos vermelhos, banana e bebida vegetal.",
+    "preco": 5.25,
+    "avaliacao": 4.8,
+    "tempo": "5-10min",
+    "imagem": "assets/img/smoothie.jpg",
+    "destaque": false,
+    "calorias": "~210 kcal",
+    "porcao": "400ml",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "bebida",
+        "titulo": "Bebida vegetal",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "aveia", "nome": "Bebida de aveia", "preco": 0 },
+          { "id": "amendoa", "nome": "Bebida de amêndoa", "preco": 0.5 },
+          { "id": "soja", "nome": "Bebida de soja", "preco": 0 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "chia", "nome": "Chia", "preco": 0.5 },
+          { "id": "proteina", "nome": "Proteína vegetal", "preco": 1.5 },
+          { "id": "granola", "nome": "Granola vegan", "preco": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "nome": "Chá Gelado de Pêssego",
+    "tipo": "Bebidas",
+    "categoria": "Chás",
+    "restaurante": "Fresh Bar",
+    "descricao": "Chá gelado artesanal com infusão de pêssego e limão.",
+    "preco": 3.25,
+    "avaliacao": 4.4,
+    "tempo": "5-10min",
+    "imagem": "assets/img/chaPessego.jpg",
+    "destaque": false,
+    "calorias": "~80 kcal",
+    "porcao": "330ml",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "acucar",
+        "titulo": "Açúcar",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "sem", "nome": "Sem açúcar", "preco": 0 },
+          { "id": "pouco", "nome": "Pouco açúcar", "preco": 0 },
+          { "id": "normal", "nome": "Normal", "preco": 0 }
+        ]
+      },
+      {
+        "id": "gelo",
+        "titulo": "Gelo",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "sem-gelo", "nome": "Sem gelo", "preco": 0 },
+          { "id": "normal", "nome": "Normal", "preco": 0 },
+          { "id": "extra", "nome": "Gelo extra", "preco": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "nome": "Brownie Vegan",
+    "tipo": "Sobremesas",
+    "categoria": "Bolos",
+    "restaurante": "Doce Verde",
+    "descricao": "Brownie vegan de chocolate negro com nozes e textura húmida.",
+    "preco": 4.5,
+    "avaliacao": 4.9,
+    "tempo": "10-15min",
+    "imagem": "assets/img/brownie.jpg",
+    "destaque": true,
+    "calorias": "~320 kcal",
+    "porcao": "1 Fatia",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "topping",
+        "titulo": "Topping",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "chocolate", "nome": "Calda de chocolate vegan", "preco": 0.8 },
+          { "id": "morango", "nome": "Morangos", "preco": 1 },
+          { "id": "nozes", "nome": "Nozes extra", "preco": 1 }
+        ]
+      },
+      {
+        "id": "aquecido",
+        "titulo": "Servir",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "normal", "nome": "Temperatura ambiente", "preco": 0 },
+          { "id": "quente", "nome": "Aquecido", "preco": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "nome": "Cheesecake Vegan de Frutos Vermelhos",
+    "tipo": "Sobremesas",
+    "categoria": "Cheesecakes",
+    "restaurante": "Doce Verde",
+    "descricao": "Cheesecake vegan com base de aveia e cobertura de frutos vermelhos.",
+    "preco": 5.25,
+    "avaliacao": 4.8,
+    "tempo": "10-15min",
+    "imagem": "assets/img/cheesecake.jpg",
+    "destaque": true,
+    "calorias": "~340 kcal",
+    "porcao": "1 Fatia",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "cobertura",
+        "titulo": "Cobertura",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "frutos-vermelhos", "nome": "Frutos vermelhos", "preco": 0 },
+          { "id": "manga", "nome": "Manga", "preco": 0.5 },
+          { "id": "chocolate", "nome": "Chocolate vegan", "preco": 0.8 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "granola", "nome": "Granola", "preco": 0.8 },
+          { "id": "coco", "nome": "Coco ralado", "preco": 0.5 },
+          { "id": "fruta-extra", "nome": "Fruta extra", "preco": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "nome": "Mousse de Chocolate Vegan",
+    "tipo": "Sobremesas",
+    "categoria": "Mousses",
+    "restaurante": "Sweet Vegan",
+    "descricao": "Mousse cremosa feita com chocolate negro e bebida vegetal.",
+    "preco": 4.25,
+    "avaliacao": 4.7,
+    "tempo": "10-15min",
+    "imagem": "assets/img/mousseChoco.jpg",
+    "destaque": false,
+    "calorias": "~280 kcal",
+    "porcao": "1 Taça",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "topping",
+        "titulo": "Topping",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "raspas", "nome": "Raspas de chocolate", "preco": 0.5 },
+          { "id": "framboesas", "nome": "Framboesas", "preco": 1 },
+          { "id": "amendoim", "nome": "Amendoim crocante", "preco": 0.8 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "nome": "Panquecas Vegan",
+    "tipo": "Sobremesas",
+    "categoria": "Panquecas",
+    "restaurante": "Sweet Vegan",
+    "descricao": "Panquecas fofas com banana, aveia e topping à escolha.",
+    "preco": 6.5,
+    "avaliacao": 4.8,
+    "tempo": "15-25min",
+    "imagem": "assets/img/panqueca.jpg",
+    "destaque": true,
+    "calorias": "~430 kcal",
+    "porcao": "3 Unidades",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "cobertura",
+        "titulo": "Cobertura",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "maple", "nome": "Xarope de ácer", "preco": 0 },
+          { "id": "chocolate", "nome": "Chocolate vegan", "preco": 0.8 },
+          { "id": "manteiga-amendoim", "nome": "Manteiga de amendoim", "preco": 1 }
+        ]
+      },
+      {
+        "id": "fruta",
+        "titulo": "Fruta",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "banana", "nome": "Banana", "preco": 0.5 },
+          { "id": "morangos", "nome": "Morangos", "preco": 1 },
+          { "id": "mirtilos", "nome": "Mirtilos", "preco": 1.2 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "nome": "Água com Gás",
+    "tipo": "Bebidas",
+    "categoria": "Águas",
+    "restaurante": "Fresh Bar",
+    "descricao": "Água com gás fresca.",
+    "preco": 1.8,
+    "avaliacao": 4.3,
+    "tempo": "5-10min",
+    "imagem": "assets/img/aguaGas.jpg",
+    "destaque": false,
+    "calorias": "0 kcal",
+    "porcao": "250ml",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "limão",
+        "titulo": "Adicionar limão?",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "sim", "nome": "Com limão", "preco": 0.2 },
+          { "id": "nao", "nome": "Sem limão", "preco": 0 }
+        ]
+      },
+      {
+        "id": "gelo",
+        "titulo": "Gelo",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "normal", "nome": "Normal", "preco": 0 },
+          { "id": "extra", "nome": "Gelo extra", "preco": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "nome": "Tofu Teriyaki Bowl",
+    "tipo": "Refeições",
+    "categoria": "Bowls",
+    "restaurante": "Organic Bowl",
+    "descricao": "Bowl com tofu teriyaki, arroz, brócolos, cenoura e sementes de sésamo.",
+    "preco": 13.9,
+    "avaliacao": 4.7,
+    "tempo": "25-35min",
+    "imagem": "assets/img/tofuBowl.jpg",
+    "destaque": false,
+    "calorias": "~510 kcal",
+    "porcao": "1 Pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "base",
+        "titulo": "Base",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "arroz", "nome": "Arroz branco", "preco": 0 },
+          { "id": "integral", "nome": "Arroz integral", "preco": 0.8 },
+          { "id": "quinoa", "nome": "Quinoa", "preco": 1.5 }
+        ]
+      },
+      {
+        "id": "molho",
+        "titulo": "Molho",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          { "id": "teriyaki", "nome": "Teriyaki", "preco": 0 },
+          { "id": "soja", "nome": "Soja e gengibre", "preco": 0 },
+          { "id": "picante", "nome": "Picante", "preco": 0.5 }
+        ]
+      },
+      {
+        "id": "extras",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          { "id": "abacate", "nome": "Abacate", "preco": 2 },
+          { "id": "tofu-extra", "nome": "Tofu extra", "preco": 2.5 },
+          { "id": "sesamo", "nome": "Sementes de sésamo", "preco": 0.5 }
+        ]
+      }
+    ]
+  }
 ]

@@ -34,22 +34,24 @@ export class LoginPage {
   }
 
   public entrar() {
-    this.formSubmetido = true;
+  this.formSubmetido = true;
 
-    if (this.loginForm.invalid) {
-      return;
-    }
-
-    const dadosLogin = {
-      email: this.loginForm.value.email,
-      palavraPasse: this.loginForm.value.palavraPasse
-    };
-
-    console.log('Login efetuado:', dadosLogin);
-
-    this.router.navigateByUrl('/tabs/menu');
+  if (this.loginForm.invalid) {
+    return;
   }
 
+  const dadosLogin = {
+    email: this.loginForm.value.email,
+    palavraPasse: this.loginForm.value.palavraPasse
+  };
+
+  console.log('Login efetuado:', dadosLogin);
+
+  const elementoAtivo = document.activeElement as HTMLElement | null;
+  elementoAtivo?.blur();
+
+  this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
+  }
   public irParaRegisto() {
     this.router.navigateByUrl('/registo');
   }
