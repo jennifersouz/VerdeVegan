@@ -2,6 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface OpcaoPersonalizacao {
+  id: string;
+  nome: string;
+  preco: number;
+}
+
+export interface GrupoPersonalizacao {
+  id: string;
+  titulo: string;
+  obrigatorio: boolean;
+  escolhaMultipla: boolean;
+  opcoes: OpcaoPersonalizacao[];
+}
+
 export interface Prato {
   id: number;
   nome: string;
@@ -17,6 +31,9 @@ export interface Prato {
   calorias?: string;
   porcao?: string;
   personalizavel?: boolean;
+
+    personalizacoes?: GrupoPersonalizacao[];
+
 }
 
 @Injectable({

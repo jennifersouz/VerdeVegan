@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { PersonalizarPratoPageRoutingModule } from './personalizar-prato-routing.module';
-
 import { PersonalizarPratoPage } from './personalizar-prato.page';
 
 @NgModule({

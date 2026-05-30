@@ -19,7 +19,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/detalhe-prato/detalhe-prato.module').then( m => m.DetalhePratoPageModule)
   },
   {
-    path: 'personalizar-prato',
+    path: 'personalizar-prato/:id',
     loadChildren: () => import('./pages/personalizar-prato/personalizar-prato.module').then( m => m.PersonalizarPratoPageModule)
   },
   {

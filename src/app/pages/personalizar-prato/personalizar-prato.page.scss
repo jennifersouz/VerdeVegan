@@ -1,0 +1,391 @@
+.personalizar-content {
+  --background: #ffffff;
+}
+
+.personalizar-container {
+  min-height: 100%;
+  padding: 18px 20px 28px;
+}
+
+/* Topo */
+
+.topo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 18px;
+}
+
+.voltar-button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: #1f2430;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.voltar-button ion-icon {
+  font-size: 25px;
+}
+
+.topo-texto {
+  flex: 1;
+}
+
+.topo-texto h1 {
+  margin: 0;
+  color: #111111;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.topo-texto p {
+  margin: 3px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.preco-base-topo {
+  text-align: right;
+}
+
+.preco-base-topo span {
+  display: block;
+  color: #8a8f98;
+  font-size: 11px;
+}
+
+.preco-base-topo strong {
+  color: #1f2430;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Aviso */
+
+.aviso-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #eef5ff;
+  border: 1px solid #c9ddff;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 18px;
+}
+
+.aviso-card ion-icon {
+  color: #2f6fe4;
+  font-size: 18px;
+  margin-top: 1px;
+}
+
+.aviso-card strong {
+  color: #2f6fe4;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.aviso-card p {
+  margin: 2px 0 0;
+  color: #2f6fe4;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* Grupos */
+
+.grupo-opcoes {
+  margin-bottom: 26px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.grupo-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.grupo-titulo h2 {
+  margin: 0;
+  color: #111111;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.grupo-titulo div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag-obrigatorio {
+  background: #fff0f0;
+  color: #d64040;
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.tag-info {
+  background: #f0f0f0;
+  color: #6b7280;
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Opções */
+
+.opcao-linha {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111111;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  margin-bottom: 9px;
+  cursor: pointer;
+}
+
+.opcao-linha:last-child {
+  margin-bottom: 0;
+}
+
+.opcao-linha strong {
+  flex: 1;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.opcao-linha.selecionada {
+  border-color: #2f5d27;
+  background: #f4fbf2;
+}
+
+.preco-opcao {
+  color: #2f5d27;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Radio visual */
+
+.radio-visual {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cfd4d9;
+  border-radius: 50%;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radio-visual span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.opcao-linha.selecionada .radio-visual {
+  border-color: #2f5d27;
+}
+
+.opcao-linha.selecionada .radio-visual span {
+  background: #2f5d27;
+}
+
+/* Checkbox visual */
+
+.checkbox-visual {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cfd4d9;
+  border-radius: 4px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-visual ion-icon {
+  display: none;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.opcao-linha.selecionada .checkbox-visual {
+  background: #2f5d27;
+  border-color: #2f5d27;
+}
+
+.opcao-linha.selecionada .checkbox-visual ion-icon {
+  display: block;
+}
+
+/* Observações */
+
+.observacoes-area {
+  margin-bottom: 20px;
+}
+
+.observacoes-area h2 {
+  margin: 0 0 10px;
+  color: #111111;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.observacoes-area textarea {
+  width: 100%;
+  min-height: 96px;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  resize: none;
+  outline: none;
+  padding: 12px;
+  color: #111111;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.observacoes-area textarea::placeholder {
+  color: #8a8f98;
+}
+
+.contador {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  color: #7a818c;
+  font-size: 12px;
+}
+
+/* Footer */
+
+.personalizar-footer {
+  background: #ffffff;
+  border-top: 1px solid #eeeeee;
+  box-shadow: 0 -12px 28px rgba(31, 41, 55, 0.12);
+}
+
+.resumo-precos {
+  padding: 12px 20px 8px;
+}
+
+.resumo-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.resumo-linha strong {
+  font-weight: 600;
+}
+
+.total-unidade {
+  color: #111111;
+  font-weight: 700;
+}
+
+.footer-acoes {
+  padding: 8px 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Quantidade */
+
+.quantidade-control {
+  height: 48px;
+  min-width: 120px;
+  background: #f4f4f4;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.quantidade-control button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: #eeeeee;
+  color: #111111;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.quantidade-control div {
+  text-align: center;
+}
+
+.quantidade-control strong {
+  display: block;
+  color: #111111;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.quantidade-control span {
+  display: block;
+  color: #6b7280;
+  font-size: 11px;
+}
+
+/* Botão adicionar */
+
+.adicionar-button {
+  flex: 1;
+  height: 48px;
+  border: none;
+  border-radius: 10px;
+  background: #2f5d27;
+  color: #ffffff;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.adicionar-button span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.adicionar-button strong {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.adicionar-button.inativo,
+.adicionar-button:disabled {
+  background: #b8b8b8;
+  opacity: 1;
+  cursor: not-allowed;
+}

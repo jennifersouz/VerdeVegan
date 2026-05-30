@@ -1,18 +1,95 @@
 [
   {
-    "id": 1,
-    "nome": "Pizza Marguerita",
-    "categoria": "Massas",
-    "restaurante": "Pizzaria Luzzo",
-    "descricao": "Pizza clássica italiana com molho de tomate, mozzarella fresca e manjericão.",
-    "preco": 24.5,
-    "avaliacao": 4.8,
-    "tempo": "30-40min",
-    "calorias": "~450 kcal",
-    "porcao": "2 Pessoas",
-    "imagem": "assets/img/pizzaMargherita.jpg",
-    "personalizavel": true
-  },
+  "id": 1,
+  "nome": "Pizza Margherita",
+  "categoria": "Pizza",
+  "restaurante": "Pizzaria Luzzo",
+  "descricao": "Pizza clássica italiana com molho de tomate, mozzarella fresca e manjericão.",
+  "preco": 24.9,
+  "avaliacao": 4.8,
+  "tempo": "30-40min",
+  "imagem": "assets/img/pizzaMargherita.jpg",
+  "destaque": true,
+  "calorias": "~450 kcal",
+  "porcao": "2 Pessoas",
+  "personalizavel": true,
+  "personalizacoes": [
+    {
+      "id": "tamanho",
+      "titulo": "Tamanho",
+      "obrigatorio": true,
+      "escolhaMultipla": false,
+      "opcoes": [
+        {
+          "id": "pequena",
+          "nome": "Pequena (25cm)",
+          "preco": -3
+        },
+        {
+          "id": "media",
+          "nome": "Média (30cm)",
+          "preco": 0
+        },
+        {
+          "id": "grande",
+          "nome": "Grande (35cm)",
+          "preco": 4
+        },
+        {
+          "id": "familiar",
+          "nome": "Familiar (40cm)",
+          "preco": 8
+        }
+      ]
+    },
+    {
+      "id": "massa",
+      "titulo": "Massa",
+      "obrigatorio": true,
+      "escolhaMultipla": false,
+      "opcoes": [
+        {
+          "id": "fina",
+          "nome": "Fina e crocante",
+          "preco": 0
+        },
+        {
+          "id": "grossa",
+          "nome": "Grossa",
+          "preco": 1
+        },
+        {
+          "id": "borda",
+          "nome": "Borda recheada",
+          "preco": 3
+        }
+      ]
+    },
+    {
+      "id": "queijo",
+      "titulo": "Queijo (Soja)",
+      "obrigatorio": false,
+      "escolhaMultipla": true,
+      "opcoes": [
+        {
+          "id": "mozzarella",
+          "nome": "Mozzarella extra (soja)",
+          "preco": 2.5
+        },
+        {
+          "id": "parmesao",
+          "nome": "Parmesão vegan",
+          "preco": 2
+        },
+        {
+          "id": "vegano",
+          "nome": "Mix de Queijos vegan",
+          "preco": 3
+        }
+      ]
+    }
+  ]
+},
   {
     "id": 2,
     "nome": "Lasanha de Beringela",
@@ -25,7 +102,8 @@
     "imagem": "assets/img/lasagna.jpg",
     "personalizavel": true,
     "porcao": "1 Pessoa",
-    "calorias": "~350 kcal"
+    "calorias": "~350 kcal",
+    "destaque": true
   },
   {
     "id": 3,
@@ -39,21 +117,83 @@
     "imagem": "assets/img/wrap.jpg",
     "personalizavel": true,
     "calorias": "~300 kcal",
-    "porcao": "1 Pessoa"
+    "porcao": "1 Pessoa",
+    "destaque": true
   },
   {
-    "id": 4,
-    "nome": "Hambúrguer Vegan",
-    "categoria": "Hambúrgueres",
-    "restaurante": "Green Burger",
-    "descricao": "Hambúrguer vegetal com alface, tomate, cebola roxa e molho vegan.",
-    "preco": 12.9,
-    "avaliacao": 4.6,
-    "tempo": "20-30min",
-    "imagem": "assets/img/hamburguer.jpg",
-    "destaque": true,
-    "calorias": "~400 kcal",
-    "porcao": "1 Pessoa",
-    "personalizavel": false
-  }
+  "id": 3,
+  "nome": "Hambúrguer Vegan",
+  "categoria": "Hambúrgueres",
+  "restaurante": "Green Burger",
+  "descricao": "Hambúrguer vegetal com alface, tomate, cebola roxa e molho vegan.",
+  "preco": 12.9,
+  "avaliacao": 4.6,
+  "tempo": "20-30min",
+  "imagem": "assets/img/hamburguer.jpg",
+  "destaque": true,
+  "calorias": "~400 kcal",
+  "porcao": "1 Pessoa",
+  "personalizavel": true,
+  "personalizacoes": [
+    {
+      "id": "pao",
+      "titulo": "Pão",
+      "obrigatorio": true,
+      "escolhaMultipla": false,
+      "opcoes": [
+        {
+          "id": "sementes",
+          "nome": "Pão de sementes",
+          "preco": 0
+        },
+        {
+          "id": "integral",
+          "nome": "Pão integral",
+          "preco": 0.5
+        },
+        {
+          "id": "sem-gluten",
+          "nome": "Pão sem glúten",
+          "preco": 1.5
+        }
+      ]
+    },
+    {
+      "id": "molho",
+      "titulo": "Molho",
+      "obrigatorio": true,
+      "escolhaMultipla": false,
+      "opcoes": [
+        {
+          "id": "barbecue",
+          "nome": "Molho barbecue",
+          "preco": 0
+        },
+        {
+          "id": "picante",
+          "nome": "Molho picante",
+          "preco": 0
+        }
+      ]
+    },
+    {
+      "id": "extras",
+      "titulo": "Extras",
+      "obrigatorio": false,
+      "escolhaMultipla": true,
+      "opcoes": [
+        {
+          "id": "abacate",
+          "nome": "Abacate",
+          "preco": 2
+        },
+        {
+          "id": "cogumelos",
+          "nome": "Cogumelos",
+          "preco": 1.5
+        }
+      ]
+    }
+  ]
+}
 ]

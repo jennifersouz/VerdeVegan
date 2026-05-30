@@ -1,13 +1,172 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>personalizar-prato</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="personalizar-content">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">personalizar-prato</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="personalizar-container" *ngIf="prato">
+
+    <!-- Topo -->
+    <header class="topo">
+
+      <button type="button" class="voltar-button" (click)="voltar()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+
+      <div class="topo-texto">
+        <h1>Personalizar pedido</h1>
+        <p>{{ prato.nome }}</p>
+      </div>
+
+      <div class="preco-base-topo">
+        <span>Preço base</span>
+        <strong>{{ prato.preco | number:'1.2-2' }} €</strong>
+      </div>
+
+    </header>
+
+    <!-- Aviso -->
+    <section class="aviso-card">
+      <ion-icon name="information-circle-outline"></ion-icon>
+
+      <div>
+        <strong>Personalize ao teu gosto</strong>
+        <p>Campos marcados como obrigatórios devem ter uma opção selecionada.</p>
+      </div>
+    </section>
+
+    <!-- Grupos de personalização dinâmicos -->
+    <section
+      class="grupo-opcoes"
+      *ngFor="let grupo of gruposPersonalizacao">
+
+      <div class="grupo-titulo">
+
+        <h2>{{ grupo.titulo }}</h2>
+
+        <div>
+          <span class="tag-obrigatorio" *ngIf="grupo.obrigatorio">
+            Obrigatório
+          </span>
+
+          <span class="tag-info">
+            {{ grupo.escolhaMultipla ? 'Múltipla escolha' : 'Escolha única' }}
+          </span>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="opcao-linha"
+        *ngFor="let opcao of grupo.opcoes"
+        [class.selecionada]="opcaoEstaSelecionada(grupo, opcao)"
+        (click)="selecionarOpcao(grupo, opcao)">
+
+        <!-- Radio para escolha única -->
+        <div
+          class="radio-visual"
+          *ngIf="!grupo.escolhaMultipla">
+          <span></span>
+        </div>
+
+        <!-- Checkbox para múltipla escolha -->
+        <div
+          class="checkbox-visual"
+          *ngIf="grupo.escolhaMultipla">
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </div>
+
+        <strong>{{ opcao.nome }}</strong>
+
+        <span class="preco-opcao">
+          {{ opcao.preco === 0 ? '—' : (opcao.preco > 0 ? '+' : '') + (opcao.preco | number:'1.2-2') + ' €' }}
+        </span>
+
+      </button>
+
+    </section>
+
+    <!-- Caso o prato não tenha personalizações configuradas -->
+    <section class="sem-personalizacoes" *ngIf="gruposPersonalizacao.length === 0">
+      <p>Este prato não possui opções de personalização.</p>
+    </section>
+
+    <!-- Observações -->
+    <section class="observacoes-area">
+
+      <h2>Observações especiais</h2>
+
+      <textarea
+        maxlength="200"
+        placeholder="Ex: Sem cebola, bem passado, molho à parte..."
+        [(ngModel)]="observacoes">
+      </textarea>
+
+      <div class="contador">
+        <span>Máximo 200 caracteres</span>
+        <span>{{ observacoes.length }}/200</span>
+      </div>
+
+    </section>
+
+  </div>
+
 </ion-content>
+
+<ion-footer class="personalizar-footer" *ngIf="prato">
+
+  <!-- Resumo de preços -->
+  <div class="resumo-precos">
+
+    <div class="resumo-linha">
+      <span>Preço base:</span>
+      <strong>{{ prato.preco | number:'1.2-2' }} €</strong>
+    </div>
+
+    <div class="resumo-linha">
+      <span>Personalizações:</span>
+
+      <strong>
+        {{ calcularPersonalizacoes() >= 0 ? '+' : '' }}{{ calcularPersonalizacoes() | number:'1.2-2' }} €
+      </strong>
+    </div>
+
+    <div class="resumo-linha total-unidade">
+      <span>Total por unidade:</span>
+      <strong>{{ calcularTotalUnidade() | number:'1.2-2' }} €</strong>
+    </div>
+
+  </div>
+
+  <!-- Ações inferiores -->
+  <div class="footer-acoes">
+
+    <div class="quantidade-control">
+
+      <button type="button" (click)="diminuirQuantidade()">
+        −
+      </button>
+
+      <div>
+        <strong>{{ quantidade }}</strong>
+        <span>unidade</span>
+      </div>
+
+      <button type="button" (click)="aumentarQuantidade()">
+        +
+      </button>
+
+    </div>
+
+    <button
+      type="button"
+      class="adicionar-button"
+      [disabled]="!formularioValido()"
+      [class.inativo]="!formularioValido()"
+      (click)="adicionarAoCarrinho()">
+
+      <span>Adicionar ao carrinho</span>
+      <strong>{{ calcularTotalFinal() | number:'1.2-2' }} €</strong>
+
+    </button>
+
+  </div>
+
+</ion-footer>
