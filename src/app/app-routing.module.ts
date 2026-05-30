@@ -15,7 +15,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
   },
   {
-    path: 'detalhe-prato',
+    path: 'detalhe-prato/:id',
     loadChildren: () => import('./pages/detalhe-prato/detalhe-prato.module').then( m => m.DetalhePratoPageModule)
   },
   {

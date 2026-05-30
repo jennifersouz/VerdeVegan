@@ -13,6 +13,10 @@ export interface Prato {
   tempo: string;
   imagem: string;
   destaque: boolean;
+
+  calorias?: string;
+  porcao?: string;
+  personalizavel?: boolean;
 }
 
 @Injectable({

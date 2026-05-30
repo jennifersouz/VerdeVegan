@@ -23,7 +23,9 @@
     "avaliacao": 4.8,
     "tempo": "30-40min",
     "imagem": "assets/img/lasagna.jpg",
-    "personalizavel": true
+    "personalizavel": true,
+    "porcao": "1 Pessoa",
+    "calorias": "~350 kcal"
   },
   {
     "id": 3,
@@ -35,7 +37,9 @@
     "avaliacao": 4.8,
     "tempo": "30-40min",
     "imagem": "assets/img/wrap.jpg",
-    "personalizavel": false
+    "personalizavel": true,
+    "calorias": "~300 kcal",
+    "porcao": "1 Pessoa"
   },
   {
     "id": 4,
@@ -47,6 +51,9 @@
     "avaliacao": 4.6,
     "tempo": "20-30min",
     "imagem": "assets/img/hamburguer.jpg",
-    "destaque": true
+    "destaque": true,
+    "calorias": "~400 kcal",
+    "porcao": "1 Pessoa",
+    "personalizavel": true
   }
 ]

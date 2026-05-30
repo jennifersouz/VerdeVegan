@@ -1,13 +1,116 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>detalhe-prato</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="detalhe-content">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">detalhe-prato</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="detalhe-container" *ngIf="prato">
+
+    <!-- Voltar -->
+    <button type="button" class="voltar-button" (click)="voltar()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Voltar
+    </button>
+
+    <!-- Imagem -->
+    <img
+      [src]="prato.imagem"
+      [alt]="prato.nome"
+      class="prato-imagem">
+
+    <!-- Restaurante -->
+    <section class="restaurante-area">
+
+      <div class="restaurante-avatar">
+        {{ prato.restaurante.charAt(0) }}{{ prato.restaurante.split(' ')[1]?.charAt(0) || '' }}
+      </div>
+
+      <p>{{ prato.restaurante }}</p>
+
+    </section>
+
+    <!-- Info principal -->
+    <section class="info-principal">
+
+      <h1>{{ prato.nome }}</h1>
+
+      <div class="meta-area">
+
+        <span>
+          <ion-icon name="star"></ion-icon>
+          {{ prato.avaliacao }} (120+ avaliações)
+        </span>
+
+        <span>
+          <ion-icon name="time-outline"></ion-icon>
+          {{ prato.tempo }}
+        </span>
+
+      </div>
+
+    </section>
+
+    <!-- Descrição -->
+    <section class="descricao-area">
+
+      <h2>Descrição</h2>
+
+      <p>
+        {{ prato.descricao }}
+      </p>
+
+    </section>
+
+    <!-- Informações -->
+    <section class="informacoes-card">
+
+      <h2>Informações</h2>
+
+      <div class="info-linha">
+        <span>Calorias</span>
+        <strong>{{ prato.calorias || '~450 kcal' }}</strong>
+      </div>
+
+      <div class="info-linha">
+        <span>Porção</span>
+        <strong>{{ prato.porcao || '1 Pessoa' }}</strong>
+      </div>
+
+      <div class="info-linha">
+        <span>Personalizar</span>
+        <strong>{{ prato.personalizavel ? 'Disponível' : 'Indisponível' }}</strong>
+      </div>
+
+    </section>
+
+  </div>
+
 </ion-content>
+
+<ion-footer class="detalhe-footer" *ngIf="prato">
+
+  <div class="footer-inner">
+
+    <div class="quantidade-control">
+
+      <button type="button" (click)="diminuirQuantidade()">
+        −
+      </button>
+
+      <span>{{ quantidade }}</span>
+
+      <button type="button" (click)="aumentarQuantidade()">
+        +
+      </button>
+
+    </div>
+
+    <button type="button" class="personalizar-button" (click)="personalizar()">
+
+      <ion-icon name="settings-outline"></ion-icon>
+
+      <span>Personalizar</span>
+
+      <strong>{{ calcularTotal() | number:'1.2-2' }} €</strong>
+
+    </button>
+
+  </div>
+
+</ion-footer>
