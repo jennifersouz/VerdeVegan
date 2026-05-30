@@ -1,39 +1,246 @@
-<section class="secao tipos-menu-area">
-  <h2>Tipo</h2>
+<ion-content [fullscreen]="true" class="menu-content" scrollY="true">
 
-  <div class="tipos-scroll">
+  <div *ngIf="carregando" class="menu-loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando menu...</p>
+  </div>
 
-    <button
-      type="button"
-      class="tipo-chip"
-      [class.ativa]="tipoSelecionado === 'Todos'"
-      (click)="selecionarTipo('Todos')">
-      Todos
-    </button>
+  <div class="menu-container" *ngIf="!carregando">
 
-    <button
-      type="button"
-      class="tipo-chip"
-      [class.ativa]="tipoSelecionado === 'Refeições'"
-      (click)="selecionarTipo('Refeições')">
-      🍽️ Refeições
-    </button>
+    <!-- Topo -->
+    <header class="menu-topo">
+      <button type="button" class="voltar-button" (click)="voltar()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
 
-    <button
-      type="button"
-      class="tipo-chip"
-      [class.ativa]="tipoSelecionado === 'Bebidas'"
-      (click)="selecionarTipo('Bebidas')">
-      🥤 Bebidas
-    </button>
+      <div>
+        <h1>{{ obterTituloMenu() }}</h1>
+        <p>{{ pratosFiltrados.length }} itens disponíveis</p>
+      </div>
 
-    <button
-      type="button"
-      class="tipo-chip"
-      [class.ativa]="tipoSelecionado === 'Sobremesas'"
-      (click)="selecionarTipo('Sobremesas')">
-      🍰 Sobremesas
-    </button>
+      <button type="button" class="topo-filtro-button" (click)="abrirFiltros()">
+        <ion-icon name="options-outline"></ion-icon>
+      </button>
+    </header>
+
+    <!-- Pesquisa -->
+    <section class="pesquisa-area">
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+
+      <input
+        type="text"
+        placeholder="Procurar no menu..."
+        [(ngModel)]="termoPesquisa"
+        (input)="filtrarPratos()">
+    </section>
+
+    <!-- Tipos -->
+    <section class="secao tipos-area">
+      <h2>Tipo</h2>
+
+      <div class="tipos-scroll">
+        <button
+          type="button"
+          class="tipo-chip"
+          *ngFor="let tipo of tipos"
+          [class.ativa]="tipoSelecionado === tipo.nome"
+          (click)="selecionarTipo(tipo.nome)">
+
+          <ion-icon [name]="tipo.icone"></ion-icon>
+          {{ tipo.nome }}
+        </button>
+      </div>
+    </section>
+
+    <!-- Categorias dinâmicas -->
+    <section class="secao categorias-area">
+      <h2>Categorias</h2>
+
+      <div class="categorias-scroll">
+        <button
+          type="button"
+          class="categoria-chip"
+          *ngFor="let categoria of obterCategoriasVisiveis()"
+          [class.ativa]="categoriaSelecionada === categoria"
+          (click)="selecionarCategoria(categoria)">
+
+          {{ categoria }}
+        </button>
+      </div>
+    </section>
+
+    <!-- Lista -->
+    <section class="secao lista-area">
+
+      <div class="lista-header">
+        <h2>{{ obterTituloMenu() }}</h2>
+
+        <span>
+          {{ pratosFiltrados.length }}
+          {{ pratosFiltrados.length === 1 ? 'item' : 'itens' }}
+        </span>
+      </div>
+
+      <article
+        class="menu-card"
+        *ngFor="let prato of pratosFiltrados"
+        (click)="abrirDetalhe(prato.id)">
+
+        <img
+          [src]="prato.imagem"
+          [alt]="prato.nome"
+          class="menu-card-img">
+
+        <div class="menu-card-info">
+
+          <div class="menu-card-topo">
+            <span class="tipo-tag">{{ prato.tipo }}</span>
+            <span class="categoria-tag">{{ prato.categoria }}</span>
+          </div>
+
+          <h3>{{ prato.nome }}</h3>
+
+          <p>{{ prato.descricao }}</p>
+
+          <div class="menu-card-meta">
+            <span>
+              <ion-icon name="star"></ion-icon>
+              {{ prato.avaliacao }}
+            </span>
+
+            <span>
+              <ion-icon name="time-outline"></ion-icon>
+              {{ prato.tempo }}
+            </span>
+          </div>
+
+          <div class="menu-card-bottom">
+            <span>{{ prato.restaurante }}</span>
+            <strong>{{ prato.preco | number:'1.2-2' }} €</strong>
+          </div>
+
+        </div>
+      </article>
+
+      <div class="sem-resultados" *ngIf="pratosFiltrados.length === 0 && !erroCarregamento">
+        <ion-icon name="search-outline"></ion-icon>
+        <h3>Nenhum item encontrado</h3>
+        <p>Tenta alterar a pesquisa, categoria ou filtros.</p>
+      </div>
+
+      <p class="erro-carregamento" *ngIf="erroCarregamento">
+        {{ erroCarregamento }}
+      </p>
+
+    </section>
 
   </div>
-</section>
+
+</ion-content>
+
+<!-- Modal de filtros -->
+<div class="filtros-overlay" *ngIf="filtrosAberto" (click)="fecharFiltros()">
+
+  <div class="filtros-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-handle"></div>
+
+    <h2>Filtros</h2>
+
+    <div class="filtro-grupo">
+      <p>Ordenar por:</p>
+
+      <div class="filtro-grid">
+        <button
+          type="button"
+          [class.ativo]="filtroOrdenacao === 'Popular'"
+          (click)="selecionarOrdenacao('Popular')">
+          Popular
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="filtroOrdenacao === 'Avaliação'"
+          (click)="selecionarOrdenacao('Avaliação')">
+          Avaliação
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="filtroOrdenacao === 'PrecoAsc'"
+          (click)="selecionarOrdenacao('PrecoAsc')">
+          Preço ↑
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="filtroOrdenacao === 'PrecoDesc'"
+          (click)="selecionarOrdenacao('PrecoDesc')">
+          Preço ↓
+        </button>
+      </div>
+    </div>
+
+    <div class="filtro-grupo">
+      <p>Preço máximo:</p>
+
+      <input
+        type="range"
+        min="0"
+        max="50"
+        step="1"
+        [(ngModel)]="precoMaximo">
+
+      <div class="range-valores">
+        <span>0€</span>
+        <span>{{ precoMaximo }}€</span>
+      </div>
+    </div>
+
+    <div class="filtro-grupo">
+      <p>Avaliação mínima:</p>
+
+      <div class="filtro-grid">
+        <button
+          type="button"
+          [class.ativo]="avaliacaoMinima === 'Todas'"
+          (click)="selecionarAvaliacao('Todas')">
+          Todas
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="avaliacaoMinima === '3'"
+          (click)="selecionarAvaliacao('3')">
+          3+ ⭐
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="avaliacaoMinima === '4'"
+          (click)="selecionarAvaliacao('4')">
+          4+ ⭐
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="avaliacaoMinima === '4.5'"
+          (click)="selecionarAvaliacao('4.5')">
+          4.5+ ⭐
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-botoes">
+      <button type="button" class="btn-cancelar" (click)="fecharFiltros()">
+        Cancelar
+      </button>
+
+      <button type="button" class="btn-concluir" (click)="concluirFiltros()">
+        Concluir
+      </button>
+    </div>
+
+  </div>
+
+</div>
