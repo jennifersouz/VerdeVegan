@@ -65,10 +65,16 @@ export class DetalhePratoPage implements OnInit {
   }
 
   public personalizar() {
-    if (!this.prato) {
-      return;
-    } 
-    this.router.navigateByUrl(`/personalizar/${this.prato.id}?qtd=${this.quantidade}`);
+  if (!this.prato) {
+    return;
   }
+
+  if (!this.prato.personalizavel) {
+    console.log('Este prato não permite personalização.');
+    return;
+  }
+
+  this.router.navigateByUrl(`/personalizar-prato/${this.prato.id}?qtd=${this.quantidade}`);
+}
 
 }

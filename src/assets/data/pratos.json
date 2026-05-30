@@ -54,6 +54,6 @@
     "destaque": true,
     "calorias": "~400 kcal",
     "porcao": "1 Pessoa",
-    "personalizavel": true
+    "personalizavel": false
   }
 ]

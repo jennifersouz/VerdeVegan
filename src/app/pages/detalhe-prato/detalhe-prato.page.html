@@ -72,11 +72,6 @@
         <strong>{{ prato.porcao || '1 Pessoa' }}</strong>
       </div>
 
-      <div class="info-linha">
-        <span>Personalizar</span>
-        <strong>{{ prato.personalizavel ? 'Disponível' : 'Indisponível' }}</strong>
-      </div>
-
     </section>
 
   </div>
@@ -101,15 +96,22 @@
 
     </div>
 
-    <button type="button" class="personalizar-button" (click)="personalizar()">
+    <button
+      type="button"
+      class="personalizar-button"
+      [class.inativo]="!prato.personalizavel"
+      [disabled]="!prato.personalizavel"
+      (click)="personalizar()">
 
       <ion-icon name="settings-outline"></ion-icon>
 
-      <span>Personalizar</span>
+      <span>
+        {{ prato.personalizavel ? 'Personalizar' : 'Indisponível' }}
+      </span>
 
       <strong>{{ calcularTotal() | number:'1.2-2' }} €</strong>
 
-    </button>
+  </button>
 
   </div>
 

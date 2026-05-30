@@ -239,3 +239,11 @@
   font-size: 15px;
   font-weight: 600;
 }
+
+.personalizar-button.inativo,
+.personalizar-button:disabled {
+  background: #b8b8b8;
+  color: #ffffff;
+  opacity: 1;
+  cursor: not-allowed;
+}
