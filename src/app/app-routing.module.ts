@@ -15,14 +15,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
   },
   {
-    path: 'detalhe-prato/:id',
-    loadChildren: () => import('./pages/detalhe-prato/detalhe-prato.module').then( m => m.DetalhePratoPageModule)
-  },
-  {
-    path: 'personalizar-prato/:id',
-    loadChildren: () => import('./pages/personalizar-prato/personalizar-prato.module').then( m => m.PersonalizarPratoPageModule)
-  },
-  {
     path: 'carrinho',
     loadChildren: () => import('./pages/carrinho/carrinho.module').then( m => m.CarrinhoPageModule)
   },

@@ -1,1 +1,20 @@
+ion-tab-bar {
+  --background: #ffffff;
+  border-top: 1px solid #eeeeee;
+}
 
+ion-tab-button {
+  --color: #8a8a8a; // cor normal
+  --color-selected: #2f5d27; // cor quando está ativa
+}
+
+ion-tab-button.tab-selected ion-icon,
+ion-tab-button.tab-selected ion-label {
+  color: #2f5d27;
+}
+
+ion-tab-button.tab-selected {
+  background: #eef4eb;
+  border-radius: 14px;
+  margin: 8px 4px;
+}

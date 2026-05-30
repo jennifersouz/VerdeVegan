@@ -32,19 +32,19 @@ export class DetalhePratoPage implements OnInit {
 
         if (!this.prato) {
           console.error('Prato não encontrado.');
-          this.router.navigateByUrl('/menu');
+          this.router.navigateByUrl('/tabs/menu');
         }
       },
       error: (erro: unknown) => {
         console.error('Erro ao carregar prato:', erro);
-        this.router.navigateByUrl('/menu');
+        this.router.navigateByUrl('/tabs/menu');
       }
     });
 
   }
 
   public voltar() {
-    this.router.navigateByUrl('/menu');
+    this.router.navigateByUrl('/tabs/menu');
   }
 
   public diminuirQuantidade() {
@@ -74,7 +74,6 @@ export class DetalhePratoPage implements OnInit {
     return;
   }
 
-  this.router.navigateByUrl(`/personalizar-prato/${this.prato.id}?qtd=${this.quantidade}`);
+  this.router.navigateByUrl(`/tabs/personalizar-prato/${this.prato.id}?qtd=${this.quantidade}`);
 }
-
 }

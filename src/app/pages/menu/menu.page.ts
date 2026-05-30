@@ -60,7 +60,7 @@ export class MenuPage implements OnInit {
   }
 
   public abrirDetalhe(id: number) {
-    this.router.navigateByUrl(`/detalhe-prato/${id}`);
+    this.router.navigateByUrl(`/tabs/detalhe-prato/${id}`);
   }
 
   public terminarSessao() {
