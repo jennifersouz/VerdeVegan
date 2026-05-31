@@ -1,13 +1,111 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>perfil</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="perfil-content" scrollY="true">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">perfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div *ngIf="carregando" class="perfil-loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando perfil...</p>
+  </div>
+
+  <div class="perfil-container" *ngIf="!carregando && perfil">
+
+    <!-- Card principal -->
+    <section class="perfil-card">
+
+      <button type="button" class="editar-button" (click)="editarPerfil()">
+        Editar
+      </button>
+
+      <div class="avatar">
+        {{ iniciais }}
+      </div>
+
+      <h1>{{ perfil.nome }}</h1>
+      <p>{{ perfil.email }}</p>
+
+    </section>
+
+    <!-- Pontos -->
+    <section class="pontos-card">
+      <div>
+        <strong>{{ perfil.pontos }} pontos</strong>
+        <span>acumulados</span>
+      </div>
+
+      <button type="button" (click)="alternarHistoricoPontos()">
+        Ver histórico
+      </button>
+    </section>
+
+    <!-- Histórico de pontos -->
+    <section class="historico-pontos" *ngIf="mostrarHistorico">
+
+      <h2>Histórico de pontos</h2>
+
+      <div class="historico-item" *ngFor="let item of historicoPontos">
+        <div>
+          <strong>{{ item.descricao }}</strong>
+          <span>{{ item.data }}</span>
+        </div>
+
+        <p>+{{ item.pontos }}</p>
+      </div>
+
+    </section>
+
+    <!-- Conta -->
+    <section class="perfil-secao">
+
+      <h2>CONTA</h2>
+
+      <button type="button" class="opcao-linha" (click)="abrirMorada()">
+        <div>
+          <ion-icon name="location-outline"></ion-icon>
+          <span>Morada</span>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+
+      <button type="button" class="opcao-linha" (click)="abrirMetodoPagamento()">
+        <div>
+          <ion-icon name="card-outline"></ion-icon>
+          <span>Método de pagamento</span>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+
+      <button type="button" class="opcao-linha" (click)="abrirHistoricoPedidos()">
+        <div>
+          <ion-icon name="refresh-outline"></ion-icon>
+          <span>Histórico de Pedidos</span>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+
+    </section>
+
+    <!-- Ajuda -->
+    <section class="perfil-secao ajuda-secao">
+
+      <button type="button" class="opcao-linha" (click)="abrirAjuda()">
+        <div>
+          <ion-icon name="help-circle-outline"></ion-icon>
+          <span>Central de Ajuda</span>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+
+      <button type="button" class="opcao-linha sair-linha" (click)="sair()">
+        <div>
+          <ion-icon name="log-out-outline"></ion-icon>
+          <span>Sair</span>
+        </div>
+      </button>
+
+    </section>
+
+  </div>
+
 </ion-content>

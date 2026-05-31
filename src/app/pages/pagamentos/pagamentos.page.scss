@@ -1,0 +1,269 @@
+.pagamentos-content {
+  --background: #ffffff;
+  --overflow: auto;
+}
+
+.pagamentos-container {
+  min-height: 100%;
+  padding: 42px 28px 118px;
+}
+
+.pagamentos-loading {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #3f744d;
+}
+
+.topo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 34px;
+}
+
+.voltar-button {
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 14px;
+  background: #eef4eb;
+  color: #2f5d27;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.voltar-button ion-icon {
+  font-size: 25px;
+}
+
+.topo h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.topo p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.lista-pagamentos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pagamento-card {
+  border: 1px solid #d7e4d2;
+  border-radius: 18px;
+  padding: 16px;
+  background: #ffffff;
+}
+
+.pagamento-card.principal {
+  background: #eef4eb;
+  border-color: #2f5d27;
+}
+
+.card-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.card-topo strong {
+  display: block;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.card-topo span {
+  display: inline-block;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: #2f5d27;
+  color: #ffffff;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.card-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.card-acoes button {
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  padding: 4px;
+}
+
+.card-acoes ion-icon {
+  font-size: 22px;
+}
+
+.cartao-numero {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.cartao-validade {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.card-footer {
+  margin-top: 14px;
+}
+
+.card-footer button {
+  border: none;
+  background: transparent;
+  color: #2f5d27;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 0;
+}
+
+.adicionar-card {
+  min-height: 76px;
+  border: 1.5px dashed #9ca3af;
+  border-radius: 18px;
+  background: #ffffff;
+  color: #2f5d27;
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.adicionar-card ion-icon {
+  font-size: 24px;
+}
+
+/* Modal */
+
+.form-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.form-modal {
+  width: 100%;
+  max-width: 430px;
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  padding: 18px 28px 28px;
+}
+
+.modal-handle {
+  width: 82px;
+  height: 4px;
+  border-radius: 999px;
+  background: #c8c8c8;
+  margin: 0 auto 26px;
+}
+
+.form-modal h2 {
+  margin: 0 0 20px;
+  color: #111827;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.campo-grupo {
+  margin-bottom: 16px;
+}
+
+.campo-grupo label {
+  display: block;
+  margin-bottom: 7px;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.campo-grupo input,
+.campo-grupo select {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #e1e4e8;
+  border-radius: 14px;
+  padding: 0 14px;
+  outline: none;
+  font-size: 15px;
+  background: #ffffff;
+}
+
+.checkbox-linha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 8px 0 20px;
+}
+
+.modal-botoes {
+  display: flex;
+  gap: 14px;
+}
+
+.modal-botoes button {
+  flex: 1;
+  height: 46px;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.btn-cancelar {
+  background: #d1d5db;
+  color: #ffffff;
+}
+
+.btn-guardar {
+  background: #2f5d27;
+  color: #ffffff;
+}
+
+.mensagem-erro {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #e53935;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.campo-grupo input.invalido,
+.campo-grupo select.invalido {
+  border-color: #e53935;
+  background: #fff5f5;
+}

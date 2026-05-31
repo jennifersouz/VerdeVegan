@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PerfilService } from '../../services/perfil';
 import {
   AbstractControl,
   FormBuilder,
@@ -24,11 +25,12 @@ export class RegistoPage {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private perfilService: PerfilService
   ) {
     this.registoForm = this.formBuilder.group(
       {
-        nome: ['', [Validators.required, Validators.minLength(3)]],
+        nome: ['', [Validators.required, Validators.minLength(2)]],
         email: ['', [Validators.required, Validators.email]],
         palavraPasse: ['', [Validators.required, Validators.minLength(8)]],
         confirmarPalavraPasse: ['', [Validators.required]]
@@ -62,25 +64,27 @@ export class RegistoPage {
     this.mostrarConfirmarPalavraPasse = !this.mostrarConfirmarPalavraPasse;
   }
 
-  public criarConta() {
-    this.formSubmetido = true;
+  public async criarConta() {
+      this.formSubmetido = true;
 
-    if (this.registoForm.invalid) {
-      return;
-    }
+  if (this.registoForm.invalid) {
+    return;
+  }
 
-    const novoUtilizador = {
-      nome: this.registoForm.value.nome,
-      email: this.registoForm.value.email,
-      pontos: 0
-    };
+  const nome = this.registoForm.value.nome;
+  const email = this.registoForm.value.email;
 
-    console.log('Utilizador criado:', novoUtilizador);
+  await this.perfilService.criarPerfilInicial(nome, email);
 
-    this.router.navigateByUrl('/login');
+  const elementoAtivo = document.activeElement as HTMLElement | null;
+  elementoAtivo?.blur();
+
+  this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
   }
 
   public irParaLogin() {
     this.router.navigateByUrl('/login');
   }
+
+  
 }

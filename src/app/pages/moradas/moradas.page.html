@@ -1,0 +1,141 @@
+<ion-content [fullscreen]="true" class="moradas-content" scrollY="true">
+
+  <div *ngIf="carregando" class="moradas-loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando moradas...</p>
+  </div>
+
+  <div class="moradas-container" *ngIf="!carregando">
+
+    <header class="topo">
+      <button type="button" class="voltar-button" (click)="voltar()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+
+      <div>
+        <h1>Moradas de entrega</h1>
+        <p>Gere as tuas moradas guardadas</p>
+      </div>
+    </header>
+
+    <section class="lista-moradas">
+
+      <article
+        class="morada-card"
+        *ngFor="let morada of moradas"
+        [class.principal]="morada.principal">
+
+        <div class="card-topo">
+          <div class="card-titulo">
+            <ion-icon name="location-outline"></ion-icon>
+            <strong>{{ morada.titulo }}</strong>
+          </div>
+
+          <div class="card-acoes">
+            <button type="button" (click)="editarMorada(morada)">
+              <ion-icon name="create-outline"></ion-icon>
+            </button>
+
+            <button type="button" (click)="removerMorada(morada.id)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <p>{{ morada.rua }}</p>
+        <p>{{ morada.codigoPostal }} {{ morada.cidade }}</p>
+
+        <div class="card-footer">
+          <span *ngIf="morada.principal">Morada principal</span>
+
+          <button
+            type="button"
+            *ngIf="!morada.principal"
+            (click)="definirPrincipal(morada.id)">
+            Tornar principal
+          </button>
+        </div>
+
+      </article>
+
+      <button type="button" class="adicionar-card" (click)="abrirFormulario()">
+        <ion-icon name="add-outline"></ion-icon>
+        Adicionar nova morada
+      </button>
+
+    </section>
+
+  </div>
+
+</ion-content>
+
+<div class="form-overlay" *ngIf="formularioAberto" (click)="fecharFormulario()">
+
+  <div class="form-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-handle"></div>
+
+    <h2>{{ editandoId ? 'Editar morada' : 'Nova morada' }}</h2>
+
+    <!-- Título -->
+    <div class="campo-grupo">
+      <label>Título *</label>
+      <input
+        type="text"
+        placeholder="Ex: Casa, Trabalho..."
+        [(ngModel)]="novaMorada.titulo"
+        [class.invalido]="formSubmetido && (!novaMorada.titulo.trim() || novaMorada.titulo.trim().length < 2)">
+    </div>
+
+    <!-- Rua -->
+    <div class="campo-grupo">
+      <label>Rua *</label>
+      <input
+        type="text"
+        placeholder="Rua e número"
+        [(ngModel)]="novaMorada.rua"
+        [class.invalido]="formSubmetido && (!novaMorada.rua.trim() || novaMorada.rua.trim().length < 5)">
+    </div>
+
+    <!-- Código postal + Cidade -->
+    <div class="linha-campos">
+      <div class="campo-grupo">
+        <label>Código postal *</label>
+        <input
+          type="text"
+          placeholder="0000-000"
+          [(ngModel)]="novaMorada.codigoPostal"
+          [class.invalido]="formSubmetido && !codigoPostalValido(novaMorada.codigoPostal)">
+      </div>
+
+      <div class="campo-grupo">
+        <label>Cidade *</label>
+        <input
+          type="text"
+          placeholder="Cidade"
+          [(ngModel)]="novaMorada.cidade"
+          [class.invalido]="formSubmetido && (!novaMorada.cidade.trim() || novaMorada.cidade.trim().length < 2)">
+      </div>
+    </div>
+
+    <label class="checkbox-linha">
+      <input type="checkbox" [(ngModel)]="novaMorada.principal">
+      Definir como principal
+    </label>
+
+    <!-- Mensagem de erro -->
+    <p class="mensagem-erro" *ngIf="mensagemErro">{{ mensagemErro }}</p>
+
+    <div class="modal-botoes">
+      <button type="button" class="btn-cancelar" (click)="fecharFormulario()">
+        Cancelar
+      </button>
+
+      <button type="button" class="btn-guardar" (click)="guardarMorada()">
+        Guardar
+      </button>
+    </div>
+
+  </div>
+
+</div>

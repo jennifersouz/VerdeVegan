@@ -29,6 +29,18 @@ const routes: Routes = [
         loadChildren: () => import('../pages/perfil/perfil.module').then(m => m.PerfilPageModule)
       },
       {
+        path: 'editar-perfil',
+        loadChildren: () => import('../pages/editar-perfil/editar-perfil.module').then(m => m.EditarPerfilPageModule)
+      },
+      {
+      path: 'moradas',
+      loadChildren: () => import('../pages/moradas/moradas.module').then(m => m.MoradasPageModule)
+      },
+      {
+      path: 'pagamentos',
+      loadChildren: () => import('../pages/pagamentos/pagamentos.module').then(m => m.PagamentosPageModule)
+      },
+      {
         path: 'detalhe-prato/:id',
         loadChildren: () => import('../pages/detalhe-prato/detalhe-prato.module').then(m => m.DetalhePratoPageModule)
       },

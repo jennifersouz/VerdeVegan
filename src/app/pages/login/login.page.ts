@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PerfilService } from '../../services/perfil';
 import {
   FormBuilder,
   FormGroup,
@@ -21,7 +22,8 @@ export class LoginPage {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private perfilService: PerfilService
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -33,25 +35,28 @@ export class LoginPage {
     this.mostrarPalavraPasse = !this.mostrarPalavraPasse;
   }
 
-  public entrar() {
-  this.formSubmetido = true;
+  public async entrar() {
+    this.formSubmetido = true;
 
-  if (this.loginForm.invalid) {
-    return;
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    const email = this.loginForm.value.email;
+
+    await this.perfilService.iniciarSessao(email);
+
+    console.log('Login efetuado:', {
+      email: this.loginForm.value.email,
+      palavraPasse: this.loginForm.value.palavraPasse
+    });
+
+    const elementoAtivo = document.activeElement as HTMLElement | null;
+    elementoAtivo?.blur();
+
+    this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
   }
 
-  const dadosLogin = {
-    email: this.loginForm.value.email,
-    palavraPasse: this.loginForm.value.palavraPasse
-  };
-
-  console.log('Login efetuado:', dadosLogin);
-
-  const elementoAtivo = document.activeElement as HTMLElement | null;
-  elementoAtivo?.blur();
-
-  this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
-  }
   public irParaRegisto() {
     this.router.navigateByUrl('/registo');
   }

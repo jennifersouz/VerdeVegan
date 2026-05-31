@@ -22,6 +22,18 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+  {
+    path: 'editar-perfil',
+    loadChildren: () => import('./pages/editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
+  },
+  {
+    path: 'moradas',
+    loadChildren: () => import('./pages/moradas/moradas.module').then( m => m.MoradasPageModule)
+  },
+  {
+    path: 'pagamentos',
+    loadChildren: () => import('./pages/pagamentos/pagamentos.module').then( m => m.PagamentosPageModule)
   }
 ];
 

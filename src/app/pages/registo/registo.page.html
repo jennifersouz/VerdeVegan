@@ -24,8 +24,11 @@
             formControlName="nome">
         </div>
 
-        <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('nome')?.invalid">
+        <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('nome')?.errors?.['required']">
           <p class="erro">Introduz o teu nome.</p>
+        </ion-text>
+        <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('nome')?.errors?.['minlength']">
+          <p class="erro">O nome deve ter pelo menos 2 caracteres.</p>
         </ion-text>
       </div>
 
