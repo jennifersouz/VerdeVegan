@@ -1,0 +1,138 @@
+.pedidos-content {
+  --background: #ffffff;
+  --overflow: auto;
+}
+
+.pedidos-container {
+  min-height: 100%;
+  padding: 48px 28px 118px;
+}
+
+/* Empty state */
+
+.empty-state {
+  min-height: calc(100vh - 166px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 42px;
+}
+
+.empty-state h1 {
+  margin: 0 0 70px;
+  color: #202124;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.empty-image-area {
+  width: 168px;
+  height: 154px;
+  border-radius: 12px;
+  background: #f8faf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.empty-image {
+  width: 132px;
+  height: auto;
+  display: block;
+}
+
+.empty-state h2 {
+  margin: 0 0 24px;
+  color: #202124;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.empty-state p {
+  margin: 0 0 62px;
+  color: #737883;
+  font-size: 18px;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.menu-button {
+  width: 100%;
+  height: 64px;
+  border: none;
+  border-radius: 8px;
+  background: #2f5d27;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Lista futura de pedidos */
+
+.pedidos-lista {
+  padding-top: 8px;
+}
+
+.pedidos-topo {
+  margin-bottom: 28px;
+}
+
+.pedidos-topo h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.pedidos-topo p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.pedido-card {
+  border-radius: 18px;
+  background: #eef4eb;
+  padding: 18px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.pedido-card h2 {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.pedido-card p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.pedido-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.pedido-info span {
+  color: #2f5d27;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pedido-info strong {
+  color: #111827;
+  font-size: 17px;
+  font-weight: 600;
+}
