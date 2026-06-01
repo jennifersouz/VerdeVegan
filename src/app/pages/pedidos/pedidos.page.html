@@ -2,6 +2,7 @@
 
   <div class="pedidos-container">
 
+    <!-- Estado vazio -->
     <section class="empty-state" *ngIf="pedidos.length === 0">
 
       <h1>Os meus pedidos</h1>
@@ -28,29 +29,151 @@
 
     </section>
 
+    <!-- Lista de pedidos -->
     <section class="pedidos-lista" *ngIf="pedidos.length > 0">
 
-      <header class="pedidos-topo">
-        <h1>Os meus pedidos</h1>
-        <p>{{ pedidos.length }} pedidos encontrados</p>
-      </header>
+      <h1>Os meus pedidos</h1>
 
+      <!-- Filtros -->
+      <div class="filtros-pedidos">
+
+        <button
+          type="button"
+          [class.ativo]="filtroSelecionado === 'Todos'"
+          (click)="selecionarFiltro('Todos')">
+          Todos
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="filtroSelecionado === 'Entregues'"
+          (click)="selecionarFiltro('Entregues')">
+          Entregues
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="filtroSelecionado === 'A caminho'"
+          (click)="selecionarFiltro('A caminho')">
+          A caminho
+        </button>
+
+      </div>
+
+      <!-- Sem resultados do filtro -->
+      <div class="sem-resultados" *ngIf="!temPedidos()">
+        <ion-icon name="cube-outline"></ion-icon>
+        <h2>Nenhum pedido encontrado</h2>
+        <p>Não existem pedidos para este filtro.</p>
+      </div>
+
+      <!-- Pedido recente em destaque -->
       <article
-        class="pedido-card"
-        *ngFor="let pedido of pedidos"
-        (click)="abrirPedido(pedido.id)">
-
-        <div>
-          <h2>Pedido #{{ pedido.id }}</h2>
-          <p>{{ pedido.data }}</p>
-        </div>
+        class="pedido-destaque"
+        *ngIf="obterPedidoRecente() as pedidoRecente"
+        (click)="abrirPedido(pedidoRecente.id)">
 
         <div class="pedido-info">
-          <span>{{ pedido.estado }}</span>
-          <strong>{{ pedido.total | number:'1.2-2' }} €</strong>
+          <h2>{{ pedidoRecente.nome }}</h2>
+          <p>
+            {{ pedidoRecente.data }} • {{ pedidoRecente.hora }} •
+            {{ pedidoRecente.quantidadeItens }}
+            {{ pedidoRecente.quantidadeItens === 1 ? 'item' : 'itens' }}
+          </p>
+        </div>
+
+        <div class="pedido-estado-area">
+          <span class="estado-badge">{{ pedidoRecente.estado }}</span>
+
+          <button type="button">
+            Ver detalhe
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
         </div>
 
       </article>
+
+      <!-- Esta semana -->
+      <section
+        class="grupo-pedidos"
+        *ngIf="obterPedidosPorGrupo('Esta semana').length > 0">
+
+        <h2>ESTA SEMANA</h2>
+
+        <div class="grupo-card">
+
+          <article
+            class="pedido-item"
+            *ngFor="let pedido of obterPedidosPorGrupo('Esta semana')"
+            (click)="abrirPedido(pedido.id)">
+
+            <div class="pedido-info">
+              <h3>{{ pedido.nome }}</h3>
+
+              <p>
+                {{ pedido.data }} • {{ pedido.hora }} •
+                {{ pedido.quantidadeItens }}
+                {{ pedido.quantidadeItens === 1 ? 'item' : 'itens' }}
+              </p>
+
+              <strong>{{ pedido.total | number:'1.2-2' }} €</strong>
+            </div>
+
+            <div class="pedido-estado-area">
+              <span class="estado-badge">{{ pedido.estado }}</span>
+
+              <button type="button">
+                Ver detalhe
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </button>
+            </div>
+
+          </article>
+
+        </div>
+
+      </section>
+
+      <!-- Março -->
+      <section
+        class="grupo-pedidos"
+        *ngIf="obterPedidosPorGrupo('Março').length > 0">
+
+        <h2>MARÇO</h2>
+
+        <div class="grupo-card">
+
+          <article
+            class="pedido-item"
+            *ngFor="let pedido of obterPedidosPorGrupo('Março')"
+            (click)="abrirPedido(pedido.id)">
+
+            <div class="pedido-info">
+              <h3>{{ pedido.nome }}</h3>
+
+              <p>
+                {{ pedido.data }} • {{ pedido.hora }} •
+                {{ pedido.quantidadeItens }}
+                {{ pedido.quantidadeItens === 1 ? 'item' : 'itens' }}
+              </p>
+
+              <strong>{{ pedido.total | number:'1.2-2' }} €</strong>
+            </div>
+
+            <div class="pedido-estado-area">
+              <span class="estado-badge">{{ pedido.estado }}</span>
+
+              <button type="button">
+                Ver detalhe
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </button>
+            </div>
+
+          </article>
+
+        </div>
+
+      </section>
 
     </section>
 
