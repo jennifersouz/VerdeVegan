@@ -1,181 +1,27 @@
-<ion-content [fullscreen]="true" class="pedidos-content" scrollY="true">
+<ion-content class="pedidos-page">
 
-  <div class="pedidos-container">
+  <div class="page-wrapper">
 
-    <!-- Estado vazio -->
-    <section class="empty-state" *ngIf="pedidos.length === 0">
+    <h1>Os meus pedidos</h1>
 
-      <h1>Os meus pedidos</h1>
+    <div class="empty-state" *ngIf="pedidos.length === 0">
+      <h2>Ainda não tens pedidos</h2>
+      <p>Quando confirmares uma encomenda, ela aparece aqui.</p>
+    </div>
 
-      <div class="empty-image-area">
-        <img
-          src="assets/img/box.png"
-          alt="Sem pedidos"
-          class="empty-image">
+    <div
+      class="pedido-card"
+      *ngFor="let pedido of pedidos"
+      routerLink="/detalhe-pedido"
+    >
+      <div>
+        <h2>{{ pedido.nome }}</h2>
+        <p>{{ pedido.data }} · {{ pedido.hora }} · {{ pedido.itens }} itens</p>
+        <strong>{{ pedido.total.toFixed(2) }} €</strong>
       </div>
 
-      <h2>Ainda sem pedidos</h2>
-
-      <p>
-        Quando fizeres o teu<br>
-        primeiro pedido ele vai<br>
-        aparecer aqui.<br>
-        Que tal explorar o menu?
-      </p>
-
-      <button type="button" class="menu-button" (click)="irParaMenu()">
-        Ir para o menu
-      </button>
-
-    </section>
-
-    <!-- Lista de pedidos -->
-    <section class="pedidos-lista" *ngIf="pedidos.length > 0">
-
-      <h1>Os meus pedidos</h1>
-
-      <!-- Filtros -->
-      <div class="filtros-pedidos">
-
-        <button
-          type="button"
-          [class.ativo]="filtroSelecionado === 'Todos'"
-          (click)="selecionarFiltro('Todos')">
-          Todos
-        </button>
-
-        <button
-          type="button"
-          [class.ativo]="filtroSelecionado === 'Entregues'"
-          (click)="selecionarFiltro('Entregues')">
-          Entregues
-        </button>
-
-        <button
-          type="button"
-          [class.ativo]="filtroSelecionado === 'A caminho'"
-          (click)="selecionarFiltro('A caminho')">
-          A caminho
-        </button>
-
-      </div>
-
-      <!-- Sem resultados do filtro -->
-      <div class="sem-resultados" *ngIf="!temPedidos()">
-        <ion-icon name="cube-outline"></ion-icon>
-        <h2>Nenhum pedido encontrado</h2>
-        <p>Não existem pedidos para este filtro.</p>
-      </div>
-
-      <!-- Pedido recente em destaque -->
-      <article
-        class="pedido-destaque"
-        *ngIf="obterPedidoRecente() as pedidoRecente"
-        (click)="abrirPedido(pedidoRecente.id)">
-
-        <div class="pedido-info">
-          <h2>{{ pedidoRecente.nome }}</h2>
-          <p>
-            {{ pedidoRecente.data }} • {{ pedidoRecente.hora }} •
-            {{ pedidoRecente.quantidadeItens }}
-            {{ pedidoRecente.quantidadeItens === 1 ? 'item' : 'itens' }}
-          </p>
-        </div>
-
-        <div class="pedido-estado-area">
-          <span class="estado-badge">{{ pedidoRecente.estado }}</span>
-
-          <button type="button">
-            Ver detalhe
-            <ion-icon name="chevron-forward-outline"></ion-icon>
-          </button>
-        </div>
-
-      </article>
-
-      <!-- Esta semana -->
-      <section
-        class="grupo-pedidos"
-        *ngIf="obterPedidosPorGrupo('Esta semana').length > 0">
-
-        <h2>ESTA SEMANA</h2>
-
-        <div class="grupo-card">
-
-          <article
-            class="pedido-item"
-            *ngFor="let pedido of obterPedidosPorGrupo('Esta semana')"
-            (click)="abrirPedido(pedido.id)">
-
-            <div class="pedido-info">
-              <h3>{{ pedido.nome }}</h3>
-
-              <p>
-                {{ pedido.data }} • {{ pedido.hora }} •
-                {{ pedido.quantidadeItens }}
-                {{ pedido.quantidadeItens === 1 ? 'item' : 'itens' }}
-              </p>
-
-              <strong>{{ pedido.total | number:'1.2-2' }} €</strong>
-            </div>
-
-            <div class="pedido-estado-area">
-              <span class="estado-badge">{{ pedido.estado }}</span>
-
-              <button type="button">
-                Ver detalhe
-                <ion-icon name="chevron-forward-outline"></ion-icon>
-              </button>
-            </div>
-
-          </article>
-
-        </div>
-
-      </section>
-
-      <!-- Março -->
-      <section
-        class="grupo-pedidos"
-        *ngIf="obterPedidosPorGrupo('Março').length > 0">
-
-        <h2>MARÇO</h2>
-
-        <div class="grupo-card">
-
-          <article
-            class="pedido-item"
-            *ngFor="let pedido of obterPedidosPorGrupo('Março')"
-            (click)="abrirPedido(pedido.id)">
-
-            <div class="pedido-info">
-              <h3>{{ pedido.nome }}</h3>
-
-              <p>
-                {{ pedido.data }} • {{ pedido.hora }} •
-                {{ pedido.quantidadeItens }}
-                {{ pedido.quantidadeItens === 1 ? 'item' : 'itens' }}
-              </p>
-
-              <strong>{{ pedido.total | number:'1.2-2' }} €</strong>
-            </div>
-
-            <div class="pedido-estado-area">
-              <span class="estado-badge">{{ pedido.estado }}</span>
-
-              <button type="button">
-                Ver detalhe
-                <ion-icon name="chevron-forward-outline"></ion-icon>
-              </button>
-            </div>
-
-          </article>
-
-        </div>
-
-      </section>
-
-    </section>
+      <span class="estado">{{ pedido.estado }}</span>
+    </div>
 
   </div>
 

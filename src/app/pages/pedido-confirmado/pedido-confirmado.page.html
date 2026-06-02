@@ -1,13 +1,101 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>pedido-confirmado</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="pedido-confirmado-page">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">pedido-confirmado</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="page-wrapper">
+
+    <div class="logo-area">
+      <img src="assets/logo-verdevegan.png" alt="VerdeVegan" />
+    </div>
+
+    <a class="back-link" routerLink="/checkout-pagamento">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Carrinho
+    </a>
+
+    <div class="steps">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="active"></span>
+    </div>
+
+    <section class="success-section">
+      <div class="success-icon">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </div>
+
+      <h1>Pedido confirmado!</h1>
+      <p>O teu pedido está a ser preparado</p>
+    </section>
+
+    <section class="order-card">
+      <p>Número do pedido</p>
+      <h2>{{ numeroPedido }}</h2>
+
+      <div class="order-info">
+        <div>
+          <span>Morada</span>
+          <strong>Casa</strong>
+        </div>
+
+        <div>
+          <span>Pagamento</span>
+          <strong>MB WAY</strong>
+        </div>
+
+        <div>
+          <span>Total</span>
+          <strong>58.00€</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-section">
+      <h2>Estado do pedido</h2>
+
+      <div class="status-item done">
+        <div class="status-circle">
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </div>
+
+        <div>
+          <h3>Pedido recebido</h3>
+          <p>Confirmado</p>
+        </div>
+      </div>
+
+      <div class="status-item active">
+        <div class="status-circle"></div>
+
+        <div>
+          <h3>A preparar</h3>
+          <p>Em progresso</p>
+        </div>
+      </div>
+
+      <div class="status-item">
+        <div class="status-circle"></div>
+
+        <div>
+          <h3>A caminho</h3>
+          <p>Pendente</p>
+        </div>
+      </div>
+
+      <div class="status-item">
+        <div class="status-circle"></div>
+
+        <div>
+          <h3>Entregue</h3>
+          <p>Pendente</p>
+        </div>
+      </div>
+    </section>
+
+    <ion-button expand="block" routerLink="/tabs/inicio">
+      Fazer novo pedido
+    </ion-button>
+
+  </div>
+
 </ion-content>

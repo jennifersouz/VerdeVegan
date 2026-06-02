@@ -1,13 +1,61 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>carrinho</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="carrinho-page">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">carrinho</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="page-wrapper">
+
+    <div class="logo-area">
+      <img src="assets/logo-verdevegan.png" alt="VerdeVegan" />
+    </div>
+
+    <div class="steps">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <section class="cart-header">
+      <h1>Carrinho</h1>
+      <p>{{ itens.length }} artigos</p>
+    </section>
+
+    <section class="cart-list">
+      <div class="cart-item" *ngFor="let item of itens; let i = index">
+        <div>
+          <h2>{{ item.nome }}</h2>
+          <p>Quantidade: {{ item.quantidade }}</p>
+          <strong>{{ item.preco.toFixed(2) }} €</strong>
+        </div>
+
+        <button class="delete-button" (click)="removerItem(i)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
+      </div>
+    </section>
+
+    <section class="summary-card">
+      <div>
+        <span>Subtotal</span>
+        <span>{{ subtotal.toFixed(2) }}€</span>
+      </div>
+
+      <div>
+        <span>Taxa de Entrega</span>
+        <span>{{ taxaEntrega.toFixed(2) }}€</span>
+      </div>
+
+      <hr />
+
+      <div class="total-line">
+        <span>Total</span>
+        <span>{{ total.toFixed(2) }}€</span>
+      </div>
+    </section>
+
+    <ion-button expand="block" routerLink="/checkout-pontos">
+      Continuar
+    </ion-button>
+
+  </div>
+
 </ion-content>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Pedido, Pedidos } from 'src/app/services/pedidos';
 
 @Component({
   selector: 'app-pedido-confirmado',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   standalone: false
 })
 export class PedidoConfirmadoPage implements OnInit {
+  pedido!: Pedido;
+  numeroPedido = '';
 
-  constructor() { }
+  constructor(private pedidosService: Pedidos) { }
 
   ngOnInit() {
+    this.pedido = this.pedidosService.criarPedido();
+    this.numeroPedido = this.pedido.id;
   }
-
 }

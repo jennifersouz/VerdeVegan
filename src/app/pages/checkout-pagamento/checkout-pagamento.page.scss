@@ -1,0 +1,139 @@
+.checkout-pagamento-page {
+  --background: #ffffff;
+}
+
+.page-wrapper {
+  padding: 32px 24px 110px;
+}
+
+.logo-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 36px;
+
+  img {
+    width: 56px;
+    height: auto;
+  }
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #2d612b;
+  font-size: 18px;
+  font-weight: 800;
+  text-decoration: none;
+  margin-bottom: 24px;
+
+  ion-icon {
+    font-size: 22px;
+  }
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 36px;
+
+  span {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: #d1d5d1;
+  }
+
+  .active {
+    width: 44px;
+    background: #e3f1df;
+  }
+}
+
+.page-title {
+  margin-bottom: 22px;
+
+  h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    color: #1e1e1e;
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: #6b7280;
+    font-size: 16px;
+  }
+}
+
+.payment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.payment-card {
+  width: 100%;
+  border: 1px solid #b9ddb2;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 15px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  text-align: left;
+
+  ion-icon {
+    font-size: 26px;
+    color: #1e1e1e;
+  }
+
+  h2 {
+    margin: 0 0 3px;
+    color: #1e1e1e;
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 15px;
+  }
+}
+
+.payment-card.selected {
+  border-color: #2f6b2f;
+  background: #f8fff6;
+}
+
+.summary-card {
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  span,
+  strong {
+    color: #1e1e1e;
+    font-size: 16px;
+  }
+}
+
+ion-button {
+  --background: #2f6b2f;
+  --background-hover: #285c28;
+  --background-activated: #285c28;
+  --color: #ffffff;
+  --border-radius: 10px;
+  height: 56px;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: none;
+}

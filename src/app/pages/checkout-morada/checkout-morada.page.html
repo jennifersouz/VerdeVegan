@@ -1,13 +1,69 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>checkout-morada</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="checkout-morada-page">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">checkout-morada</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="page-wrapper">
+
+    <div class="logo-area">
+      <img src="assets/logo-verdevegan.png" alt="VerdeVegan" />
+    </div>
+
+    <a class="back-link" routerLink="/checkout-pontos">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Carrinho
+    </a>
+
+    <div class="steps">
+      <span></span>
+      <span></span>
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <section class="page-title">
+      <h1>Morada de entrega</h1>
+      <p>Seleciona ou adiciona uma morada</p>
+    </section>
+
+    <section class="address-list">
+
+      <button
+        class="address-card"
+        [class.selected]="moradaSelecionada === 'casa'"
+        (click)="selecionarMorada('casa')"
+      >
+        <ion-icon name="location-outline"></ion-icon>
+
+        <div>
+          <h2>Casa</h2>
+          <p>Rua de Santa Catarina, 852</p>
+          <p>4000-443 Porto</p>
+        </div>
+      </button>
+
+      <button
+        class="address-card"
+        [class.selected]="moradaSelecionada === 'trabalho'"
+        (click)="selecionarMorada('trabalho')"
+      >
+        <ion-icon name="location-outline"></ion-icon>
+
+        <div>
+          <h2>Trabalho</h2>
+          <p>R. Manuel Pinto de Azevedo, 626</p>
+          <p>4100-320 Porto</p>
+        </div>
+      </button>
+
+      <button class="add-address-button">
+        + Adicionar nova morada
+      </button>
+
+    </section>
+
+    <ion-button expand="block" routerLink="/checkout-pagamento">
+      Continuar
+    </ion-button>
+
+  </div>
+
 </ion-content>

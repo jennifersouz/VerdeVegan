@@ -1,13 +1,94 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>checkout-pagamento</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="checkout-pagamento-page">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">checkout-pagamento</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="page-wrapper">
+
+    <div class="logo-area">
+      <img src="assets/logo-verdevegan.png" alt="VerdeVegan" />
+    </div>
+
+    <a class="back-link" routerLink="/checkout-morada">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Carrinho
+    </a>
+
+    <div class="steps">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="active"></span>
+      <span></span>
+    </div>
+
+    <section class="page-title">
+      <h1>Método de pagamento</h1>
+      <p>Escolhe como queres pagar</p>
+    </section>
+
+    <section class="payment-list">
+
+      <button
+        class="payment-card"
+        [class.selected]="metodoSelecionado === 'cartao'"
+        (click)="selecionarMetodo('cartao')"
+      >
+        <ion-icon name="card-outline"></ion-icon>
+
+        <div>
+          <h2>Cartão de crédito/débito</h2>
+          <p>Visa, Mastercard, Amex</p>
+        </div>
+      </button>
+
+      <button
+        class="payment-card"
+        [class.selected]="metodoSelecionado === 'mbway'"
+        (click)="selecionarMetodo('mbway')"
+      >
+        <ion-icon name="phone-portrait-outline"></ion-icon>
+
+        <div>
+          <h2>MB WAY</h2>
+          <p>Pagamento por telemóvel</p>
+        </div>
+      </button>
+
+      <button
+        class="payment-card"
+        [class.selected]="metodoSelecionado === 'applepay'"
+        (click)="selecionarMetodo('applepay')"
+      >
+        <ion-icon name="phone-portrait-outline"></ion-icon>
+
+        <div>
+          <h2>Apple Pay</h2>
+          <p>Pagamento por telemóvel</p>
+        </div>
+      </button>
+
+      <button
+        class="payment-card"
+        [class.selected]="metodoSelecionado === 'dinheiro'"
+        (click)="selecionarMetodo('dinheiro')"
+      >
+        <ion-icon name="cash-outline"></ion-icon>
+
+        <div>
+          <h2>Dinheiro</h2>
+          <p>Pagamento na Entrega</p>
+        </div>
+      </button>
+
+    </section>
+
+    <section class="summary-card">
+      <span>Total a pagar</span>
+      <strong>58.00€</strong>
+    </section>
+
+    <ion-button expand="block" routerLink="/pedido-confirmado">
+      Confirmar pagamento
+    </ion-button>
+
+  </div>
+
 </ion-content>

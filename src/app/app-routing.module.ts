@@ -34,7 +34,52 @@ const routes: Routes = [
   {
     path: 'pagamentos',
     loadChildren: () => import('./pages/pagamentos/pagamentos.module').then( m => m.PagamentosPageModule)
-  }
+  },
+        {
+        path: 'personalizar-prato/:id',
+        loadChildren: () => import('./pages/personalizar-prato/personalizar-prato.module').then(m => m.PersonalizarPratoPageModule)
+      },
+      {
+        path: 'checkout-pontos',
+        loadChildren: () => import('./pages/checkout-pontos/checkout-pontos.module').then(m => m.CheckoutPontosPageModule)
+      },
+      {
+        path: 'checkout-morada',
+        loadChildren: () => import('./pages/checkout-morada/checkout-morada.module').then(m => m.CheckoutMoradaPageModule)
+      },
+      {
+        path: 'checkout-pagamento',
+        loadChildren: () => import('./pages/checkout-pagamento/checkout-pagamento.module').then(m => m.CheckoutPagamentoPageModule)
+      },
+      {
+        path: 'pedido-confirmado',
+        loadChildren: () => import('./pages/pedido-confirmado/pedido-confirmado.module').then(m => m.PedidoConfirmadoPageModule)
+      },
+      {
+        path: 'detalhe-pedido',
+        loadChildren: () => import('./pages/detalhe-pedido/detalhe-pedido.module').then(m => m.DetalhePedidoPageModule)
+      },
+      {
+        path: 'acompanhar-pedido',
+        loadChildren: () => import('./pages/acompanhar-pedido/acompanhar-pedido.module').then(m => m.AcompanharPedidoPageModule)
+      },
+      {
+        path: 'avaliacao',
+        loadChildren: () => import('./pages/avaliacao/avaliacao.module').then(m => m.AvaliacaoPageModule)
+      },
+      {
+        path: '',
+        redirectTo: 'inicio',
+        pathMatch: 'full'
+      },
+      {
+        path: 'pedido-confirmado',
+        loadChildren: () => import('./pages/pedido-confirmado/pedido-confirmado.module').then(m => m.PedidoConfirmadoPageModule)
+      },
+      {
+        path: 'detalhe-pedido',
+        loadChildren: () => import('./pages/detalhe-pedido/detalhe-pedido.module').then(m => m.DetalhePedidoPageModule)
+      }
 ];
 
 @NgModule({

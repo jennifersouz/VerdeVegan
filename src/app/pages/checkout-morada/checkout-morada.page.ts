@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-checkout-morada',
   templateUrl: './checkout-morada.page.html',
   styleUrls: ['./checkout-morada.page.scss'],
-  standalone: false
+  standalone: false,
 })
-export class CheckoutMoradaPage implements OnInit {
+export class CheckoutMoradaPage {
+  moradaSelecionada = 'casa';
 
-  constructor() { }
-
-  ngOnInit() {
+  selecionarMorada(morada: string) {
+    this.moradaSelecionada = morada;
   }
-
 }
