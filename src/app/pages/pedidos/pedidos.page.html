@@ -2,16 +2,54 @@
 
   <div class="page-wrapper">
 
-    <h1>Os meus pedidos</h1>
+    <div class="top-spacer"></div>
+
+    <section class="pedidos-hero">
+      <div class="pedidos-heading">
+        <h1>Os meus pedidos</h1>
+
+        <button type="button" class="filtros-button" (click)="abrirFiltros()">
+          <ion-icon name="options-outline"></ion-icon>
+          <span>Filtros</span>
+        </button>
+      </div>
+
+      <p class="pedidos-subtitle">Consulta pedidos recentes, entregues e encomendas antigas.</p>
+
+      <label class="pesquisa-box">
+        <ion-icon name="search-outline"></ion-icon>
+        <input
+          type="search"
+          placeholder="Pesquisar restaurante ou comida"
+          [(ngModel)]="pesquisa"
+        />
+      </label>
+    </section>
+
+    <section class="estado-section">
+      <h2>Estado do pedido</h2>
+
+      <div class="estado-filtros">
+        <button
+          type="button"
+          *ngFor="let estado of estados"
+          [class.active]="estadoSelecionado === estado"
+          (click)="selecionarEstado(estado)"
+        >
+          {{ estado }}
+        </button>
+      </div>
+    </section>
 
     <div class="empty-state" *ngIf="pedidos.length === 0">
+      <ion-icon name="receipt-outline"></ion-icon>
       <h2>Ainda não tens pedidos</h2>
       <p>Quando confirmares uma encomenda, ela aparece aqui.</p>
     </div>
 
     <div
       class="pedido-card"
-      *ngFor="let pedido of pedidos"
+      *ngFor="let pedido of pedidosFiltrados"
       routerLink="/detalhe-pedido"
     >
       <div>
@@ -26,3 +64,52 @@
   </div>
 
 </ion-content>
+
+<div class="filtros-overlay" *ngIf="filtrosAberto" (click)="fecharFiltros()">
+  <div class="filtros-modal" (click)="$event.stopPropagation()">
+    <div class="modal-handle"></div>
+
+    <button type="button" class="modal-close" (click)="fecharFiltros()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+
+    <h2>Filtros</h2>
+
+    <div class="filtro-grupo">
+      <p>Mês</p>
+
+      <div class="filtro-grid meses-grid">
+        <button
+          type="button"
+          *ngFor="let mes of meses"
+          [class.ativo]="mesSelecionado === mes"
+          (click)="selecionarMes(mes)">
+          {{ mes }}
+        </button>
+      </div>
+    </div>
+
+    <div class="filtro-grupo">
+      <p>Ano</p>
+
+      <div class="filtro-grid ano-grid">
+        <button
+          type="button"
+          [class.ativo]="anoSelecionado === 'Todos'"
+          (click)="anoSelecionado = 'Todos'">
+          Todos
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-botoes">
+      <button type="button" class="btn-cancelar" (click)="limparFiltros()">
+        Limpar
+      </button>
+
+      <button type="button" class="btn-concluir" (click)="aplicarFiltros()">
+        Aplicar filtros
+      </button>
+    </div>
+  </div>
+</div>

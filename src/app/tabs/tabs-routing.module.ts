@@ -45,6 +45,10 @@ const routes: Routes = [
         loadChildren: () => import('../pages/detalhe-prato/detalhe-prato.module').then(m => m.DetalhePratoPageModule)
       },
       {
+        path: 'restaurante/:id',
+        loadChildren: () => import('../pages/restaurante/restaurante.module').then(m => m.RestaurantePageModule)
+      },
+      {
         path: 'personalizar-prato/:id',
         loadChildren: () => import('../pages/personalizar-prato/personalizar-prato.module').then(m => m.PersonalizarPratoPageModule)
       },

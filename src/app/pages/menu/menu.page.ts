@@ -34,6 +34,49 @@ export class MenuPage implements OnInit {
     { nome: 'Sobremesas', icone: 'ice-cream-outline' }
   ];
 
+  public categoriasPrincipais = [
+    'Todas',
+    'Pizza',
+    'Massas',
+    'Hambúrgueres',
+    'Bowls',
+    'Bebidas',
+    'Sobremesas',
+    'Sushi',
+    'Ramen',
+    'Tacos',
+    'Wraps',
+    'Pratos principais',
+    'Saladas',
+    'Entradas'
+  ];
+
+  private readonly emojisCategoria: { [categoria: string]: string } = {
+    Todas: '🍽️',
+    Pizza: '🍕',
+    Massas: '🍝',
+    Hambúrgueres: '🍔',
+    Bowls: '🥗',
+    Bebidas: '🥤',
+    Sobremesas: '🍰',
+    Sushi: '🍣',
+    Ramen: '🍜',
+    Tacos: '🌮',
+    Wraps: '🌯',
+    'Pratos principais': '🍽️',
+    Saladas: '🥬',
+    Entradas: '🥟',
+    Bolos: '🍰',
+    'Pratos Quentes': '🍲',
+    Sumos: '🧃',
+    Smoothies: '🥤',
+    Chás: '🍵',
+    Cheesecakes: '🍰',
+    Mousses: '🍫',
+    Panquecas: '🥞',
+    Águas: '💧'
+  };
+
   constructor(
     private menuService: MenuService,
     private router: Router,
@@ -93,20 +136,11 @@ export class MenuPage implements OnInit {
   }
 
   public obterCategoriasVisiveis(): string[] {
-    let itens = this.pratos;
-
-    if (this.tipoSelecionado !== 'Todos') {
-      itens = itens.filter((prato: Prato) => prato.tipo === this.tipoSelecionado);
-    }
-
-    const categorias = itens.map((prato: Prato) => prato.categoria);
-    const categoriasUnicas = Array.from(new Set(categorias));
-
-    return ['Todas', ...categoriasUnicas];
+    return this.categoriasPrincipais;
   }
 
   public filtrarPratos() {
-    const pesquisa = this.termoPesquisa.trim().toLowerCase();
+    const pesquisa = this.normalizarTexto(this.termoPesquisa);
 
     const avaliacaoMinima =
       this.avaliacaoMinima === 'Todas' ? 0 : Number(this.avaliacaoMinima);
@@ -121,11 +155,8 @@ export class MenuPage implements OnInit {
         prato.categoria === this.categoriaSelecionada;
 
       const correspondePesquisa =
-        prato.nome.toLowerCase().includes(pesquisa) ||
-        prato.restaurante.toLowerCase().includes(pesquisa) ||
-        prato.descricao.toLowerCase().includes(pesquisa) ||
-        prato.categoria.toLowerCase().includes(pesquisa) ||
-        prato.tipo.toLowerCase().includes(pesquisa);
+        pesquisa.length === 0 ||
+        this.normalizarTexto(prato.nome).includes(pesquisa);
 
       const correspondePreco = prato.preco <= this.precoMaximo;
       const correspondeAvaliacao = prato.avaliacao >= avaliacaoMinima;
@@ -142,6 +173,17 @@ export class MenuPage implements OnInit {
     resultado = this.ordenarPratos(resultado);
 
     this.pratosFiltrados = resultado;
+  }
+
+  public temPesquisaAtiva(): boolean {
+    return this.termoPesquisa.trim().length > 0;
+  }
+
+  private normalizarTexto(texto: string): string {
+    return texto
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
   }
 
   private ordenarPratos(pratos: Prato[]): Prato[] {
@@ -163,15 +205,34 @@ export class MenuPage implements OnInit {
   }
 
   public obterTituloMenu(): string {
-    if (this.tipoSelecionado === 'Todos') {
-      return 'Menu';
-    }
+    return 'Todos os pratos';
+  }
 
-    return this.tipoSelecionado;
+  public obterEmojiCategoria(categoria: string): string {
+    return this.emojisCategoria[categoria] || '🍽️';
+  }
+
+  public obterPratosDestaque(): Prato[] {
+    return this.pratosFiltrados.filter((prato: Prato) => prato.destaque);
   }
 
   public abrirDetalhe(id: number) {
-    this.router.navigateByUrl(`/tabs/detalhe-prato/${id}`);
+    const params = new URLSearchParams();
+    params.set('origem', 'menu');
+
+    if (this.termoPesquisa.trim()) {
+      params.set('pesquisa', this.termoPesquisa.trim());
+    }
+
+    if (this.tipoSelecionado !== 'Todos') {
+      params.set('tipo', this.tipoSelecionado);
+    }
+
+    if (this.categoriaSelecionada !== 'Todas') {
+      params.set('categoria', this.categoriaSelecionada);
+    }
+
+    this.router.navigateByUrl(`/tabs/detalhe-prato/${id}?${params.toString()}`);
   }
 
   public voltar() {

@@ -233,3 +233,54 @@
 .sair-linha div span {
   color: #e53935;
 }
+
+.perfil-guest-card {
+  border-radius: 8px;
+  border: 1px solid #e4e7ec;
+  background: #ffffff;
+  padding: 42px 24px;
+  text-align: center;
+  box-shadow: 0 34px 72px rgba(17, 24, 39, 0.16);
+}
+
+.perfil-guest-container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 118px;
+}
+
+.perfil-guest-card h1 {
+  margin: 0 0 16px;
+  color: #111827;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.perfil-guest-card p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.perfil-guest-actions {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #2f6f2f;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.perfil-guest-actions button {
+  border: none;
+  background: transparent;
+  color: #2f6f2f;
+  font: inherit;
+  cursor: pointer;
+}

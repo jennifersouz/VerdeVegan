@@ -108,4 +108,17 @@
 
   </div>
 
+  <div class="perfil-container perfil-guest-container" *ngIf="!carregando && !perfil">
+    <section class="perfil-guest-card">
+      <h1>Perfil</h1>
+      <p>Entra na tua conta ou cria um perfil para veres pontos, moradas e histórico.</p>
+
+      <div class="perfil-guest-actions">
+        <button type="button" (click)="entrar()">Entrar</button>
+        <span>|</span>
+        <button type="button" (click)="criarPerfil()">Criar perfil</button>
+      </div>
+    </section>
+  </div>
+
 </ion-content>

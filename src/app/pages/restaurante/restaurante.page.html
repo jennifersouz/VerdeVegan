@@ -1,0 +1,91 @@
+<ion-content [fullscreen]="true" class="restaurante-content" scrollY="true" [scrollEvents]="true" (ionScroll)="aoFazerScroll()">
+
+  <div *ngIf="carregando" class="restaurante-loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando restaurante...</p>
+  </div>
+
+  <div class="restaurante-container" *ngIf="!carregando && restaurante">
+
+    <section class="restaurante-hero">
+      <img [src]="restaurante.imagem" [alt]="restaurante.nome">
+
+      <div class="restaurante-info">
+        <button type="button" class="inicio-link" (click)="voltarInicio()">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          <span>Início</span>
+        </button>
+
+        <h1>{{ restaurante.nome }}</h1>
+        <p>{{ restaurante.categorias.join(' · ') }}</p>
+
+        <div class="meta-lista">
+          <span>⭐ {{ restaurante.avaliacao }}</span>
+          <span>🕘 {{ restaurante.tempo }}</span>
+          <span>{{ restaurante.taxaEntrega }}</span>
+          <span>{{ restaurante.opcoes }} opções</span>
+        </div>
+      </div>
+    </section>
+
+    <nav class="categoria-nav" aria-label="Menu do restaurante">
+      <div class="categoria-scroll">
+        <button
+          type="button"
+          *ngFor="let categoria of obterCategorias()"
+          [id]="obterBotaoCategoriaId(categoria)"
+          [class.ativa]="categoriaAtiva === categoria"
+          (click)="irParaCategoria(categoria)">
+          {{ categoria }}
+        </button>
+      </div>
+    </nav>
+
+    <main class="menu-restaurante">
+      <section
+        class="categoria-secao"
+        *ngFor="let categoria of obterCategorias()"
+        [id]="obterCategoriaId(categoria)">
+
+        <h2>{{ categoria }}</h2>
+
+        <div class="pratos-grid">
+          <article
+            class="prato-card"
+            *ngFor="let prato of obterPratosPorCategoria(categoria)"
+            (click)="abrirPrato(prato.id)">
+
+            <div class="prato-info">
+              <h3>{{ prato.nome }}</h3>
+              <strong>€{{ prato.preco | number:'1.2-2' }}</strong>
+              <p>{{ prato.descricao }}</p>
+
+              <div class="prato-meta">
+                <span>⭐ {{ prato.avaliacao }}</span>
+                <span>·</span>
+                <span>{{ prato.tempo }}</span>
+              </div>
+            </div>
+
+            <div class="prato-media">
+              <img [src]="prato.imagem" [alt]="prato.nome">
+
+              <button
+                type="button"
+                class="add-button"
+                aria-label="Adicionar prato"
+                (click)="abrirPrato(prato.id); $event.stopPropagation()">
+                <ion-icon name="add-outline"></ion-icon>
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <p class="erro-carregamento" *ngIf="erroCarregamento">
+        {{ erroCarregamento }}
+      </p>
+    </main>
+  </div>
+
+</ion-content>

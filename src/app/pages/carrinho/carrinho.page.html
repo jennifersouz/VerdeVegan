@@ -1,61 +1,400 @@
 <ion-content class="carrinho-page">
 
-  <div class="page-wrapper">
+  <div class="empty-cart" *ngIf="itens.length === 0 && passoAtual !== 5">
+    <ion-icon name="bag-handle-outline"></ion-icon>
+    <h1>Carrinho vazio</h1>
+    <button type="button" class="primary-button compact" (click)="verMenu()">Ver menu</button>
+  </div>
 
-    <div class="logo-area">
-      <img src="assets/logo-verdevegan.png" alt="VerdeVegan" />
-    </div>
+  <div class="checkout-wrapper" *ngIf="itens.length > 0 || passoAtual === 5">
 
-    <div class="steps">
-      <span class="active"></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <nav class="checkout-steps" aria-label="Progresso do checkout">
+      <button
+        type="button"
+        class="step"
+        *ngFor="let passo of passos; let ultimo = last"
+        [class.active]="passo.numero === passoAtual"
+        [class.done]="passoConcluido(passo.numero)"
+        [class.last]="ultimo"
+        (click)="irParaPasso(passo.numero)">
+        <span class="step-circle">
+          <ion-icon *ngIf="passoConcluido(passo.numero)" name="checkmark-outline"></ion-icon>
+          <span *ngIf="!passoConcluido(passo.numero)">{{ passo.numero }}</span>
+        </span>
+        <span class="step-label">{{ passo.label }}</span>
+      </button>
+    </nav>
 
-    <section class="cart-header">
-      <h1>Carrinho</h1>
-      <p>{{ itens.length }} artigos</p>
-    </section>
+    <main class="checkout-grid" *ngIf="passoAtual !== 5">
 
-    <section class="cart-list">
-      <div class="cart-item" *ngFor="let item of itens; let i = index">
-        <div>
-          <h2>{{ item.nome }}</h2>
-          <p>Quantidade: {{ item.quantidade }}</p>
-          <strong>{{ item.preco.toFixed(2) }} €</strong>
+      <section class="checkout-panel">
+
+        <ng-container [ngSwitch]="passoAtual">
+
+          <div *ngSwitchCase="1">
+            <header class="panel-heading">
+              <div class="cart-panel-title">Carrinho</div>
+              <p>{{ itens.length }} artigos</p>
+            </header>
+
+            <div class="cart-list">
+              <article class="cart-item" *ngFor="let item of itens; let i = index">
+                <div class="cart-item-main">
+                  <h2>{{ item.nome }}</h2>
+                  <p class="cart-item-quantity">Quantidade: {{ item.quantidade }}</p>
+                  <strong>{{ formatarPreco(item.preco) }}</strong>
+                </div>
+
+                <div class="cart-actions">
+                  <button type="button" class="icon-button" (click)="removerItem(i)" aria-label="Remover">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                  <button type="button" class="icon-button" (click)="diminuirQuantidade(i)" aria-label="Diminuir">
+                    <ion-icon name="remove-outline"></ion-icon>
+                  </button>
+                  <button type="button" class="icon-button" (click)="aumentarQuantidade(i)" aria-label="Aumentar">
+                    <ion-icon name="add-outline"></ion-icon>
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <button type="button" class="primary-button align-end" (click)="continuar()">Continuar</button>
+          </div>
+
+          <div *ngSwitchCase="2">
+            <button type="button" class="back-link" (click)="voltarPasso()">
+              <ion-icon name="chevron-back-outline"></ion-icon>
+              Carrinho
+            </button>
+
+            <header class="panel-heading">
+              <h1>Descontos e Pontos</h1>
+              <p>Aplica o teu código ou usa os teus pontos</p>
+            </header>
+
+            <section class="form-section">
+              <label for="codigo-desconto">Código de desconto</label>
+              <div class="input-row">
+                <div class="input-box">
+                  <ion-icon name="ticket-outline"></ion-icon>
+                  <input id="codigo-desconto" type="text" placeholder="Insere o código" [(ngModel)]="codigoDesconto">
+                </div>
+                <button type="button" class="soft-button" (click)="aplicarCodigo()">Aplicar</button>
+              </div>
+            </section>
+
+            <section class="form-section">
+              <label for="pontos-usados">Pontos disponíveis: {{ pontosDisponiveis }} pontos</label>
+              <div class="input-row">
+                <div class="input-box">
+                  <input
+                    id="pontos-usados"
+                    type="number"
+                    min="0"
+                    [max]="maximoPontosUsaveis"
+                    [(ngModel)]="pontosUsados"
+                    (input)="validarPontosUsados()">
+                </div>
+                <button type="button" class="soft-button" (click)="usarTodosPontos()">Usar Todos</button>
+              </div>
+            </section>
+
+            <button type="button" class="primary-button align-end" (click)="continuar()">Continuar</button>
+          </div>
+
+          <div *ngSwitchCase="3">
+            <button type="button" class="back-link" (click)="voltarPasso()">
+              <ion-icon name="chevron-back-outline"></ion-icon>
+              Descontos
+            </button>
+
+            <header class="panel-heading">
+              <h1>Morada de entrega</h1>
+              <p>Seleciona ou adiciona uma morada</p>
+            </header>
+
+            <section class="address-list">
+              <button
+                type="button"
+                class="address-card"
+                *ngFor="let morada of moradas"
+                [class.selected]="moradaSelecionadaId === morada.id"
+                (click)="selecionarMorada(morada.id)">
+                <ion-icon name="location-outline"></ion-icon>
+                <span>
+                  <strong>{{ morada.titulo }}</strong>
+                  <small>{{ morada.rua }}</small>
+                  <small>{{ morada.codigoPostal }} {{ morada.cidade }}</small>
+                </span>
+              </button>
+
+              <button type="button" class="add-card" (click)="abrirModalMorada()">+ Adicionar nova morada</button>
+            </section>
+
+            <button type="button" class="primary-button align-end" (click)="continuar()">Continuar</button>
+          </div>
+
+          <div *ngSwitchCase="4">
+            <button type="button" class="back-link" (click)="voltarPasso()">
+              <ion-icon name="chevron-back-outline"></ion-icon>
+              Morada
+            </button>
+
+            <header class="panel-heading">
+              <h1>Método de pagamento</h1>
+              <p>Escolhe como queres pagar</p>
+            </header>
+
+            <section class="payment-list">
+              <button type="button" class="payment-card" [class.selected]="metodoSelecionado === 'cartao'" (click)="selecionarMetodo('cartao')">
+                <ion-icon name="card-outline"></ion-icon>
+                <span>
+                  <strong>Cartão de crédito/débito</strong>
+                  <small>{{ cartaoSelecionado ? cartaoSelecionado.tipo + ' terminado em ' + cartaoSelecionado.ultimosDigitos : 'Visa, Mastercard, Amex' }}</small>
+                </span>
+              </button>
+
+              <button type="button" class="payment-card" [class.selected]="metodoSelecionado === 'applepay'" (click)="selecionarMetodo('applepay')">
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+                <span>
+                  <strong>Apple Pay</strong>
+                  <small>Pagamento por telemóvel</small>
+                </span>
+              </button>
+
+              <button type="button" class="payment-card" [class.selected]="metodoSelecionado === 'mbway'" (click)="selecionarMetodo('mbway')">
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+                <span>
+                  <strong>MB WAY</strong>
+                  <small>Pagamento por telemóvel</small>
+                </span>
+              </button>
+
+              <button type="button" class="payment-card" [class.selected]="metodoSelecionado === 'dinheiro'" (click)="selecionarMetodo('dinheiro')">
+                <ion-icon name="cash-outline"></ion-icon>
+                <span>
+                  <strong>Dinheiro</strong>
+                  <small>Pagamento na Entrega</small>
+                </span>
+              </button>
+            </section>
+
+            <section class="conditional-payment" *ngIf="metodoSelecionado === 'cartao'">
+              <button type="button" class="saved-card" (click)="abrirModalCartoes()" *ngIf="cartaoSelecionado">
+                <strong>{{ cartaoSelecionado.tipo }}</strong>
+                <span>**** **** **** {{ cartaoSelecionado.ultimosDigitos }}</span>
+                <b>Trocar cartão</b>
+              </button>
+              <button type="button" class="add-card full" (click)="abrirModalCartoes()" *ngIf="!cartaoSelecionado">+ Adicionar cartão</button>
+            </section>
+
+            <section class="conditional-payment" *ngIf="metodoSelecionado === 'mbway' || metodoSelecionado === 'applepay'">
+              <label for="telefone-pagamento">Número de telemóvel</label>
+              <div class="input-box">
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+                <input id="telefone-pagamento" type="tel" placeholder="912345678" [(ngModel)]="telefonePagamento">
+              </div>
+            </section>
+
+            <section class="conditional-payment" *ngIf="metodoSelecionado === 'dinheiro'">
+              <label>Como vais pagar na entrega?</label>
+              <div class="cash-options">
+                <button type="button" [class.selected]="pagamentoEntrega === 'Cartão'" (click)="selecionarPagamentoEntrega('Cartão')">
+                  <ion-icon name="card-outline"></ion-icon>
+                  Cartão
+                </button>
+                <button type="button" [class.selected]="pagamentoEntrega === 'Numerário'" (click)="selecionarPagamentoEntrega('Numerário')">
+                  <ion-icon name="cash-outline"></ion-icon>
+                  Numerário
+                </button>
+              </div>
+            </section>
+
+            <button type="button" class="primary-button align-end" [disabled]="!pagamentoValido()" (click)="continuar()">Continuar</button>
+          </div>
+
+        </ng-container>
+      </section>
+
+      <aside class="summary-panel">
+        <div class="summary-panel-title">Resumo do Pedido</div>
+
+        <div class="summary-items">
+          <div class="summary-item" *ngFor="let item of itens">
+            <span>
+              <strong>{{ item.nome }}</strong>
+              <small>Qty: {{ item.quantidade }}</small>
+            </span>
+            <b>{{ formatarPreco(item.preco * item.quantidade) }}</b>
+          </div>
         </div>
 
-        <button class="delete-button" (click)="removerItem(i)">
-          <ion-icon name="trash-outline"></ion-icon>
+        <div class="summary-lines">
+          <div>
+            <span>Subtotal</span>
+            <span>{{ formatarPreco(subtotal) }}</span>
+          </div>
+          <div>
+            <span>Taxa de Entrega</span>
+            <span>{{ formatarPreco(taxaEntrega) }}</span>
+          </div>
+          <div *ngIf="descontoCodigo > 0">
+            <span>Código</span>
+            <span>-{{ formatarPreco(descontoCodigo) }}</span>
+          </div>
+          <div *ngIf="descontoPontos > 0">
+            <span>Pontos</span>
+            <span>-{{ formatarPreco(descontoPontos) }}</span>
+          </div>
+        </div>
+
+        <div class="summary-total">
+          <span>Total</span>
+          <strong>{{ formatarPreco(total) }}</strong>
+        </div>
+      </aside>
+
+    </main>
+
+    <main class="confirmation-grid" *ngIf="passoAtual === 5 && !pedidoConfirmado">
+      <section class="checkout-panel">
+        <button type="button" class="back-link" (click)="voltarPasso()">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          Pagamento
         </button>
+
+        <header class="panel-heading">
+          <h1>Confirmação</h1>
+          <p>Confirma os dados antes de finalizar o pedido.</p>
+        </header>
+
+        <div class="confirm-card">
+          <strong>Morada de entrega</strong>
+          <span>{{ moradaSelecionada?.titulo }}</span>
+        </div>
+
+        <div class="confirm-card">
+          <strong>Método de pagamento</strong>
+          <span>{{ pagamentoResumo }}</span>
+        </div>
+
+        <button type="button" class="primary-button align-end" (click)="confirmarPedido()">Confirmar pedido</button>
+      </section>
+
+      <aside class="summary-panel">
+        <div class="summary-panel-title">Resumo do Pedido</div>
+        <div class="summary-items">
+          <div class="summary-item" *ngFor="let item of itens">
+            <span>
+              <strong>{{ item.nome }}</strong>
+              <small>Qty: {{ item.quantidade }}</small>
+            </span>
+            <b>{{ formatarPreco(item.preco * item.quantidade) }}</b>
+          </div>
+        </div>
+        <div class="summary-total">
+          <span>Total</span>
+          <strong>{{ formatarPreco(total) }}</strong>
+        </div>
+      </aside>
+    </main>
+
+    <section class="success-panel" *ngIf="passoAtual === 5 && pedidoConfirmado">
+      <div class="success-icon">
+        <ion-icon name="checkmark-outline"></ion-icon>
       </div>
+      <h1>Pedido confirmado!</h1>
+      <p>O teu pedido foi registado com sucesso.</p>
+      <strong>{{ pedidoConfirmado.id }}</strong>
+      <span>Vais voltar para o início dentro de {{ segundosParaInicio }} segundos.</span>
     </section>
 
-    <section class="summary-card">
-      <div>
-        <span>Subtotal</span>
-        <span>{{ subtotal.toFixed(2) }}€</span>
-      </div>
+  </div>
 
-      <div>
-        <span>Taxa de Entrega</span>
-        <span>{{ taxaEntrega.toFixed(2) }}€</span>
-      </div>
+  <div class="modal-backdrop" *ngIf="modalLoginAberto" (click)="fecharModalLogin()">
+    <section class="modal-card small-modal" (click)="$event.stopPropagation()">
+      <button class="modal-close" type="button" (click)="fecharModalLogin()" aria-label="Fechar">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
 
-      <hr />
+      <h2>Entra para finalizar o pedido</h2>
+      <p>Para avançar com a compra tens de entrar ou criar uma conta.</p>
 
-      <div class="total-line">
-        <span>Total</span>
-        <span>{{ total.toFixed(2) }}€</span>
+      <div class="modal-actions two">
+        <button type="button" class="primary-button" (click)="irParaLogin()">Entrar</button>
+        <button type="button" class="soft-button" (click)="irParaRegisto()">Criar conta</button>
       </div>
     </section>
+  </div>
 
-    <ion-button expand="block" routerLink="/checkout-pontos">
-      Continuar
-    </ion-button>
+  <div class="modal-backdrop" *ngIf="modalMoradaAberto" (click)="fecharModalMorada()">
+    <section class="modal-card" (click)="$event.stopPropagation()">
+      <button class="modal-close" type="button" (click)="fecharModalMorada()" aria-label="Fechar">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+      <h2>Adicionar nova morada</h2>
 
+      <div class="modal-form">
+        <label>Nome da morada<input type="text" placeholder="Ex.: Casa" [(ngModel)]="novaMorada.titulo"></label>
+        <div class="form-grid">
+          <label>Rua<input type="text" placeholder="Rua" [(ngModel)]="novaMorada.rua"></label>
+          <label>Número<input type="text" placeholder="Nº" [(ngModel)]="novaMorada.numero"></label>
+        </div>
+        <div class="form-grid">
+          <label>Código postal<input type="text" placeholder="0000-000" [(ngModel)]="novaMorada.codigoPostal"></label>
+          <label>Cidade<input type="text" placeholder="Cidade" [(ngModel)]="novaMorada.cidade"></label>
+        </div>
+        <label>Localidade<input type="text" placeholder="Localidade" [(ngModel)]="novaMorada.localidade"></label>
+      </div>
+
+      <button type="button" class="primary-button full-width" (click)="guardarMorada()">Guardar morada</button>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="modalCartoesAberto" (click)="fecharModalCartoes()">
+    <section class="modal-card card-modal" (click)="$event.stopPropagation()">
+      <button class="modal-close" type="button" (click)="fecharModalCartoes()" aria-label="Fechar">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+      <h2>Escolher cartão</h2>
+
+      <ng-container *ngIf="!modoNovoCartao">
+        <button
+          type="button"
+          class="card-option"
+          *ngFor="let metodo of metodosPagamento"
+          [class.selected]="cartaoSelecionadoId === metodo.id"
+          (click)="selecionarCartao(metodo.id)">
+          <strong>{{ metodo.tipo }}</strong>
+          <span>**** **** **** {{ metodo.ultimosDigitos }}</span>
+          <small>Válido até {{ metodo.validade }}</small>
+        </button>
+
+        <button type="button" class="add-card full" (click)="mostrarNovoCartao()">+ Adicionar novo cartão</button>
+      </ng-container>
+
+      <ng-container *ngIf="modoNovoCartao">
+        <div class="modal-form">
+          <label>Nome do titular<input type="text" placeholder="Nome no cartão" [(ngModel)]="novoCartao.titular"></label>
+          <label>Número do cartão<input type="text" placeholder="0000 0000 0000 0000" [(ngModel)]="novoCartao.numero"></label>
+          <div class="form-grid">
+            <label>Data de validade<input type="text" placeholder="MM/AAAA" [(ngModel)]="novoCartao.validade"></label>
+            <label>CVV<input type="text" placeholder="123" [(ngModel)]="novoCartao.cvv"></label>
+          </div>
+          <label>Tipo de cartão
+            <select [(ngModel)]="novoCartao.tipo">
+              <option value="Mastercard">Mastercard</option>
+              <option value="Visa">Visa</option>
+              <option value="MB Way">MB Way</option>
+            </select>
+          </label>
+        </div>
+
+        <button type="button" class="primary-button full-width" (click)="guardarCartao()">Guardar cartão</button>
+        <button type="button" class="text-button" (click)="voltarAosCartoes()">Voltar aos cartões</button>
+      </ng-container>
+    </section>
   </div>
 
 </ion-content>

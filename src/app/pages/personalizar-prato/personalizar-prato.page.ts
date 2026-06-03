@@ -6,6 +6,7 @@ import {
   GrupoPersonalizacao,
   OpcaoPersonalizacao
 } from '../../services/menu';
+import { PerfilService } from '../../services/perfil';
 
 @Component({
   selector: 'app-personalizar-prato',
@@ -19,6 +20,8 @@ export class PersonalizarPratoPage implements OnInit {
 
   public quantidade = 1;
   public observacoes = '';
+  public origem = 'menu';
+  public restauranteId?: number;
 
   public gruposPersonalizacao: GrupoPersonalizacao[] = [];
 
@@ -27,7 +30,8 @@ export class PersonalizarPratoPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private perfilService: PerfilService
   ) {}
 
   ngOnInit() {
@@ -37,6 +41,10 @@ export class PersonalizarPratoPage implements OnInit {
   private carregarPrato() {
     const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     const qtd = Number(this.activatedRoute.snapshot.queryParamMap.get('qtd'));
+    this.origem = this.activatedRoute.snapshot.queryParamMap.get('origem') || 'menu';
+
+    const restauranteId = Number(this.activatedRoute.snapshot.queryParamMap.get('restauranteId'));
+    this.restauranteId = restauranteId > 0 ? restauranteId : undefined;
 
     this.quantidade = qtd > 0 ? qtd : 1;
 
@@ -50,7 +58,7 @@ export class PersonalizarPratoPage implements OnInit {
         }
 
         if (!this.prato.personalizavel) {
-          this.router.navigateByUrl(`/tabs/detalhe-prato/${this.prato.id}`);
+          this.router.navigateByUrl(this.obterUrlDetalhe());
           return;
         }
 
@@ -73,7 +81,7 @@ export class PersonalizarPratoPage implements OnInit {
 
   public voltar() {
     if (this.prato) {
-      this.router.navigateByUrl(`/tabs/detalhe-prato/${this.prato.id}`);
+      this.router.navigateByUrl(this.obterUrlDetalhe());
       return;
     }
 
@@ -150,22 +158,41 @@ export class PersonalizarPratoPage implements OnInit {
       });
   }
 
-  public adicionarAoCarrinho() {
+  public async adicionarAoCarrinho() {
     if (!this.prato || !this.formularioValido()) {
       return;
     }
 
     const itemCarrinho = {
-      prato: this.prato,
+      nome: this.prato.nome,
       quantidade: this.quantidade,
-      selecoes: this.selecoes,
-      observacoes: this.observacoes,
-      totalUnidade: this.calcularTotalUnidade(),
-      totalFinal: this.calcularTotalFinal()
+      preco: this.calcularTotalUnidade()
     };
 
-    console.log('Item adicionado ao carrinho:', itemCarrinho);
+    const perfil = await this.perfilService.obterPerfil();
+    const chaveCarrinho = perfil
+      ? `verdevegan_carrinho_${perfil.email}`
+      : 'verdevegan_carrinho_anonimo';
+
+    const dadosGuardados = localStorage.getItem(chaveCarrinho);
+    const itensGuardados = dadosGuardados ? JSON.parse(dadosGuardados) : [];
+
+    itensGuardados.push(itemCarrinho);
+    localStorage.setItem(chaveCarrinho, JSON.stringify(itensGuardados));
+    window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
 
     this.router.navigateByUrl('/tabs/carrinho');
+  }
+
+  private obterUrlDetalhe(): string {
+    if (!this.prato) {
+      return '/tabs/menu';
+    }
+
+    const parametrosOrigem = this.origem === 'restaurante' && this.restauranteId
+      ? `?origem=restaurante&restauranteId=${this.restauranteId}`
+      : '?origem=menu';
+
+    return `/tabs/detalhe-prato/${this.prato.id}${parametrosOrigem}`;
   }
 }

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
+import { PerfilService } from '../services/perfil';
 
 @Component({
   selector: 'app-tabs',
@@ -6,8 +9,68 @@ import { Component } from '@angular/core';
   styleUrls: ['tabs.page.scss'],
   standalone: false,
 })
-export class TabsPage {
+export class TabsPage implements OnDestroy {
 
-  constructor() {}
+  public menuAtivo = false;
+  public totalArtigosCarrinho = 0;
+
+  private readonly atualizarCarrinhoHandler = () => this.atualizarTotalCarrinho();
+
+  constructor(
+    private router: Router,
+    private perfilService: PerfilService
+  ) {
+    this.atualizarTabAtiva(this.router.url);
+    this.atualizarTotalCarrinho();
+    window.addEventListener('verdevegan_carrinho_atualizado', this.atualizarCarrinhoHandler);
+
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.atualizarTabAtiva(event.urlAfterRedirects);
+        this.atualizarTotalCarrinho();
+      });
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('verdevegan_carrinho_atualizado', this.atualizarCarrinhoHandler);
+  }
+
+  private atualizarTabAtiva(url: string) {
+    this.menuAtivo =
+      url.startsWith('/tabs/menu') ||
+      url.startsWith('/tabs/restaurante') ||
+      url.startsWith('/tabs/detalhe-prato') ||
+      url.startsWith('/tabs/personalizar-prato');
+  }
+
+  private async atualizarTotalCarrinho() {
+    const perfil = await this.perfilService.obterPerfil();
+    const chaveCarrinho = perfil
+      ? `verdevegan_carrinho_${perfil.email}`
+      : 'verdevegan_carrinho_anonimo';
+
+    const dados = localStorage.getItem(chaveCarrinho);
+
+    if (!dados) {
+      this.totalArtigosCarrinho = 0;
+      return;
+    }
+
+    try {
+      const itens = JSON.parse(dados);
+
+      if (!Array.isArray(itens)) {
+        this.totalArtigosCarrinho = 0;
+        return;
+      }
+
+      this.totalArtigosCarrinho = itens.reduce((total: number, item: any) => {
+        return total + (Number(item.quantidade) || 1);
+      }, 0);
+    } catch {
+      this.totalArtigosCarrinho = 0;
+    }
+  }
 
 }

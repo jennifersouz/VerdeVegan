@@ -6,6 +6,7 @@ export interface OpcaoPersonalizacao {
   id: string;
   nome: string;
   preco: number;
+  incluido?: boolean;
 }
 
 export interface GrupoPersonalizacao {
@@ -30,6 +31,11 @@ export interface Prato {
   destaque: boolean;
   calorias?: string;
   porcao?: string;
+  proteina?: string;
+  hidratos?: string;
+  gorduras?: string;
+  ingredientes?: string[];
+  alergenios?: string[];
   personalizavel?: boolean;
   personalizacoes?: GrupoPersonalizacao[];
 }

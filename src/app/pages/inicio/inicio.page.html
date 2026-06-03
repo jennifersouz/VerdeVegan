@@ -7,151 +7,139 @@
 
   <div class="inicio-container" *ngIf="!carregando">
 
-    <!-- Morada -->
     <section class="morada-card">
-      <div class="morada-icon">
-        <ion-icon name="location"></ion-icon>
-      </div>
+      <ion-icon name="location"></ion-icon>
 
-      <div class="morada-texto">
+      <div>
         <span>Entregar em</span>
-        <strong>Rua das Flores, 123</strong>
+        <strong>{{ moradaAtual }}</strong>
       </div>
 
-      <ion-icon name="chevron-down-outline" class="morada-seta"></ion-icon>
-    </section>
-
-    <!-- Saudação -->
-    <section class="intro-area">
-      <h1>O que gostarias hoje?</h1>
-    </section>
-
-    <!-- Pesquisa -->
-    <section class="pesquisa-area">
-      <ion-icon name="search-outline" class="search-icon"></ion-icon>
-
-      <input
-        type="text"
-        placeholder="Procurar pratos ou restaurantes..."
-        [(ngModel)]="termoPesquisa"
-        (keydown.enter)="pesquisarNoMenu()">
-
-      <button type="button" class="search-button" (click)="pesquisarNoMenu()">
-        <ion-icon name="arrow-forward-outline"></ion-icon>
+      <button
+        type="button"
+        class="morada-seta"
+        aria-label="Opções de localização"
+        (click)="abrirMenuLocalizacao()">
+        <ion-icon name="chevron-down-outline"></ion-icon>
       </button>
     </section>
 
-    <!-- Tipos principais -->
-    <section class="secao tipos-area">
+    <section class="inicio-hero">
+      <h1>Olá! 👋</h1>
+      <p>Descobre restaurantes vegetarianos e vegan perto de ti.</p>
+
+      <label class="pesquisa-area">
+        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+
+        <input
+          type="text"
+          placeholder="Pesquisar restaurantes..."
+          [(ngModel)]="termoPesquisa"
+          (input)="filtrarPratos()"
+          (keydown.enter)="pesquisarNoMenu()">
+      </label>
+    </section>
+
+    <section class="secao categorias-area" *ngIf="!temPesquisaAtiva()">
       <div class="secao-header">
-        <h2>Escolhe uma opção</h2>
+        <h2>Categorias</h2>
       </div>
 
-      <div class="tipo-card refeicoes-card" (click)="abrirMenuComTipo('Refeições')">
-        <div class="tipo-info">
-          <div class="tipo-icon">
-            <span>🍽️</span>
-          </div>
-
-          <div>
-            <h3>Refeições</h3>
-            <p>Pratos principais, bowls, massas, pizzas e hambúrgueres.</p>
-          </div>
-        </div>
-
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </div>
-
-      <div class="tipo-card bebidas-card" (click)="abrirMenuComTipo('Bebidas')">
-        <div class="tipo-info">
-          <div class="tipo-icon">
-            <span>🥤</span>
-          </div>
-
-          <div>
-            <h3>Bebidas</h3>
-            <p>Sumos naturais, smoothies, chás e águas.</p>
-          </div>
-        </div>
-
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </div>
-
-      <div class="tipo-card sobremesas-card" (click)="abrirMenuComTipo('Sobremesas')">
-        <div class="tipo-info">
-          <div class="tipo-icon">
-            <span>🍰</span>
-          </div>
-
-          <div>
-            <h3>Sobremesas</h3>
-            <p>Doces vegan, bolos, mousses e panquecas.</p>
-          </div>
-        </div>
-
-        <ion-icon name="chevron-forward-outline"></ion-icon>
+      <div class="categorias-lista">
+        <button
+          type="button"
+          *ngFor="let categoria of categorias"
+          [class.active]="categoriaSelecionada === categoria.nome"
+          (click)="selecionarCategoria(categoria.nome)">
+          {{ categoria.emoji }} {{ categoria.nome }}
+        </button>
       </div>
     </section>
 
-    <!-- Destaques -->
-    <section class="secao destaques-area">
+    <section class="secao destaques-area" *ngIf="!temPesquisaAtiva()">
       <div class="secao-header">
-        <h2>Destaques</h2>
-
-        <button type="button" class="ver-todos-button" (click)="abrirMenuComTipo('Refeições')">
-          Ver todos
-        </button>
+        <h2>Restaurantes em destaque</h2>
       </div>
 
-      <article
-        class="prato-card"
-        *ngFor="let prato of pratosFiltrados"
-        (click)="abrirDetalhe(prato.id)">
+      <div class="cards-grid restaurantes-grid">
+        <article
+          class="restaurante-card"
+          *ngFor="let restaurante of obterRestaurantesDestaque()"
+          (click)="abrirRestaurante(restaurante.id)">
 
-        <img
-          [src]="prato.imagem"
-          [alt]="prato.nome"
-          class="prato-img">
+          <img [src]="restaurante.imagem" [alt]="restaurante.nome">
 
-        <div class="prato-info">
+          <div class="restaurante-info">
+            <div class="restaurante-titulo">
+              <h3>{{ restaurante.nome }}</h3>
+              <span>⭐ {{ restaurante.avaliacao }}</span>
+            </div>
 
-          <div class="prato-topo">
-            <span class="tipo-tag">{{ prato.tipo }}</span>
-            <span class="categoria-tag">{{ prato.categoria }}</span>
+            <p>{{ restaurante.categorias.join(' · ') }}</p>
+            <strong>🕘 {{ restaurante.tempo }} · {{ restaurante.taxaEntrega }} · {{ restaurante.opcoes }} opções</strong>
           </div>
+        </article>
+      </div>
+    </section>
 
-          <h3>{{ prato.nome }}</h3>
+    <section class="pontos-card" *ngIf="!temPesquisaAtiva()">
+      <h2>Acumula pontos em cada encomenda</h2>
 
-          <p class="prato-descricao">
-            {{ prato.descricao }}
-          </p>
+      <div class="pontos-card-body">
+        <p>Ganha pontos por refeição comprada e usa-os em descontos nas próximas compras.</p>
 
-          <div class="prato-meta">
-            <span>
-              <ion-icon name="star"></ion-icon>
-              {{ prato.avaliacao }}
-            </span>
+        <strong>10 pontos = 1€</strong>
+      </div>
+    </section>
 
-            <span>
-              <ion-icon name="time-outline"></ion-icon>
-              {{ prato.tempo }}
-            </span>
+    <section class="secao mais-pedidos-area" *ngIf="obterMaisPedidos().length > 0">
+      <div class="secao-header">
+        <h2>Mais pedidos</h2>
+      </div>
 
-            <span>
-              <ion-icon name="flame-outline"></ion-icon>
-              {{ prato.calorias }}
-            </span>
+      <div class="mais-pedidos-scroll">
+        <article
+          class="mais-pedido-card"
+          *ngFor="let prato of obterMaisPedidos()"
+          (click)="abrirPrato(prato.id)">
+
+          <img [src]="prato.imagem" [alt]="prato.nome">
+
+          <div>
+            <h3>{{ prato.nome }}</h3>
+            <p>{{ prato.restaurante }} · {{ prato.categoria }}</p>
+            <strong>€{{ prato.preco | number:'1.2-2' }}</strong>
           </div>
+        </article>
+      </div>
+    </section>
 
-          <div class="prato-bottom">
-            <span class="restaurante">{{ prato.restaurante }}</span>
-            <strong>{{ prato.preco | number:'1.2-2' }} €</strong>
+    <section class="secao todos-restaurantes-area">
+      <div class="secao-header">
+        <h2>Todos os restaurantes</h2>
+      </div>
+
+      <div class="cards-grid restaurantes-grid">
+        <article
+          class="restaurante-card"
+          *ngFor="let restaurante of restaurantesFiltrados"
+          (click)="abrirRestaurante(restaurante.id)">
+
+          <img [src]="restaurante.imagem" [alt]="restaurante.nome">
+
+          <div class="restaurante-info">
+            <div class="restaurante-titulo">
+              <h3>{{ restaurante.nome }}</h3>
+              <span>⭐ {{ restaurante.avaliacao }}</span>
+            </div>
+
+            <p>{{ restaurante.categorias.join(' · ') }}</p>
+            <strong>🕘 {{ restaurante.tempo }} · {{ restaurante.taxaEntrega }} · {{ restaurante.opcoes }} opções</strong>
           </div>
+        </article>
+      </div>
 
-        </div>
-      </article>
-
-      <p class="sem-resultados" *ngIf="pratosFiltrados.length === 0 && !erroCarregamento">
+      <p class="sem-resultados" *ngIf="restaurantesFiltrados.length === 0 && !erroCarregamento">
         Não encontrámos sugestões para mostrar.
       </p>
 
@@ -163,3 +151,16 @@
   </div>
 
 </ion-content>
+
+<div
+  class="localizacao-backdrop"
+  *ngIf="menuLocalizacaoAberto"
+  (click)="fecharMenuLocalizacao()">
+</div>
+
+<section class="localizacao-sheet" *ngIf="menuLocalizacaoAberto">
+  <button type="button" (click)="alternarLocalizacao()">
+    <ion-icon [name]="localizacaoAtiva ? 'location-outline' : 'navigate-outline'"></ion-icon>
+    <span>{{ localizacaoAtiva ? 'Não usar localização' : 'Ativar localização' }}</span>
+  </button>
+</section>

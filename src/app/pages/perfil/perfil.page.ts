@@ -36,7 +36,9 @@ export class PerfilPage {
     const perfilGuardado = await this.perfilService.obterPerfil();
 
     if (!perfilGuardado) {
-      this.router.navigateByUrl('/login', { replaceUrl: true });
+      this.perfil = undefined;
+      this.historicoPontos = [];
+      this.iniciais = '';
       return;
     }
 
@@ -53,6 +55,14 @@ export class PerfilPage {
 
   public editarPerfil() {
     this.router.navigateByUrl('/tabs/editar-perfil');
+  }
+
+  public entrar() {
+    this.router.navigateByUrl('/login');
+  }
+
+  public criarPerfil() {
+    this.router.navigateByUrl('/registo');
   }
 
   public alternarHistoricoPontos() {

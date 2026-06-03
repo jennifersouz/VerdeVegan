@@ -12,6 +12,23 @@ export class DetalhePratoPage implements OnInit {
 
   public prato?: Prato;
   public quantidade = 1;
+  public origem = 'menu';
+  public restauranteId?: number;
+  public pesquisaMenu = '';
+  public tipoMenu = '';
+  public categoriaMenu = '';
+
+  private readonly restaurantes = [
+    { id: 6, nome: 'Pizzaria Luzzo', imagem: 'assets/imagens/pizzaria luzo.jpg' },
+    { id: 7, nome: 'Massas Caseiras', imagem: 'assets/imagens/massas caseiras .jpg' },
+    { id: 20, nome: 'Green Burger Lab', imagem: 'assets/imagens/green burguer lab.jpg' },
+    { id: 4, nome: 'Bowl Garden', imagem: 'assets/imagens/bowl garden.jpg' },
+    { id: 21, nome: 'Taco Verde', imagem: 'assets/imagens/taco verde.jpg' },
+    { id: 12, nome: 'Sushi Raiz', imagem: 'assets/imagens/sushi raiz.jpg' },
+    { id: 1, nome: 'Doce Planta', imagem: 'assets/imagens/doce planta.jpg' },
+    { id: 19, nome: 'Folha Fresca', imagem: 'assets/imagens/folha fresca.jpg' },
+    { id: 9, nome: 'Brunch Verde', imagem: 'assets/imagens/brunch verde.jpg' }
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,6 +37,13 @@ export class DetalhePratoPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.origem = this.activatedRoute.snapshot.queryParamMap.get('origem') || 'menu';
+    const restauranteId = Number(this.activatedRoute.snapshot.queryParamMap.get('restauranteId'));
+    this.restauranteId = restauranteId > 0 ? restauranteId : undefined;
+    this.pesquisaMenu = this.activatedRoute.snapshot.queryParamMap.get('pesquisa') || '';
+    this.tipoMenu = this.activatedRoute.snapshot.queryParamMap.get('tipo') || '';
+    this.categoriaMenu = this.activatedRoute.snapshot.queryParamMap.get('categoria') || '';
+
     this.carregarDetalhesPrato();
   }
 
@@ -44,7 +68,12 @@ export class DetalhePratoPage implements OnInit {
   }
 
   public voltar() {
-    this.router.navigateByUrl('/tabs/menu');
+    if (this.origem === 'restaurante' && this.restauranteId) {
+      this.router.navigateByUrl(`/tabs/restaurante/${this.restauranteId}`);
+      return;
+    }
+
+    this.router.navigateByUrl(this.obterUrlMenu());
   }
 
   public diminuirQuantidade() {
@@ -74,6 +103,68 @@ export class DetalhePratoPage implements OnInit {
     return;
   }
 
-  this.router.navigateByUrl(`/tabs/personalizar-prato/${this.prato.id}?qtd=${this.quantidade}`);
+  const parametrosOrigem = this.origem === 'restaurante' && this.restauranteId
+    ? `&origem=restaurante&restauranteId=${this.restauranteId}`
+    : '&origem=menu';
+
+  this.router.navigateByUrl(`/tabs/personalizar-prato/${this.prato.id}?qtd=${this.quantidade}${parametrosOrigem}`);
 }
+
+  public obterImagemRestaurante(): string {
+    if (!this.prato) {
+      return '';
+    }
+
+    return this.restaurantes.find((restaurante) => restaurante.nome === this.prato?.restaurante)?.imagem || '';
+  }
+
+  public abrirRestaurante() {
+    const restaurante = this.restaurantes.find((item) => item.nome === this.prato?.restaurante);
+
+    if (!this.prato || !restaurante) {
+      return;
+    }
+
+    const params = new URLSearchParams();
+    params.set('origem', 'detalhe');
+    params.set('pratoId', String(this.prato.id));
+    params.set('detalheOrigem', this.origem);
+
+    if (this.restauranteId) {
+      params.set('detalheRestauranteId', String(this.restauranteId));
+    }
+
+    if (this.pesquisaMenu) {
+      params.set('pesquisa', this.pesquisaMenu);
+    }
+
+    if (this.tipoMenu) {
+      params.set('tipo', this.tipoMenu);
+    }
+
+    if (this.categoriaMenu) {
+      params.set('categoria', this.categoriaMenu);
+    }
+
+    this.router.navigateByUrl(`/tabs/restaurante/${restaurante.id}?${params.toString()}`);
+  }
+
+  private obterUrlMenu(): string {
+    const params = new URLSearchParams();
+
+    if (this.pesquisaMenu) {
+      params.set('pesquisa', this.pesquisaMenu);
+    }
+
+    if (this.tipoMenu) {
+      params.set('tipo', this.tipoMenu);
+    }
+
+    if (this.categoriaMenu) {
+      params.set('categoria', this.categoriaMenu);
+    }
+
+    const query = params.toString();
+    return query ? `/tabs/menu?${query}` : '/tabs/menu';
+  }
 }

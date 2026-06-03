@@ -1,0 +1,317 @@
+.restaurante-content {
+  --background: #ffffff;
+}
+
+.restaurante-container {
+  min-height: 100%;
+  padding-bottom: 96px;
+}
+
+.restaurante-loading {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #2f6f2f;
+}
+
+.restaurante-loading p {
+  margin: 0;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.restaurante-hero {
+  margin: 0 14px 0;
+  overflow: hidden;
+  border: 1px solid #edf0f4;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 22px 52px rgba(17, 24, 39, 0.08);
+}
+
+.restaurante-hero img {
+  width: 100%;
+  height: 210px;
+  display: block;
+  object-fit: cover;
+}
+
+.restaurante-info {
+  padding: 22px 20px 24px;
+}
+
+.inicio-link {
+  border: none;
+  background: transparent;
+  color: #2f6f2f;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  margin: 0 0 14px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.inicio-link ion-icon {
+  font-size: 20px;
+}
+
+.restaurante-info h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 36px;
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+.restaurante-info p {
+  margin: 10px 0 18px;
+  color: #6b7280;
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.meta-lista {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+
+.meta-lista span {
+  min-height: 28px;
+  border-radius: 999px;
+  background: #f2f4f7;
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.categoria-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  margin-top: 22px;
+  border-bottom: 1px solid #edf0f4;
+  background: #ffffff;
+  padding: 8px 14px 0;
+}
+
+.categoria-scroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.categoria-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.categoria-scroll button {
+  position: relative;
+  min-height: 48px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  padding: 0;
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.categoria-scroll button.ativa {
+  color: #111827;
+}
+
+.categoria-scroll button.ativa::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: #111827;
+  content: "";
+}
+
+.menu-restaurante {
+  padding: 26px 14px 0;
+}
+
+.categoria-secao {
+  scroll-margin-top: 72px;
+  margin-bottom: 34px;
+}
+
+.categoria-secao h2 {
+  margin: 0 0 16px;
+  color: #111827;
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.pratos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.prato-card {
+  min-height: 156px;
+  overflow: hidden;
+  border: 1px solid #edf0f4;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 16px 34px rgba(17, 24, 39, 0.08);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px;
+}
+
+.prato-info {
+  min-width: 0;
+  padding: 16px;
+}
+
+.prato-info h3 {
+  margin: 0 0 7px;
+  color: #111827;
+  font-size: 18px;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.prato-info strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #111827;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.prato-info p {
+  display: -webkit-box;
+  min-height: 42px;
+  margin: 0 0 12px;
+  overflow: hidden;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.prato-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.prato-media {
+  position: relative;
+  min-width: 0;
+}
+
+.prato-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.add-button {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(17, 24, 39, 0.18);
+}
+
+.add-button ion-icon {
+  font-size: 28px;
+}
+
+.erro-carregamento {
+  margin: 20px 0 0;
+  color: #c0392b;
+  text-align: center;
+  font-size: 15px;
+}
+
+@media (max-width: 380px) {
+  .restaurante-hero img {
+    height: 178px;
+  }
+
+  .restaurante-info {
+    padding: 20px 16px 22px;
+  }
+
+  .restaurante-info h1 {
+    font-size: 30px;
+  }
+
+  .restaurante-info p {
+    font-size: 10px;
+  }
+
+  .meta-lista {
+    gap: 3px;
+  }
+
+  .meta-lista span {
+    min-height: 26px;
+    padding: 0 4px;
+    font-size: 10px;
+  }
+
+  .categoria-scroll {
+    gap: 20px;
+  }
+
+  .categoria-scroll button {
+    font-size: 17px;
+  }
+
+  .prato-card {
+    grid-template-columns: minmax(0, 1fr) 112px;
+  }
+
+  .prato-info {
+    padding: 14px;
+  }
+
+  .prato-info h3 {
+    font-size: 16px;
+  }
+
+  .prato-info p {
+    font-size: 13px;
+  }
+}

@@ -7,13 +7,18 @@
       <ion-label>INÍCIO</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="menu">
+    <ion-tab-button tab="menu" [class.tab-selected]="menuAtivo">
       <ion-icon name="restaurant-outline"></ion-icon>
       <ion-label>MENU</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="carrinho">
-      <ion-icon name="cart-outline"></ion-icon>
+      <span class="cart-icon-wrap">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span class="cart-badge" *ngIf="totalArtigosCarrinho > 0">
+          {{ totalArtigosCarrinho }}
+        </span>
+      </span>
       <ion-label>CARRINHO</ion-label>
     </ion-tab-button>
 

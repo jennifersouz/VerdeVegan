@@ -7,52 +7,33 @@
 
   <div class="menu-container" *ngIf="!carregando">
 
-    <!-- Topo -->
-    <header class="menu-topo">
-      <button type="button" class="voltar-button" (click)="voltar()">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-      </button>
+    <div class="top-spacer"></div>
 
-      <div>
-        <h1>{{ obterTituloMenu() }}</h1>
-        <p>{{ pratosFiltrados.length }} itens disponíveis</p>
-      </div>
+    <section class="menu-hero">
+      <div class="menu-hero-top">
+        <div>
+          <h1>Todos os pratos</h1>
+        </div>
 
-      <button type="button" class="topo-filtro-button" (click)="abrirFiltros()">
-        <ion-icon name="options-outline"></ion-icon>
-      </button>
-    </header>
-
-    <!-- Pesquisa -->
-    <section class="pesquisa-area">
-      <ion-icon name="search-outline" class="search-icon"></ion-icon>
-
-      <input
-        type="text"
-        placeholder="Procurar no menu..."
-        [(ngModel)]="termoPesquisa"
-        (input)="filtrarPratos()">
-    </section>
-
-    <!-- Tipos -->
-    <section class="secao tipos-area">
-      <h2>Tipo</h2>
-
-      <div class="tipos-scroll">
-        <button
-          type="button"
-          class="tipo-chip"
-          *ngFor="let tipo of tipos"
-          [class.ativa]="tipoSelecionado === tipo.nome"
-          (click)="selecionarTipo(tipo.nome)">
-
-          <ion-icon [name]="tipo.icone"></ion-icon>
-          {{ tipo.nome }}
+        <button type="button" class="topo-filtro-button" (click)="abrirFiltros()">
+          <ion-icon name="options-outline"></ion-icon>
+          <span>Filtros</span>
         </button>
       </div>
+
+      <p class="menu-subtitle">Escolhe refeições, sobremesas e bebidas dos nossos parceiros vegan.</p>
+
+      <label class="pesquisa-area">
+        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+
+        <input
+          type="text"
+          placeholder="Pesquisar comida..."
+          [(ngModel)]="termoPesquisa"
+          (input)="filtrarPratos()">
+      </label>
     </section>
 
-    <!-- Categorias dinâmicas -->
     <section class="secao categorias-area">
       <h2>Categorias</h2>
 
@@ -64,63 +45,76 @@
           [class.ativa]="categoriaSelecionada === categoria"
           (click)="selecionarCategoria(categoria)">
 
-          {{ categoria }}
+          {{ obterEmojiCategoria(categoria) }} {{ categoria }}
         </button>
       </div>
     </section>
 
-    <!-- Lista -->
+    <section class="secao lista-area" *ngIf="!temPesquisaAtiva() && obterPratosDestaque().length > 0">
+      <div class="lista-header">
+        <h2>Pratos em destaque</h2>
+      </div>
+
+      <div class="menu-grid">
+        <article
+          class="menu-card"
+          *ngFor="let prato of obterPratosDestaque()"
+          (click)="abrirDetalhe(prato.id)">
+
+          <img
+            [src]="prato.imagem"
+            [alt]="prato.nome"
+            class="menu-card-img">
+
+          <div class="menu-card-info">
+            <div class="menu-card-bottom">
+              <h3>{{ prato.nome }}</h3>
+              <strong>€{{ prato.preco | number:'1.2-2' }}</strong>
+            </div>
+
+            <p>{{ prato.restaurante }} · {{ prato.categoria }}</p>
+
+            <div class="menu-card-meta">
+              <span>⭐ {{ prato.avaliacao }}</span>
+              <span>🕘 {{ prato.tempo }}</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section class="secao lista-area">
 
       <div class="lista-header">
-        <h2>{{ obterTituloMenu() }}</h2>
-
-        <span>
-          {{ pratosFiltrados.length }}
-          {{ pratosFiltrados.length === 1 ? 'item' : 'itens' }}
-        </span>
+        <h2>Todos os pratos</h2>
       </div>
 
-      <article
-        class="menu-card"
-        *ngFor="let prato of pratosFiltrados"
-        (click)="abrirDetalhe(prato.id)">
+      <div class="menu-grid">
+        <article
+          class="menu-card"
+          *ngFor="let prato of pratosFiltrados"
+          (click)="abrirDetalhe(prato.id)">
 
-        <img
-          [src]="prato.imagem"
-          [alt]="prato.nome"
-          class="menu-card-img">
+          <img
+            [src]="prato.imagem"
+            [alt]="prato.nome"
+            class="menu-card-img">
 
-        <div class="menu-card-info">
+          <div class="menu-card-info">
+            <div class="menu-card-bottom">
+              <h3>{{ prato.nome }}</h3>
+              <strong>€{{ prato.preco | number:'1.2-2' }}</strong>
+            </div>
 
-          <div class="menu-card-topo">
-            <span class="tipo-tag">{{ prato.tipo }}</span>
-            <span class="categoria-tag">{{ prato.categoria }}</span>
+            <p>{{ prato.restaurante }} · {{ prato.categoria }}</p>
+
+            <div class="menu-card-meta">
+              <span>⭐ {{ prato.avaliacao }}</span>
+              <span>🕘 {{ prato.tempo }}</span>
+            </div>
           </div>
-
-          <h3>{{ prato.nome }}</h3>
-
-          <p>{{ prato.descricao }}</p>
-
-          <div class="menu-card-meta">
-            <span>
-              <ion-icon name="star"></ion-icon>
-              {{ prato.avaliacao }}
-            </span>
-
-            <span>
-              <ion-icon name="time-outline"></ion-icon>
-              {{ prato.tempo }}
-            </span>
-          </div>
-
-          <div class="menu-card-bottom">
-            <span>{{ prato.restaurante }}</span>
-            <strong>{{ prato.preco | number:'1.2-2' }} €</strong>
-          </div>
-
-        </div>
-      </article>
+        </article>
+      </div>
 
       <div class="sem-resultados" *ngIf="pratosFiltrados.length === 0 && !erroCarregamento">
         <ion-icon name="search-outline"></ion-icon>
@@ -144,6 +138,10 @@
   <div class="filtros-modal" (click)="$event.stopPropagation()">
 
     <div class="modal-handle"></div>
+
+    <button type="button" class="modal-close" (click)="fecharFiltros()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
 
     <h2>Filtros</h2>
 

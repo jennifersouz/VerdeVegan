@@ -15,15 +15,15 @@
       class="prato-imagem">
 
     <!-- Restaurante -->
-    <section class="restaurante-area">
+    <button type="button" class="restaurante-area" (click)="abrirRestaurante()">
 
       <div class="restaurante-avatar">
-        {{ prato.restaurante.charAt(0) }}{{ prato.restaurante.split(' ')[1]?.charAt(0) || '' }}
+        <img [src]="obterImagemRestaurante()" [alt]="prato.restaurante">
       </div>
 
       <p>{{ prato.restaurante }}</p>
 
-    </section>
+    </button>
 
     <!-- Info principal -->
     <section class="info-principal">
@@ -70,6 +70,43 @@
       <div class="info-linha">
         <span>Porção</span>
         <strong>{{ prato.porcao || '1 Pessoa' }}</strong>
+      </div>
+
+      <div class="info-linha">
+        <span>Proteína</span>
+        <strong>{{ prato.proteina }}</strong>
+      </div>
+
+      <div class="info-linha">
+        <span>Hidratos</span>
+        <strong>{{ prato.hidratos }}</strong>
+      </div>
+
+      <div class="info-linha">
+        <span>Gorduras</span>
+        <strong>{{ prato.gorduras }}</strong>
+      </div>
+
+      <div class="info-linha">
+        <span>Ingredientes</span>
+        <strong>{{ prato.ingredientes?.length || 0 }}</strong>
+      </div>
+
+      <div class="info-linha">
+        <span>Tempo médio</span>
+        <strong>{{ prato.tempo }}</strong>
+      </div>
+
+    </section>
+
+    <section class="alergenios-card">
+
+      <h2>Alergénios</h2>
+
+      <div class="alergenios-lista">
+        <span *ngFor="let alergenio of prato.alergenios">
+          {{ alergenio }}
+        </span>
       </div>
 
     </section>

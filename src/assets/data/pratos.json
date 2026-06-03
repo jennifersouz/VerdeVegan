@@ -1,774 +1,4160 @@
 [
   {
     "id": 1,
-    "nome": "Pizza Margherita Vegan",
-    "tipo": "Refeições",
-    "categoria": "Pizza",
-    "restaurante": "Pizzaria Luzzo",
-    "descricao": "Pizza clássica italiana com molho de tomate, mozzarella vegan e manjericão fresco.",
-    "preco": 14.9,
-    "avaliacao": 4.8,
-    "tempo": "30-40min",
-    "imagem": "assets/img/pizzaMargherita.jpg",
+    "nome": "Cheesecake Vegan",
+    "tipo": "Sobremesas",
+    "categoria": "Sobremesas",
+    "restaurante": "Doce Planta",
+    "descricao": "Cheesecake vegetal com base de aveia, creme de caju e compota de frutos vermelhos.",
+    "preco": 5.2,
+    "avaliacao": 4.9,
+    "tempo": "15-25min",
+    "imagem": "assets/imagens/cheesecake vegan.jpg",
     "destaque": true,
-    "calorias": "~450 kcal",
-    "porcao": "1-2 Pessoas",
+    "calorias": "~340 kcal",
+    "porcao": "1 fatia",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "tamanho",
-        "titulo": "Tamanho",
+        "id": "cheesecake-vegan-cobertura-0",
+        "titulo": "Cobertura",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "pequena", "nome": "Pequena", "preco": -2 },
-          { "id": "media", "nome": "Média", "preco": 0 },
-          { "id": "grande", "nome": "Grande", "preco": 4 }
+          {
+            "id": "cheesecake-vegan-cobertura-frutos-vermelhos-0",
+            "nome": "Frutos vermelhos",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "cheesecake-vegan-cobertura-manga-1",
+            "nome": "Manga",
+            "preco": 0.5,
+            "incluido": false
+          },
+          {
+            "id": "cheesecake-vegan-cobertura-chocolate-negro-2",
+            "nome": "Chocolate negro",
+            "preco": 0.7,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "massa",
-        "titulo": "Tipo de massa",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "fina", "nome": "Fina e crocante", "preco": 0 },
-          { "id": "integral", "nome": "Integral", "preco": 1 },
-          { "id": "sem-gluten", "nome": "Sem glúten", "preco": 2 }
-        ]
-      },
-      {
-        "id": "extras",
+        "id": "cheesecake-vegan-extras-1",
         "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "queijo-extra", "nome": "Queijo vegan extra", "preco": 2 },
-          { "id": "cogumelos", "nome": "Cogumelos", "preco": 1.5 },
-          { "id": "azeitonas", "nome": "Azeitonas", "preco": 1 },
-          { "id": "rucula", "nome": "Rúcula", "preco": 1 }
+          {
+            "id": "cheesecake-vegan-extras-compota-extra-0",
+            "nome": "Compota extra",
+            "preco": 0.8,
+            "incluido": false
+          },
+          {
+            "id": "cheesecake-vegan-extras-creme-de-caju-extra-1",
+            "nome": "Creme de caju extra",
+            "preco": 1,
+            "incluido": false
+          },
+          {
+            "id": "cheesecake-vegan-extras-base-de-aveia-extra-2",
+            "nome": "Base de aveia extra",
+            "preco": 0.6,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "cheesecake-vegan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "cheesecake-vegan-retirar-ingredientes-sem-frutos-vermelhos-0",
+            "nome": "Sem frutos vermelhos",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "cheesecake-vegan-retirar-ingredientes-sem-limao-1",
+            "nome": "Sem limão",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "8g",
+    "hidratos": "42g",
+    "gorduras": "16g",
+    "ingredientes": [
+      "Aveia",
+      "Caju",
+      "Frutos vermelhos",
+      "Tâmara",
+      "Limão"
+    ],
+    "alergenios": [
+      "Frutos de casca rija",
+      "Glúten"
     ]
   },
   {
     "id": 2,
-    "nome": "Pizza de Cogumelos",
-    "tipo": "Refeições",
-    "categoria": "Pizza",
-    "restaurante": "Forno Verde",
-    "descricao": "Pizza vegan com cogumelos frescos, molho de tomate, orégãos e queijo vegetal.",
-    "preco": 15.5,
-    "avaliacao": 4.7,
-    "tempo": "30-40min",
-    "imagem": "assets/img/pizzaCogumelo.jpg",
-    "destaque": false,
-    "calorias": "~480 kcal",
-    "porcao": "1-2 Pessoas",
+    "nome": "Mousse de Chocolate Vegan",
+    "tipo": "Sobremesas",
+    "categoria": "Sobremesas",
+    "restaurante": "Doce Planta",
+    "descricao": "Mousse de chocolate negro com aquafaba.",
+    "preco": 4.6,
+    "avaliacao": 4.8,
+    "tempo": "10-15min",
+    "imagem": "assets/imagens/mousse de chocolate vegan.jpg",
+    "destaque": true,
+    "calorias": "~310 kcal",
+    "porcao": "1 dose",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "tamanho",
-        "titulo": "Tamanho",
+        "id": "mousse-de-chocolate-vegan-porcao-0",
+        "titulo": "Porção",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "media", "nome": "Média", "preco": 0 },
-          { "id": "grande", "nome": "Grande", "preco": 4 },
-          { "id": "familiar", "nome": "Familiar", "preco": 7 }
+          {
+            "id": "mousse-de-chocolate-vegan-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "mousse-de-chocolate-vegan-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "extras",
-        "titulo": "Adicionar ingredientes",
+        "id": "mousse-de-chocolate-vegan-extras-1",
+        "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "cebola-roxa", "nome": "Cebola roxa", "preco": 0.8 },
-          { "id": "pimento", "nome": "Pimento assado", "preco": 1 },
-          { "id": "milho", "nome": "Milho", "preco": 0.8 },
-          { "id": "queijo-vegan", "nome": "Queijo vegan extra", "preco": 2 }
+          {
+            "id": "mousse-de-chocolate-vegan-extras-cacau-extra-0",
+            "nome": "Cacau extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "mousse-de-chocolate-vegan-extras-chocolate-negro-extra-1",
+            "nome": "Chocolate negro extra",
+            "preco": 0.8,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "mousse-de-chocolate-vegan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "mousse-de-chocolate-vegan-retirar-ingredientes-sem-cacau-0",
+            "nome": "Sem cacau",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "6g",
+    "hidratos": "38g",
+    "gorduras": "15g",
+    "ingredientes": [
+      "Chocolate negro",
+      "Aquafaba",
+      "Cacau"
+    ],
+    "alergenios": [
+      "Cacau",
+      "Chocolate",
+      "Leguminosas"
     ]
   },
   {
     "id": 3,
-    "nome": "Lasanha de Beringela",
-    "tipo": "Refeições",
-    "categoria": "Massas",
+    "nome": "Tiramisu Vegan",
+    "tipo": "Sobremesas",
+    "categoria": "Sobremesas",
     "restaurante": "Massas Caseiras",
-    "descricao": "Lasanha vegan com camadas de beringela grelhada, molho de tomate e béchamel vegetal.",
-    "preco": 12.75,
+    "descricao": "Tiramisu vegetal com creme de caju, café e cacau.",
+    "preco": 5.6,
     "avaliacao": 4.8,
-    "tempo": "30-40min",
-    "imagem": "assets/img/lasagna.jpg",
+    "tempo": "20-30min",
+    "imagem": "assets/imagens/tiramisu vegan.jpg",
     "destaque": true,
-    "calorias": "~390 kcal",
-    "porcao": "1 Pessoa",
+    "calorias": "~360 kcal",
+    "porcao": "1 dose",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "porcao",
-        "titulo": "Tamanho da porção",
+        "id": "tiramisu-vegan-intensidade-do-cafe-0",
+        "titulo": "Intensidade do café",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "normal", "nome": "Normal", "preco": 0 },
-          { "id": "grande", "nome": "Grande", "preco": 3 }
+          {
+            "id": "tiramisu-vegan-intensidade-do-cafe-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "tiramisu-vegan-intensidade-do-cafe-mais-cafe-1",
+            "nome": "Mais café",
+            "preco": 0.3,
+            "incluido": false
+          },
+          {
+            "id": "tiramisu-vegan-intensidade-do-cafe-sem-cafe-2",
+            "nome": "Sem café",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "molho",
-        "titulo": "Molho extra",
+        "id": "tiramisu-vegan-extras-1",
+        "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "tomate", "nome": "Molho de tomate extra", "preco": 1 },
-          { "id": "bechamel", "nome": "Béchamel vegetal extra", "preco": 1.5 },
-          { "id": "picante", "nome": "Molho picante", "preco": 0.5 }
+          {
+            "id": "tiramisu-vegan-extras-cacau-extra-0",
+            "nome": "Cacau extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "tiramisu-vegan-extras-creme-extra-1",
+            "nome": "Creme extra",
+            "preco": 0.9,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "tiramisu-vegan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "tiramisu-vegan-retirar-ingredientes-sem-cacau-0",
+            "nome": "Sem cacau",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "tiramisu-vegan-retirar-ingredientes-sem-bolacha-1",
+            "nome": "Sem bolacha",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "7g",
+    "hidratos": "44g",
+    "gorduras": "18g",
+    "ingredientes": [
+      "Caju",
+      "Café",
+      "Cacau",
+      "Bolacha vegan",
+      "Bebida vegetal"
+    ],
+    "alergenios": [
+      "Frutos de casca rija",
+      "Glúten"
     ]
   },
   {
     "id": 4,
-    "nome": "Massa Pesto Vegan",
+    "nome": "Bowl de Tofu Grelhado",
     "tipo": "Refeições",
-    "categoria": "Massas",
-    "restaurante": "Pasta Verde",
-    "descricao": "Massa fusilli com pesto de manjericão, castanha de caju e tomate cherry.",
-    "preco": 11.9,
-    "avaliacao": 4.6,
-    "tempo": "20-30min",
-    "imagem": "assets/img/massaPesto.jpg",
-    "destaque": false,
-    "calorias": "~430 kcal",
-    "porcao": "1 Pessoa",
+    "categoria": "Bowls",
+    "restaurante": "Bowl Garden",
+    "descricao": "Tofu marinado, arroz integral, edamame, legumes assados e molho de tahini.",
+    "preco": 9.9,
+    "avaliacao": 4.8,
+    "tempo": "25-35min",
+    "imagem": "assets/imagens/bowl de tofu grelhado.jpg",
+    "destaque": true,
+    "calorias": "~620 kcal",
+    "porcao": "1 pessoa",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "massa",
-        "titulo": "Tipo de massa",
+        "id": "bowl-de-tofu-grelhado-base-0",
+        "titulo": "Base",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "fusilli", "nome": "Fusilli", "preco": 0 },
-          { "id": "penne", "nome": "Penne", "preco": 0 },
-          { "id": "integral", "nome": "Massa integral", "preco": 1 },
-          { "id": "sem-gluten", "nome": "Massa sem glúten", "preco": 2 }
+          {
+            "id": "bowl-de-tofu-grelhado-base-arroz-integral-0",
+            "nome": "Arroz integral",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "bowl-de-tofu-grelhado-base-quinoa-1",
+            "nome": "Quinoa",
+            "preco": 1.2,
+            "incluido": false
+          },
+          {
+            "id": "bowl-de-tofu-grelhado-base-mix-de-folhas-2",
+            "nome": "Mix de folhas",
+            "preco": 0.5,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "extras",
+        "id": "bowl-de-tofu-grelhado-extras-1",
         "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "tomate-cherry", "nome": "Tomate cherry extra", "preco": 1 },
-          { "id": "caju", "nome": "Castanha de caju", "preco": 1.5 },
-          { "id": "rucula", "nome": "Rúcula", "preco": 1 }
+          {
+            "id": "bowl-de-tofu-grelhado-extras-abacate-0",
+            "nome": "Abacate",
+            "preco": 1.4,
+            "incluido": false
+          },
+          {
+            "id": "bowl-de-tofu-grelhado-extras-tofu-extra-1",
+            "nome": "Tofu extra",
+            "preco": 1.8,
+            "incluido": false
+          },
+          {
+            "id": "bowl-de-tofu-grelhado-extras-molho-picante-2",
+            "nome": "Molho picante",
+            "preco": 0.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "bowl-de-tofu-grelhado-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "bowl-de-tofu-grelhado-retirar-ingredientes-sem-tahini-0",
+            "nome": "Sem tahini",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "bowl-de-tofu-grelhado-retirar-ingredientes-sem-edamame-1",
+            "nome": "Sem edamame",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "28g",
+    "hidratos": "70g",
+    "gorduras": "22g",
+    "ingredientes": [
+      "Tofu",
+      "Arroz integral",
+      "Edamame",
+      "Cenoura",
+      "Brócolos",
+      "Tahini"
+    ],
+    "alergenios": [
+      "Soja",
+      "Sésamo"
     ]
   },
   {
     "id": 5,
-    "nome": "Hambúrguer Vegan",
+    "nome": "Bowl de Seitan Teriyaki",
     "tipo": "Refeições",
-    "categoria": "Hambúrgueres",
-    "restaurante": "Green Burger",
-    "descricao": "Hambúrguer vegetal com alface, tomate, cebola roxa e molho vegan.",
-    "preco": 12.9,
-    "avaliacao": 4.7,
-    "tempo": "20-30min",
-    "imagem": "assets/img/hamburguer.jpg",
+    "categoria": "Bowls",
+    "restaurante": "Bowl Garden",
+    "descricao": "Seitan teriyaki com arroz, legumes salteados e sésamo.",
+    "preco": 11.9,
+    "avaliacao": 4.8,
+    "tempo": "25-35min",
+    "imagem": "assets/imagens/bowl de seitan teriyaki.jpg",
     "destaque": true,
-    "calorias": "~420 kcal",
-    "porcao": "1 Pessoa",
+    "calorias": "~650 kcal",
+    "porcao": "1 pessoa",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "pao",
-        "titulo": "Pão",
+        "id": "bowl-de-seitan-teriyaki-porcao-0",
+        "titulo": "Porção",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "sementes", "nome": "Pão de sementes", "preco": 0 },
-          { "id": "integral", "nome": "Pão integral", "preco": 0.5 },
-          { "id": "sem-gluten", "nome": "Pão sem glúten", "preco": 1.5 }
+          {
+            "id": "bowl-de-seitan-teriyaki-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "bowl-de-seitan-teriyaki-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "molho",
-        "titulo": "Molho",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "alho", "nome": "Molho de alho vegan", "preco": 0 },
-          { "id": "barbecue", "nome": "Barbecue vegan", "preco": 0 },
-          { "id": "picante", "nome": "Picante", "preco": 0 }
-        ]
-      },
-      {
-        "id": "extras",
+        "id": "bowl-de-seitan-teriyaki-extras-1",
         "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "abacate", "nome": "Abacate", "preco": 2 },
-          { "id": "cogumelos", "nome": "Cogumelos salteados", "preco": 1.5 },
-          { "id": "queijo-vegan", "nome": "Queijo vegan", "preco": 1.8 }
+          {
+            "id": "bowl-de-seitan-teriyaki-extras-seitan-extra-0",
+            "nome": "Seitan extra",
+            "preco": 1.8,
+            "incluido": false
+          },
+          {
+            "id": "bowl-de-seitan-teriyaki-extras-teriyaki-extra-1",
+            "nome": "Teriyaki extra",
+            "preco": 0.6,
+            "incluido": false
+          },
+          {
+            "id": "bowl-de-seitan-teriyaki-extras-sesamo-extra-2",
+            "nome": "Sésamo extra",
+            "preco": 0.3,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "bowl-de-seitan-teriyaki-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "bowl-de-seitan-teriyaki-retirar-ingredientes-sem-teriyaki-0",
+            "nome": "Sem teriyaki",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "bowl-de-seitan-teriyaki-retirar-ingredientes-sem-sesamo-1",
+            "nome": "Sem sésamo",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "bowl-de-seitan-teriyaki-retirar-ingredientes-sem-brocolos-2",
+            "nome": "Sem brócolos",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "32g",
+    "hidratos": "78g",
+    "gorduras": "20g",
+    "ingredientes": [
+      "Seitan",
+      "Arroz",
+      "Brócolos",
+      "Legumes salteados",
+      "Teriyaki",
+      "Sésamo"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja",
+      "Sésamo"
     ]
   },
   {
     "id": 6,
-    "nome": "Wrap de Legumes",
+    "nome": "Pizza Marguerita",
     "tipo": "Refeições",
-    "categoria": "Wraps",
-    "restaurante": "Vida Ativa",
-    "descricao": "Wrap leve com legumes grelhados, húmus e ervas frescas.",
-    "preco": 8.5,
-    "avaliacao": 4.5,
-    "tempo": "15-25min",
-    "imagem": "assets/img/wrap.jpg",
+    "categoria": "Pizza",
+    "restaurante": "Pizzaria Luzzo",
+    "descricao": "Pizza clássica italiana com molho de tomate, mozzarella fresca vegan e manjericão.",
+    "preco": 24.5,
+    "avaliacao": 4.8,
+    "tempo": "30-40min",
+    "imagem": "assets/imagens/pizza marguerita vegan.jpg",
     "destaque": true,
-    "calorias": "~300 kcal",
-    "porcao": "1 Pessoa",
+    "calorias": "~450 kcal",
+    "porcao": "2 pessoas",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "tortilha",
-        "titulo": "Tipo de tortilha",
+        "id": "pizza-marguerita-tamanho-porcao-0",
+        "titulo": "Tamanho / Porção",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "trigo", "nome": "Tortilha de trigo", "preco": 0 },
-          { "id": "integral", "nome": "Tortilha integral", "preco": 0.5 },
-          { "id": "sem-gluten", "nome": "Tortilha sem glúten", "preco": 1.5 }
+          {
+            "id": "pizza-marguerita-tamanho-porcao-individual-25-cm-0",
+            "nome": "Individual (25 cm)",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "pizza-marguerita-tamanho-porcao-media-30-cm-1",
+            "nome": "Média (30 cm)",
+            "preco": 3,
+            "incluido": false
+          },
+          {
+            "id": "pizza-marguerita-tamanho-porcao-familiar-35-cm-2",
+            "nome": "Familiar (35 cm)",
+            "preco": 6,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "molho",
-        "titulo": "Molho",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "hummus", "nome": "Húmus", "preco": 0 },
-          { "id": "tahini", "nome": "Tahini", "preco": 0.5 },
-          { "id": "iogurte-vegan", "nome": "Molho de iogurte vegan", "preco": 0.5 }
-        ]
-      },
-      {
-        "id": "extras",
+        "id": "pizza-marguerita-extras-1",
         "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "abacate", "nome": "Abacate", "preco": 1.5 },
-          { "id": "grao", "nome": "Grão-de-bico crocante", "preco": 1 },
-          { "id": "sementes", "nome": "Mix de sementes", "preco": 0.8 }
+          {
+            "id": "pizza-marguerita-extras-extra-mozzarella-0",
+            "nome": "Extra Mozzarella",
+            "preco": 1.5,
+            "incluido": false
+          },
+          {
+            "id": "pizza-marguerita-extras-extra-molho-de-tomate-1",
+            "nome": "Extra Molho de Tomate",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "pizza-marguerita-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "pizza-marguerita-retirar-ingredientes-sem-manjericao-0",
+            "nome": "Sem manjericão",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "pizza-marguerita-retirar-ingredientes-sem-azeite-1",
+            "nome": "Sem azeite",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "18g",
+    "hidratos": "72g",
+    "gorduras": "16g",
+    "ingredientes": [
+      "Massa artesanal",
+      "Molho de tomate",
+      "Mozzarella vegan",
+      "Manjericão",
+      "Azeite"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
     ]
   },
   {
     "id": 7,
-    "nome": "Bowl de Quinoa",
+    "nome": "Lasanha de Beringela",
     "tipo": "Refeições",
-    "categoria": "Bowls",
-    "restaurante": "Organic Bowl",
-    "descricao": "Bowl nutritivo com quinoa, grão-de-bico, abacate, tomate cherry e molho tahini.",
-    "preco": 13.5,
-    "avaliacao": 4.9,
-    "tempo": "20-30min",
-    "imagem": "assets/img/bowlQuinoa.jpg",
-    "destaque": true,
+    "categoria": "Massas",
+    "restaurante": "Massas Caseiras",
+    "descricao": "Massa fresca com camadas de beringela grelhada, molho de tomate e fatias de queijo vegan.",
+    "preco": 15.75,
+    "avaliacao": 4.8,
+    "tempo": "30-40min",
+    "imagem": "assets/imagens/lasanha de berinjela.jpg",
+    "destaque": false,
     "calorias": "~520 kcal",
-    "porcao": "1 Pessoa",
+    "porcao": "1 pessoa",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "base",
-        "titulo": "Base",
+        "id": "lasanha-de-beringela-tipo-de-massa-0",
+        "titulo": "Tipo de massa",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "quinoa", "nome": "Quinoa", "preco": 0 },
-          { "id": "arroz-integral", "nome": "Arroz integral", "preco": 0 },
-          { "id": "mix-verdes", "nome": "Mix de folhas verdes", "preco": -1 }
+          {
+            "id": "lasanha-de-beringela-tipo-de-massa-massa-fresca-0",
+            "nome": "Massa fresca",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "lasanha-de-beringela-tipo-de-massa-massa-integral-1",
+            "nome": "Massa integral",
+            "preco": 1,
+            "incluido": false
+          },
+          {
+            "id": "lasanha-de-beringela-tipo-de-massa-massa-sem-gluten-2",
+            "nome": "Massa sem glúten",
+            "preco": 1.8,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "proteina",
-        "titulo": "Proteína vegetal",
+        "id": "lasanha-de-beringela-porcao-1",
+        "titulo": "Porção",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "grao", "nome": "Grão-de-bico", "preco": 0 },
-          { "id": "tofu", "nome": "Tofu grelhado", "preco": 1.5 },
-          { "id": "tempeh", "nome": "Tempeh", "preco": 2 }
+          {
+            "id": "lasanha-de-beringela-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "lasanha-de-beringela-porcao-100g-de-massa-1",
+            "nome": "+100g de massa",
+            "preco": 2,
+            "incluido": false
+          },
+          {
+            "id": "lasanha-de-beringela-porcao-200g-de-massa-2",
+            "nome": "+200g de massa",
+            "preco": 3.5,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "molho",
-        "titulo": "Molho",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
+        "id": "lasanha-de-beringela-extras-2",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
         "opcoes": [
-          { "id": "tahini", "nome": "Tahini", "preco": 0 },
-          { "id": "limão", "nome": "Limão e ervas", "preco": 0 },
-          { "id": "amendoim", "nome": "Molho de amendoim", "preco": 0.8 }
+          {
+            "id": "lasanha-de-beringela-extras-molho-extra-0",
+            "nome": "Molho extra",
+            "preco": 0.9,
+            "incluido": false
+          },
+          {
+            "id": "lasanha-de-beringela-extras-queijo-vegan-extra-1",
+            "nome": "Queijo vegan extra",
+            "preco": 1.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "lasanha-de-beringela-retirar-ingredientes-3",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "lasanha-de-beringela-retirar-ingredientes-sem-oregaos-0",
+            "nome": "Sem orégãos",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "lasanha-de-beringela-retirar-ingredientes-sem-queijo-vegan-1",
+            "nome": "Sem queijo vegan",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "22g",
+    "hidratos": "64g",
+    "gorduras": "20g",
+    "ingredientes": [
+      "Massa fresca",
+      "Beringela",
+      "Tomate",
+      "Queijo vegan",
+      "Orégãos"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
     ]
   },
   {
     "id": 8,
-    "nome": "Caril de Grão",
-    "tipo": "Refeições",
-    "categoria": "Pratos Quentes",
-    "restaurante": "Cozinha Verde",
-    "descricao": "Caril cremoso de grão-de-bico com leite de coco, arroz basmati e coentros.",
-    "preco": 12.25,
-    "avaliacao": 4.6,
-    "tempo": "25-35min",
-    "imagem": "assets/img/caril.jpg",
-    "destaque": false,
-    "calorias": "~560 kcal",
-    "porcao": "1 Pessoa",
-    "personalizavel": true,
-    "personalizacoes": [
-      {
-        "id": "picante",
-        "titulo": "Nível de picante",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "sem", "nome": "Sem picante", "preco": 0 },
-          { "id": "medio", "nome": "Médio", "preco": 0 },
-          { "id": "forte", "nome": "Forte", "preco": 0 }
-        ]
-      },
-      {
-        "id": "acompanhamento",
-        "titulo": "Acompanhamento",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "basmati", "nome": "Arroz basmati", "preco": 0 },
-          { "id": "integral", "nome": "Arroz integral", "preco": 1 },
-          { "id": "salada", "nome": "Salada fresca", "preco": 0 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 9,
-    "nome": "Limonada Natural",
-    "tipo": "Bebidas",
-    "categoria": "Sumos",
-    "restaurante": "Fresh Bar",
-    "descricao": "Limonada fresca com limão, hortelã e gelo.",
-    "preco": 3.5,
-    "avaliacao": 4.5,
-    "tempo": "5-10min",
-    "imagem": "assets/img/limonada.jpg",
-    "destaque": true,
-    "calorias": "~90 kcal",
-    "porcao": "300ml",
-    "personalizavel": true,
-    "personalizacoes": [
-      {
-        "id": "tamanho",
-        "titulo": "Tamanho",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "300ml", "nome": "300ml", "preco": 0 },
-          { "id": "500ml", "nome": "500ml", "preco": 1.5 }
-        ]
-      },
-      {
-        "id": "acucar",
-        "titulo": "Açúcar",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "sem", "nome": "Sem açúcar", "preco": 0 },
-          { "id": "pouco", "nome": "Pouco açúcar", "preco": 0 },
-          { "id": "normal", "nome": "Normal", "preco": 0 }
-        ]
-      },
-      {
-        "id": "extras",
-        "titulo": "Extras",
-        "obrigatorio": false,
-        "escolhaMultipla": true,
-        "opcoes": [
-          { "id": "hortela", "nome": "Hortelã extra", "preco": 0.3 },
-          { "id": "gengibre", "nome": "Gengibre", "preco": 0.5 },
-          { "id": "gelo", "nome": "Gelo extra", "preco": 0 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 10,
-    "nome": "Sumo Detox Verde",
-    "tipo": "Bebidas",
-    "categoria": "Sumos",
-    "restaurante": "Fresh Bar",
-    "descricao": "Sumo natural com maçã verde, pepino, espinafre, limão e gengibre.",
-    "preco": 4.75,
-    "avaliacao": 4.7,
-    "tempo": "5-10min",
-    "imagem": "assets/img/detox.jpg",
-    "destaque": true,
-    "calorias": "~120 kcal",
-    "porcao": "350ml",
-    "personalizavel": true,
-    "personalizacoes": [
-      {
-        "id": "tamanho",
-        "titulo": "Tamanho",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "350ml", "nome": "350ml", "preco": 0 },
-          { "id": "500ml", "nome": "500ml", "preco": 1.8 }
-        ]
-      },
-      {
-        "id": "intensidade",
-        "titulo": "Intensidade do gengibre",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "suave", "nome": "Suave", "preco": 0 },
-          { "id": "normal", "nome": "Normal", "preco": 0 },
-          { "id": "forte", "nome": "Forte", "preco": 0.4 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 11,
-    "nome": "Smoothie de Frutos Vermelhos",
-    "tipo": "Bebidas",
-    "categoria": "Smoothies",
-    "restaurante": "Smoothie House",
-    "descricao": "Smoothie cremoso com frutos vermelhos, banana e bebida vegetal.",
-    "preco": 5.25,
-    "avaliacao": 4.8,
-    "tempo": "5-10min",
-    "imagem": "assets/img/smoothie.jpg",
-    "destaque": false,
-    "calorias": "~210 kcal",
-    "porcao": "400ml",
-    "personalizavel": true,
-    "personalizacoes": [
-      {
-        "id": "bebida",
-        "titulo": "Bebida vegetal",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "aveia", "nome": "Bebida de aveia", "preco": 0 },
-          { "id": "amendoa", "nome": "Bebida de amêndoa", "preco": 0.5 },
-          { "id": "soja", "nome": "Bebida de soja", "preco": 0 }
-        ]
-      },
-      {
-        "id": "extras",
-        "titulo": "Extras",
-        "obrigatorio": false,
-        "escolhaMultipla": true,
-        "opcoes": [
-          { "id": "chia", "nome": "Chia", "preco": 0.5 },
-          { "id": "proteina", "nome": "Proteína vegetal", "preco": 1.5 },
-          { "id": "granola", "nome": "Granola vegan", "preco": 1 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 12,
-    "nome": "Chá Gelado de Pêssego",
-    "tipo": "Bebidas",
-    "categoria": "Chás",
-    "restaurante": "Fresh Bar",
-    "descricao": "Chá gelado artesanal com infusão de pêssego e limão.",
-    "preco": 3.25,
-    "avaliacao": 4.4,
-    "tempo": "5-10min",
-    "imagem": "assets/img/chaPessego.jpg",
-    "destaque": false,
-    "calorias": "~80 kcal",
-    "porcao": "330ml",
-    "personalizavel": true,
-    "personalizacoes": [
-      {
-        "id": "acucar",
-        "titulo": "Açúcar",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "sem", "nome": "Sem açúcar", "preco": 0 },
-          { "id": "pouco", "nome": "Pouco açúcar", "preco": 0 },
-          { "id": "normal", "nome": "Normal", "preco": 0 }
-        ]
-      },
-      {
-        "id": "gelo",
-        "titulo": "Gelo",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "sem-gelo", "nome": "Sem gelo", "preco": 0 },
-          { "id": "normal", "nome": "Normal", "preco": 0 },
-          { "id": "extra", "nome": "Gelo extra", "preco": 0 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 13,
-    "nome": "Brownie Vegan",
+    "nome": "Brownie de Cacau",
     "tipo": "Sobremesas",
-    "categoria": "Bolos",
-    "restaurante": "Doce Verde",
-    "descricao": "Brownie vegan de chocolate negro com nozes e textura húmida.",
-    "preco": 4.5,
-    "avaliacao": 4.9,
-    "tempo": "10-15min",
-    "imagem": "assets/img/brownie.jpg",
-    "destaque": true,
-    "calorias": "~320 kcal",
-    "porcao": "1 Fatia",
+    "categoria": "Sobremesas",
+    "restaurante": "Green Burger Lab",
+    "descricao": "Brownie vegan de cacau intenso com nozes e flor de sal.",
+    "preco": 4.8,
+    "avaliacao": 4.7,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/brownie de cacau.jpg",
+    "destaque": false,
+    "calorias": "~410 kcal",
+    "porcao": "1 unidade",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "topping",
-        "titulo": "Topping",
-        "obrigatorio": false,
-        "escolhaMultipla": true,
-        "opcoes": [
-          { "id": "chocolate", "nome": "Calda de chocolate vegan", "preco": 0.8 },
-          { "id": "morango", "nome": "Morangos", "preco": 1 },
-          { "id": "nozes", "nome": "Nozes extra", "preco": 1 }
-        ]
-      },
-      {
-        "id": "aquecido",
+        "id": "brownie-de-cacau-servir-0",
         "titulo": "Servir",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "normal", "nome": "Temperatura ambiente", "preco": 0 },
-          { "id": "quente", "nome": "Aquecido", "preco": 0 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 14,
-    "nome": "Cheesecake Vegan de Frutos Vermelhos",
-    "tipo": "Sobremesas",
-    "categoria": "Cheesecakes",
-    "restaurante": "Doce Verde",
-    "descricao": "Cheesecake vegan com base de aveia e cobertura de frutos vermelhos.",
-    "preco": 5.25,
-    "avaliacao": 4.8,
-    "tempo": "10-15min",
-    "imagem": "assets/img/cheesecake.jpg",
-    "destaque": true,
-    "calorias": "~340 kcal",
-    "porcao": "1 Fatia",
-    "personalizavel": true,
-    "personalizacoes": [
-      {
-        "id": "cobertura",
-        "titulo": "Cobertura",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "frutos-vermelhos", "nome": "Frutos vermelhos", "preco": 0 },
-          { "id": "manga", "nome": "Manga", "preco": 0.5 },
-          { "id": "chocolate", "nome": "Chocolate vegan", "preco": 0.8 }
+          {
+            "id": "brownie-de-cacau-servir-natural-0",
+            "nome": "Natural",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "brownie-de-cacau-servir-morno-1",
+            "nome": "Morno",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "brownie-de-cacau-servir-com-gelado-vegan-2",
+            "nome": "Com gelado vegan",
+            "preco": 1.8,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "extras",
+        "id": "brownie-de-cacau-extras-1",
         "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "granola", "nome": "Granola", "preco": 0.8 },
-          { "id": "coco", "nome": "Coco ralado", "preco": 0.5 },
-          { "id": "fruta-extra", "nome": "Fruta extra", "preco": 1 }
+          {
+            "id": "brownie-de-cacau-extras-calda-de-chocolate-0",
+            "nome": "Calda de chocolate",
+            "preco": 0.8,
+            "incluido": false
+          },
+          {
+            "id": "brownie-de-cacau-extras-morangos-1",
+            "nome": "Morangos",
+            "preco": 1,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "brownie-de-cacau-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "brownie-de-cacau-retirar-ingredientes-sem-nozes-0",
+            "nome": "Sem nozes",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "brownie-de-cacau-retirar-ingredientes-sem-flor-de-sal-1",
+            "nome": "Sem flor de sal",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "8g",
+    "hidratos": "48g",
+    "gorduras": "20g",
+    "ingredientes": [
+      "Cacau",
+      "Farinha",
+      "Nozes",
+      "Bebida vegetal",
+      "Flor de sal"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Frutos de casca rija"
     ]
   },
   {
-    "id": 15,
-    "nome": "Mousse de Chocolate Vegan",
+    "id": 9,
+    "nome": "Panquecas de Aveia",
     "tipo": "Sobremesas",
-    "categoria": "Mousses",
-    "restaurante": "Sweet Vegan",
-    "descricao": "Mousse cremosa feita com chocolate negro e bebida vegetal.",
-    "preco": 4.25,
+    "categoria": "Sobremesas",
+    "restaurante": "Brunch Verde",
+    "descricao": "Panquecas vegan com banana, aveia e xarope de ácer.",
+    "preco": 7.2,
     "avaliacao": 4.7,
-    "tempo": "10-15min",
-    "imagem": "assets/img/mousseChoco.jpg",
-    "destaque": false,
-    "calorias": "~280 kcal",
-    "porcao": "1 Taça",
-    "personalizavel": true,
-    "personalizacoes": [
-      {
-        "id": "topping",
-        "titulo": "Topping",
-        "obrigatorio": false,
-        "escolhaMultipla": true,
-        "opcoes": [
-          { "id": "raspas", "nome": "Raspas de chocolate", "preco": 0.5 },
-          { "id": "framboesas", "nome": "Framboesas", "preco": 1 },
-          { "id": "amendoim", "nome": "Amendoim crocante", "preco": 0.8 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 16,
-    "nome": "Panquecas Vegan",
-    "tipo": "Sobremesas",
-    "categoria": "Panquecas",
-    "restaurante": "Sweet Vegan",
-    "descricao": "Panquecas fofas com banana, aveia e topping à escolha.",
-    "preco": 6.5,
-    "avaliacao": 4.8,
     "tempo": "15-25min",
-    "imagem": "assets/img/panqueca.jpg",
-    "destaque": true,
-    "calorias": "~430 kcal",
-    "porcao": "3 Unidades",
+    "imagem": "assets/imagens/panquecas de aveia.jpg",
+    "destaque": false,
+    "calorias": "~480 kcal",
+    "porcao": "1 dose",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "cobertura",
-        "titulo": "Cobertura",
+        "id": "panquecas-de-aveia-porcao-0",
+        "titulo": "Porção",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "maple", "nome": "Xarope de ácer", "preco": 0 },
-          { "id": "chocolate", "nome": "Chocolate vegan", "preco": 0.8 },
-          { "id": "manteiga-amendoim", "nome": "Manteiga de amendoim", "preco": 1 }
+          {
+            "id": "panquecas-de-aveia-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "panquecas-de-aveia-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "fruta",
-        "titulo": "Fruta",
+        "id": "panquecas-de-aveia-extras-1",
+        "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "banana", "nome": "Banana", "preco": 0.5 },
-          { "id": "morangos", "nome": "Morangos", "preco": 1 },
-          { "id": "mirtilos", "nome": "Mirtilos", "preco": 1.2 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 17,
-    "nome": "Água com Gás",
-    "tipo": "Bebidas",
-    "categoria": "Águas",
-    "restaurante": "Fresh Bar",
-    "descricao": "Água com gás fresca.",
-    "preco": 1.8,
-    "avaliacao": 4.3,
-    "tempo": "5-10min",
-    "imagem": "assets/img/aguaGas.jpg",
-    "destaque": false,
-    "calorias": "0 kcal",
-    "porcao": "250ml",
-    "personalizavel": true,
-    "personalizacoes": [
-      {
-        "id": "limão",
-        "titulo": "Adicionar limão?",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
-        "opcoes": [
-          { "id": "sim", "nome": "Com limão", "preco": 0.2 },
-          { "id": "nao", "nome": "Sem limão", "preco": 0 }
+          {
+            "id": "panquecas-de-aveia-extras-banana-extra-0",
+            "nome": "Banana extra",
+            "preco": 0.6,
+            "incluido": false
+          },
+          {
+            "id": "panquecas-de-aveia-extras-aveia-extra-1",
+            "nome": "Aveia extra",
+            "preco": 0.5,
+            "incluido": false
+          },
+          {
+            "id": "panquecas-de-aveia-extras-xarope-de-acer-extra-2",
+            "nome": "Xarope de ácer extra",
+            "preco": 0.6,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "gelo",
-        "titulo": "Gelo",
-        "obrigatorio": true,
-        "escolhaMultipla": false,
+        "id": "panquecas-de-aveia-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
         "opcoes": [
-          { "id": "normal", "nome": "Normal", "preco": 0 },
-          { "id": "extra", "nome": "Gelo extra", "preco": 0 }
+          {
+            "id": "panquecas-de-aveia-retirar-ingredientes-sem-banana-0",
+            "nome": "Sem banana",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "panquecas-de-aveia-retirar-ingredientes-sem-xarope-de-acer-1",
+            "nome": "Sem xarope de ácer",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "11g",
+    "hidratos": "78g",
+    "gorduras": "13g",
+    "ingredientes": [
+      "Aveia",
+      "Banana",
+      "Xarope de ácer"
+    ],
+    "alergenios": [
+      "Glúten"
     ]
   },
   {
-    "id": 18,
-    "nome": "Tofu Teriyaki Bowl",
+    "id": 10,
+    "nome": "Gyozas de Tofu",
     "tipo": "Refeições",
-    "categoria": "Bowls",
-    "restaurante": "Organic Bowl",
-    "descricao": "Bowl com tofu teriyaki, arroz, brócolos, cenoura e sementes de sésamo.",
-    "preco": 13.9,
+    "categoria": "Entradas",
+    "restaurante": "Bowl Garden",
+    "descricao": "Gyozas vegan recheadas com tofu, legumes e gengibre.",
+    "preco": 6.9,
+    "avaliacao": 4.7,
+    "tempo": "20-25min",
+    "imagem": "assets/imagens/gyozas de tofu.jpg",
+    "destaque": false,
+    "calorias": "~330 kcal",
+    "porcao": "5 unidades",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "gyozas-de-tofu-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "gyozas-de-tofu-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "gyozas-de-tofu-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "gyozas-de-tofu-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "gyozas-de-tofu-extras-tofu-extra-0",
+            "nome": "Tofu extra",
+            "preco": 1.2,
+            "incluido": false
+          },
+          {
+            "id": "gyozas-de-tofu-extras-legumes-extra-1",
+            "nome": "Legumes extra",
+            "preco": 0.9,
+            "incluido": false
+          },
+          {
+            "id": "gyozas-de-tofu-extras-gengibre-extra-2",
+            "nome": "Gengibre extra",
+            "preco": 0.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "gyozas-de-tofu-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "gyozas-de-tofu-retirar-ingredientes-sem-tofu-0",
+            "nome": "Sem tofu",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "gyozas-de-tofu-retirar-ingredientes-sem-legumes-1",
+            "nome": "Sem legumes",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "gyozas-de-tofu-retirar-ingredientes-sem-gengibre-2",
+            "nome": "Sem gengibre",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "16g",
+    "hidratos": "42g",
+    "gorduras": "10g",
+    "ingredientes": [
+      "Tofu",
+      "Legumes",
+      "Couve",
+      "Gengibre",
+      "Massa"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
+    ]
+  },
+  {
+    "id": 11,
+    "nome": "Tagliatelle de Cogumelos",
+    "tipo": "Refeições",
+    "categoria": "Massas",
+    "restaurante": "Massas Caseiras",
+    "descricao": "Tagliatelle com cogumelos salteados, creme vegetal e ervas frescas.",
+    "preco": 14.2,
     "avaliacao": 4.7,
     "tempo": "25-35min",
-    "imagem": "assets/img/tofuBowl.jpg",
+    "imagem": "assets/imagens/tagliatelle de cogumelos.jpg",
     "destaque": false,
-    "calorias": "~510 kcal",
-    "porcao": "1 Pessoa",
+    "calorias": "~610 kcal",
+    "porcao": "1 pessoa",
     "personalizavel": true,
     "personalizacoes": [
       {
-        "id": "base",
-        "titulo": "Base",
+        "id": "tagliatelle-de-cogumelos-tipo-de-massa-0",
+        "titulo": "Tipo de massa",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "arroz", "nome": "Arroz branco", "preco": 0 },
-          { "id": "integral", "nome": "Arroz integral", "preco": 0.8 },
-          { "id": "quinoa", "nome": "Quinoa", "preco": 1.5 }
+          {
+            "id": "tagliatelle-de-cogumelos-tipo-de-massa-tagliatelle-0",
+            "nome": "Tagliatelle",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "tagliatelle-de-cogumelos-tipo-de-massa-penne-integral-1",
+            "nome": "Penne integral",
+            "preco": 0.8,
+            "incluido": false
+          },
+          {
+            "id": "tagliatelle-de-cogumelos-tipo-de-massa-fusilli-sem-gluten-2",
+            "nome": "Fusilli sem glúten",
+            "preco": 1.8,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "molho",
+        "id": "tagliatelle-de-cogumelos-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "tagliatelle-de-cogumelos-extras-cogumelos-extra-0",
+            "nome": "Cogumelos extra",
+            "preco": 1.7,
+            "incluido": false
+          },
+          {
+            "id": "tagliatelle-de-cogumelos-extras-tofu-fumado-1",
+            "nome": "Tofu fumado",
+            "preco": 1.8,
+            "incluido": false
+          },
+          {
+            "id": "tagliatelle-de-cogumelos-extras-100g-de-massa-2",
+            "nome": "+100g de massa",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "tagliatelle-de-cogumelos-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "tagliatelle-de-cogumelos-retirar-ingredientes-sem-alho-0",
+            "nome": "Sem alho",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "tagliatelle-de-cogumelos-retirar-ingredientes-sem-salsa-1",
+            "nome": "Sem salsa",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "19g",
+    "hidratos": "82g",
+    "gorduras": "23g",
+    "ingredientes": [
+      "Tagliatelle",
+      "Cogumelos",
+      "Creme vegetal",
+      "Salsa",
+      "Alho"
+    ],
+    "alergenios": [
+      "Glúten"
+    ]
+  },
+  {
+    "id": 12,
+    "nome": "Uramaki de Abacate",
+    "tipo": "Refeições",
+    "categoria": "Sushi",
+    "restaurante": "Sushi Raiz",
+    "descricao": "Sushi vegan com abacate, pepino, cenoura crocante e molho teriyaki vegetal.",
+    "preco": 13.4,
+    "avaliacao": 4.7,
+    "tempo": "25-35min",
+    "imagem": "assets/imagens/uramaki de abacate.jpg",
+    "destaque": false,
+    "calorias": "~430 kcal",
+    "porcao": "8 peças",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "uramaki-de-abacate-molho-0",
         "titulo": "Molho",
         "obrigatorio": true,
         "escolhaMultipla": false,
         "opcoes": [
-          { "id": "teriyaki", "nome": "Teriyaki", "preco": 0 },
-          { "id": "soja", "nome": "Soja e gengibre", "preco": 0 },
-          { "id": "picante", "nome": "Picante", "preco": 0.5 }
+          {
+            "id": "uramaki-de-abacate-molho-teriyaki-vegetal-0",
+            "nome": "Teriyaki vegetal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "uramaki-de-abacate-molho-soja-baixa-em-sal-1",
+            "nome": "Soja baixa em sal",
+            "preco": 0.2,
+            "incluido": false
+          },
+          {
+            "id": "uramaki-de-abacate-molho-agridoce-picante-2",
+            "nome": "Agridoce picante",
+            "preco": 0.5,
+            "incluido": false
+          }
         ]
       },
       {
-        "id": "extras",
+        "id": "uramaki-de-abacate-extras-1",
         "titulo": "Extras",
         "obrigatorio": false,
         "escolhaMultipla": true,
         "opcoes": [
-          { "id": "abacate", "nome": "Abacate", "preco": 2 },
-          { "id": "tofu-extra", "nome": "Tofu extra", "preco": 2.5 },
-          { "id": "sesamo", "nome": "Sementes de sésamo", "preco": 0.5 }
+          {
+            "id": "uramaki-de-abacate-extras-gengibre-extra-0",
+            "nome": "Gengibre extra",
+            "preco": 0.5,
+            "incluido": false
+          },
+          {
+            "id": "uramaki-de-abacate-extras-molho-teriyaki-1",
+            "nome": "Molho teriyaki",
+            "preco": 0.8,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "uramaki-de-abacate-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "uramaki-de-abacate-retirar-ingredientes-sem-sesamo-0",
+            "nome": "Sem sésamo",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "uramaki-de-abacate-retirar-ingredientes-sem-pepino-1",
+            "nome": "Sem pepino",
+            "preco": 0,
+            "incluido": false
+          }
         ]
       }
+    ],
+    "proteina": "10g",
+    "hidratos": "76g",
+    "gorduras": "11g",
+    "ingredientes": [
+      "Arroz de sushi",
+      "Abacate",
+      "Pepino",
+      "Cenoura",
+      "Nori",
+      "Sésamo"
+    ],
+    "alergenios": [
+      "Sésamo",
+      "Soja"
+    ]
+  },
+  {
+    "id": 13,
+    "nome": "Penne com Tofu e Pesto",
+    "tipo": "Refeições",
+    "categoria": "Massas",
+    "restaurante": "Massas Caseiras",
+    "descricao": "Penne com tofu grelhado, pesto vegan e tomate seco.",
+    "preco": 13.8,
+    "avaliacao": 4.7,
+    "tempo": "25-35min",
+    "imagem": "assets/imagens/penne com tofu e pesto.jpg",
+    "destaque": false,
+    "calorias": "~560 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "penne-com-tofu-e-pesto-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "penne-com-tofu-e-pesto-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "penne-com-tofu-e-pesto-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "penne-com-tofu-e-pesto-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "penne-com-tofu-e-pesto-extras-tofu-extra-0",
+            "nome": "Tofu extra",
+            "preco": 1.6,
+            "incluido": false
+          },
+          {
+            "id": "penne-com-tofu-e-pesto-extras-pesto-extra-1",
+            "nome": "Pesto extra",
+            "preco": 0.8,
+            "incluido": false
+          },
+          {
+            "id": "penne-com-tofu-e-pesto-extras-tomate-seco-extra-2",
+            "nome": "Tomate seco extra",
+            "preco": 0.9,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "penne-com-tofu-e-pesto-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "penne-com-tofu-e-pesto-retirar-ingredientes-sem-tofu-0",
+            "nome": "Sem tofu",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "penne-com-tofu-e-pesto-retirar-ingredientes-sem-pesto-1",
+            "nome": "Sem pesto",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "penne-com-tofu-e-pesto-retirar-ingredientes-sem-tomate-seco-2",
+            "nome": "Sem tomate seco",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "25g",
+    "hidratos": "72g",
+    "gorduras": "20g",
+    "ingredientes": [
+      "Penne",
+      "Tofu",
+      "Pesto",
+      "Tomate seco"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja",
+      "Frutos de casca rija"
+    ]
+  },
+  {
+    "id": 14,
+    "nome": "Pizza de Seitan Fumado",
+    "tipo": "Refeições",
+    "categoria": "Pizza",
+    "restaurante": "Pizzaria Luzzo",
+    "descricao": "Pizza com seitan fumado, cogumelos, molho de tomate e queijo vegan.",
+    "preco": 23,
+    "avaliacao": 4.7,
+    "tempo": "30-40min",
+    "imagem": "assets/imagens/pizza de seitan fumado.jpg",
+    "destaque": false,
+    "calorias": "~590 kcal",
+    "porcao": "2 pessoas",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "pizza-de-seitan-fumado-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "pizza-de-seitan-fumado-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "pizza-de-seitan-fumado-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "pizza-de-seitan-fumado-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "pizza-de-seitan-fumado-extras-seitan-extra-0",
+            "nome": "Seitan extra",
+            "preco": 1.8,
+            "incluido": false
+          },
+          {
+            "id": "pizza-de-seitan-fumado-extras-cogumelos-extra-1",
+            "nome": "Cogumelos extra",
+            "preco": 1.2,
+            "incluido": false
+          },
+          {
+            "id": "pizza-de-seitan-fumado-extras-queijo-vegan-extra-2",
+            "nome": "Queijo vegan extra",
+            "preco": 1.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "pizza-de-seitan-fumado-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "pizza-de-seitan-fumado-retirar-ingredientes-sem-seitan-0",
+            "nome": "Sem seitan",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "pizza-de-seitan-fumado-retirar-ingredientes-sem-cogumelos-1",
+            "nome": "Sem cogumelos",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "pizza-de-seitan-fumado-retirar-ingredientes-sem-molho-de-tomate-2",
+            "nome": "Sem molho de tomate",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "pizza-de-seitan-fumado-retirar-ingredientes-sem-queijo-vegan-3",
+            "nome": "Sem queijo vegan",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "29g",
+    "hidratos": "76g",
+    "gorduras": "18g",
+    "ingredientes": [
+      "Massa",
+      "Seitan",
+      "Cogumelos",
+      "Molho de tomate",
+      "Queijo vegan"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
+    ]
+  },
+  {
+    "id": 15,
+    "nome": "Mochi de Manga",
+    "tipo": "Sobremesas",
+    "categoria": "Sobremesas",
+    "restaurante": "Sushi Raiz",
+    "descricao": "Mochi vegan de manga com coco.",
+    "preco": 4.5,
+    "avaliacao": 4.6,
+    "tempo": "10-15min",
+    "imagem": "assets/imagens/mochi de manga.jpg",
+    "destaque": false,
+    "calorias": "~230 kcal",
+    "porcao": "2 unidades",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "mochi-de-manga-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "mochi-de-manga-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "mochi-de-manga-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "mochi-de-manga-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "mochi-de-manga-extras-manga-extra-0",
+            "nome": "Manga extra",
+            "preco": 0.8,
+            "incluido": false
+          },
+          {
+            "id": "mochi-de-manga-extras-coco-extra-1",
+            "nome": "Coco extra",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "mochi-de-manga-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "mochi-de-manga-retirar-ingredientes-sem-manga-0",
+            "nome": "Sem manga",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "mochi-de-manga-retirar-ingredientes-sem-coco-1",
+            "nome": "Sem coco",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "3g",
+    "hidratos": "48g",
+    "gorduras": "4g",
+    "ingredientes": [
+      "Arroz glutinoso",
+      "Manga",
+      "Coco"
+    ],
+    "alergenios": []
+  },
+  {
+    "id": 16,
+    "nome": "Mini Muffins de Cenoura",
+    "tipo": "Sobremesas",
+    "categoria": "Sobremesas",
+    "restaurante": "Doce Planta",
+    "descricao": "Mini muffins vegan de cenoura, noz e canela.",
+    "preco": 5.4,
+    "avaliacao": 4.6,
+    "tempo": "10-15min",
+    "imagem": "assets/imagens/mini muffins de cenoura.jpg",
+    "destaque": false,
+    "calorias": "~360 kcal",
+    "porcao": "3 unidades",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "mini-muffins-de-cenoura-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "mini-muffins-de-cenoura-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "mini-muffins-de-cenoura-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "mini-muffins-de-cenoura-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "mini-muffins-de-cenoura-extras-noz-extra-0",
+            "nome": "Noz extra",
+            "preco": 0.6,
+            "incluido": false
+          },
+          {
+            "id": "mini-muffins-de-cenoura-extras-canela-extra-1",
+            "nome": "Canela extra",
+            "preco": 0.2,
+            "incluido": false
+          },
+          {
+            "id": "mini-muffins-de-cenoura-extras-cenoura-extra-2",
+            "nome": "Cenoura extra",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "mini-muffins-de-cenoura-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "mini-muffins-de-cenoura-retirar-ingredientes-sem-noz-0",
+            "nome": "Sem noz",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "mini-muffins-de-cenoura-retirar-ingredientes-sem-canela-1",
+            "nome": "Sem canela",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "7g",
+    "hidratos": "46g",
+    "gorduras": "15g",
+    "ingredientes": [
+      "Cenoura",
+      "Noz",
+      "Canela",
+      "Farinha"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Frutos de casca rija"
+    ]
+  },
+  {
+    "id": 17,
+    "nome": "Panna Cotta de Coco",
+    "tipo": "Sobremesas",
+    "categoria": "Sobremesas",
+    "restaurante": "Pizzaria Luzzo",
+    "descricao": "Sobremesa vegetal de coco com frutos vermelhos.",
+    "preco": 4.7,
+    "avaliacao": 4.6,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/panna cotta de coco.jpg",
+    "destaque": false,
+    "calorias": "~280 kcal",
+    "porcao": "1 dose",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "panna-cotta-de-coco-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "panna-cotta-de-coco-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "panna-cotta-de-coco-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "panna-cotta-de-coco-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "panna-cotta-de-coco-extras-frutos-vermelhos-extra-0",
+            "nome": "Frutos vermelhos extra",
+            "preco": 0.8,
+            "incluido": false
+          },
+          {
+            "id": "panna-cotta-de-coco-extras-creme-de-coco-extra-1",
+            "nome": "Creme de coco extra",
+            "preco": 0.9,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "panna-cotta-de-coco-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "panna-cotta-de-coco-retirar-ingredientes-sem-frutos-vermelhos-0",
+            "nome": "Sem frutos vermelhos",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "4g",
+    "hidratos": "34g",
+    "gorduras": "14g",
+    "ingredientes": [
+      "Coco",
+      "Frutos vermelhos",
+      "Agar"
+    ],
+    "alergenios": [
+      "Coco",
+      "Frutos vermelhos"
+    ]
+  },
+  {
+    "id": 18,
+    "nome": "Nuggets de Seitan",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Green Burger Lab",
+    "descricao": "Nuggets crocantes de seitan com molho barbecue vegan.",
+    "preco": 6.8,
+    "avaliacao": 4.6,
+    "tempo": "15-25min",
+    "imagem": "assets/imagens/nuggets de seitan.jpg",
+    "destaque": false,
+    "calorias": "~360 kcal",
+    "porcao": "6 unidades",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "nuggets-de-seitan-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "nuggets-de-seitan-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "nuggets-de-seitan-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "nuggets-de-seitan-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "nuggets-de-seitan-extras-nuggets-extra-0",
+            "nome": "Nuggets extra",
+            "preco": 2,
+            "incluido": false
+          },
+          {
+            "id": "nuggets-de-seitan-extras-molho-barbecue-extra-1",
+            "nome": "Molho barbecue extra",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "nuggets-de-seitan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "nuggets-de-seitan-retirar-ingredientes-sem-molho-barbecue-0",
+            "nome": "Sem molho barbecue",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "22g",
+    "hidratos": "36g",
+    "gorduras": "13g",
+    "ingredientes": [
+      "Seitan",
+      "Panko",
+      "Molho barbecue"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
+    ]
+  },
+  {
+    "id": 19,
+    "nome": "Wrap de Seitan",
+    "tipo": "Refeições",
+    "categoria": "Wraps",
+    "restaurante": "Folha Fresca",
+    "descricao": "Wrap com seitan grelhado, húmus, alface e tomate.",
+    "preco": 9.7,
+    "avaliacao": 4.6,
+    "tempo": "15-25min",
+    "imagem": "assets/imagens/wrap de seitan.jpg",
+    "destaque": false,
+    "calorias": "~510 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "wrap-de-seitan-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "wrap-de-seitan-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "wrap-de-seitan-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "wrap-de-seitan-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "wrap-de-seitan-extras-seitan-extra-0",
+            "nome": "Seitan extra",
+            "preco": 1.8,
+            "incluido": false
+          },
+          {
+            "id": "wrap-de-seitan-extras-humus-extra-1",
+            "nome": "Húmus extra",
+            "preco": 0.8,
+            "incluido": false
+          },
+          {
+            "id": "wrap-de-seitan-extras-tomate-extra-2",
+            "nome": "Tomate extra",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "wrap-de-seitan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "wrap-de-seitan-retirar-ingredientes-sem-humus-0",
+            "nome": "Sem húmus",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "wrap-de-seitan-retirar-ingredientes-sem-alface-1",
+            "nome": "Sem alface",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "wrap-de-seitan-retirar-ingredientes-sem-tomate-2",
+            "nome": "Sem tomate",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "27g",
+    "hidratos": "55g",
+    "gorduras": "19g",
+    "ingredientes": [
+      "Wrap",
+      "Seitan",
+      "Húmus",
+      "Alface",
+      "Tomate"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Sésamo"
+    ]
+  },
+  {
+    "id": 20,
+    "nome": "Hambúrguer Verde",
+    "tipo": "Refeições",
+    "categoria": "Hambúrgueres",
+    "restaurante": "Green Burger Lab",
+    "descricao": "Hambúrguer vegetal com pão brioche vegan, alface, tomate e maionese vegetal.",
+    "preco": 12.9,
+    "avaliacao": 4.6,
+    "tempo": "20-30min",
+    "imagem": "assets/imagens/hambúrguer verde.jpg",
+    "destaque": false,
+    "calorias": "~540 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "hamburguer-verde-acompanhamento-0",
+        "titulo": "Acompanhamento",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "hamburguer-verde-acompanhamento-sem-acompanhamento-0",
+            "nome": "Sem acompanhamento",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "hamburguer-verde-acompanhamento-batata-doce-1",
+            "nome": "Batata doce",
+            "preco": 2.1,
+            "incluido": false
+          },
+          {
+            "id": "hamburguer-verde-acompanhamento-salada-crocante-2",
+            "nome": "Salada crocante",
+            "preco": 1.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "hamburguer-verde-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "hamburguer-verde-extras-queijo-vegan-0",
+            "nome": "Queijo vegan",
+            "preco": 1.2,
+            "incluido": false
+          },
+          {
+            "id": "hamburguer-verde-extras-abacate-1",
+            "nome": "Abacate",
+            "preco": 1.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "hamburguer-verde-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "hamburguer-verde-retirar-ingredientes-sem-cebola-roxa-0",
+            "nome": "Sem cebola roxa",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "hamburguer-verde-retirar-ingredientes-sem-maionese-vegan-1",
+            "nome": "Sem maionese vegan",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "hamburguer-verde-retirar-ingredientes-sem-tomate-2",
+            "nome": "Sem tomate",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "21g",
+    "hidratos": "58g",
+    "gorduras": "24g",
+    "ingredientes": [
+      "Pão brioche vegan",
+      "Hambúrguer vegetal",
+      "Alface",
+      "Tomate",
+      "Cebola roxa",
+      "Maionese vegan"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
+    ]
+  },
+  {
+    "id": 21,
+    "nome": "Tacos de Jaca",
+    "tipo": "Refeições",
+    "categoria": "Tacos",
+    "restaurante": "Taco Verde",
+    "descricao": "Tacos vegan com jaca desfiada, pico de gallo, abacate e molho de lima.",
+    "preco": 11.6,
+    "avaliacao": 4.6,
+    "tempo": "20-30min",
+    "imagem": "assets/imagens/tacos de jaca.jpg",
+    "destaque": false,
+    "calorias": "~480 kcal",
+    "porcao": "3 tacos",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "tacos-de-jaca-picante-0",
+        "titulo": "Picante",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "tacos-de-jaca-picante-suave-0",
+            "nome": "Suave",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "tacos-de-jaca-picante-medio-1",
+            "nome": "Médio",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "tacos-de-jaca-picante-forte-2",
+            "nome": "Forte",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "tacos-de-jaca-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "tacos-de-jaca-extras-abacate-extra-0",
+            "nome": "Abacate extra",
+            "preco": 1.2,
+            "incluido": false
+          },
+          {
+            "id": "tacos-de-jaca-extras-jaca-extra-1",
+            "nome": "Jaca extra",
+            "preco": 1.5,
+            "incluido": false
+          },
+          {
+            "id": "tacos-de-jaca-extras-pico-de-gallo-extra-2",
+            "nome": "Pico de gallo extra",
+            "preco": 0.8,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "tacos-de-jaca-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "tacos-de-jaca-retirar-ingredientes-sem-cebola-roxa-0",
+            "nome": "Sem cebola roxa",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "tacos-de-jaca-retirar-ingredientes-sem-abacate-1",
+            "nome": "Sem abacate",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "tacos-de-jaca-retirar-ingredientes-sem-lima-2",
+            "nome": "Sem lima",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "12g",
+    "hidratos": "68g",
+    "gorduras": "17g",
+    "ingredientes": [
+      "Tortilha",
+      "Jaca",
+      "Tomate",
+      "Cebola roxa",
+      "Abacate",
+      "Lima"
+    ],
+    "alergenios": [
+      "Glúten"
+    ]
+  },
+  {
+    "id": 22,
+    "nome": "Quesadilla de Seitan",
+    "tipo": "Refeições",
+    "categoria": "Tacos",
+    "restaurante": "Taco Verde",
+    "descricao": "Quesadilla vegan com seitan, pimentos e queijo vegetal.",
+    "preco": 10.8,
+    "avaliacao": 4.6,
+    "tempo": "20-30min",
+    "imagem": "assets/imagens/quesadilla de seitan.jpg",
+    "destaque": false,
+    "calorias": "~560 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "quesadilla-de-seitan-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "quesadilla-de-seitan-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "quesadilla-de-seitan-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "quesadilla-de-seitan-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "quesadilla-de-seitan-extras-seitan-extra-0",
+            "nome": "Seitan extra",
+            "preco": 1.8,
+            "incluido": false
+          },
+          {
+            "id": "quesadilla-de-seitan-extras-pimentos-extra-1",
+            "nome": "Pimentos extra",
+            "preco": 0.7,
+            "incluido": false
+          },
+          {
+            "id": "quesadilla-de-seitan-extras-queijo-vegan-extra-2",
+            "nome": "Queijo vegan extra",
+            "preco": 1.2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "quesadilla-de-seitan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "quesadilla-de-seitan-retirar-ingredientes-sem-seitan-0",
+            "nome": "Sem seitan",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "quesadilla-de-seitan-retirar-ingredientes-sem-pimentos-1",
+            "nome": "Sem pimentos",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "quesadilla-de-seitan-retirar-ingredientes-sem-queijo-vegan-2",
+            "nome": "Sem queijo vegan",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "28g",
+    "hidratos": "54g",
+    "gorduras": "24g",
+    "ingredientes": [
+      "Tortilha",
+      "Seitan",
+      "Pimentos",
+      "Queijo vegan"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
+    ]
+  },
+  {
+    "id": 23,
+    "nome": "Ragu de Salsicha Vegan",
+    "tipo": "Refeições",
+    "categoria": "Massas",
+    "restaurante": "Massas Caseiras",
+    "descricao": "Massa fresca com ragu de salsicha vegan e tomate.",
+    "preco": 14.9,
+    "avaliacao": 4.6,
+    "tempo": "25-35min",
+    "imagem": "assets/imagens/ragu de salsicha vegan.jpg",
+    "destaque": false,
+    "calorias": "~610 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "ragu-de-salsicha-vegan-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "ragu-de-salsicha-vegan-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "ragu-de-salsicha-vegan-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "ragu-de-salsicha-vegan-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "ragu-de-salsicha-vegan-extras-salsicha-vegan-extra-0",
+            "nome": "Salsicha vegan extra",
+            "preco": 1.8,
+            "incluido": false
+          },
+          {
+            "id": "ragu-de-salsicha-vegan-extras-tomate-extra-1",
+            "nome": "Tomate extra",
+            "preco": 0.6,
+            "incluido": false
+          },
+          {
+            "id": "ragu-de-salsicha-vegan-extras-100g-de-massa-2",
+            "nome": "+100g de massa",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "ragu-de-salsicha-vegan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "ragu-de-salsicha-vegan-retirar-ingredientes-sem-salsicha-vegan-0",
+            "nome": "Sem salsicha vegan",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "ragu-de-salsicha-vegan-retirar-ingredientes-sem-tomate-1",
+            "nome": "Sem tomate",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "24g",
+    "hidratos": "78g",
+    "gorduras": "22g",
+    "ingredientes": [
+      "Massa",
+      "Salsicha vegan",
+      "Tomate",
+      "Ervas"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
+    ]
+  },
+  {
+    "id": 24,
+    "nome": "Ramen de Tofu",
+    "tipo": "Refeições",
+    "categoria": "Ramen",
+    "restaurante": "Sushi Raiz",
+    "descricao": "Ramen vegan com tofu, cogumelos, noodles e caldo miso.",
+    "preco": 12.8,
+    "avaliacao": 4.6,
+    "tempo": "25-35min",
+    "imagem": "assets/imagens/ramen de tofu.jpg",
+    "destaque": false,
+    "calorias": "~540 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "ramen-de-tofu-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "ramen-de-tofu-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "ramen-de-tofu-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "ramen-de-tofu-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "ramen-de-tofu-extras-tofu-extra-0",
+            "nome": "Tofu extra",
+            "preco": 1.5,
+            "incluido": false
+          },
+          {
+            "id": "ramen-de-tofu-extras-cogumelos-extra-1",
+            "nome": "Cogumelos extra",
+            "preco": 1.2,
+            "incluido": false
+          },
+          {
+            "id": "ramen-de-tofu-extras-noodles-extra-2",
+            "nome": "Noodles extra",
+            "preco": 1,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "ramen-de-tofu-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "ramen-de-tofu-retirar-ingredientes-sem-tofu-0",
+            "nome": "Sem tofu",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "ramen-de-tofu-retirar-ingredientes-sem-cogumelos-1",
+            "nome": "Sem cogumelos",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "ramen-de-tofu-retirar-ingredientes-sem-miso-2",
+            "nome": "Sem miso",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "24g",
+    "hidratos": "70g",
+    "gorduras": "18g",
+    "ingredientes": [
+      "Tofu",
+      "Noodles",
+      "Cogumelos",
+      "Miso"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja"
+    ]
+  },
+  {
+    "id": 25,
+    "nome": "Limonada de Manjericão",
+    "tipo": "Bebidas",
+    "categoria": "Bebidas",
+    "restaurante": "Pizzaria Luzzo",
+    "descricao": "Limonada fresca com manjericão, lima e gelo.",
+    "preco": 3.2,
+    "avaliacao": 4.5,
+    "tempo": "10-15min",
+    "imagem": "assets/imagens/limonada de manjericao.jpg",
+    "destaque": false,
+    "calorias": "~90 kcal",
+    "porcao": "1 bebida",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "limonada-de-manjericao-docura-0",
+        "titulo": "Doçura",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "limonada-de-manjericao-docura-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "limonada-de-manjericao-docura-sem-acucar-1",
+            "nome": "Sem açúcar",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "limonada-de-manjericao-docura-extra-doce-2",
+            "nome": "Extra doce",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "limonada-de-manjericao-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "limonada-de-manjericao-extras-manjericao-extra-0",
+            "nome": "Manjericão extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "limonada-de-manjericao-extras-lima-extra-1",
+            "nome": "Lima extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "limonada-de-manjericao-extras-gengibre-2",
+            "nome": "Gengibre",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "limonada-de-manjericao-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "limonada-de-manjericao-retirar-ingredientes-sem-manjericao-0",
+            "nome": "Sem manjericão",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "limonada-de-manjericao-retirar-ingredientes-sem-lima-1",
+            "nome": "Sem lima",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "limonada-de-manjericao-retirar-ingredientes-sem-gelo-2",
+            "nome": "Sem gelo",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "1g",
+    "hidratos": "22g",
+    "gorduras": "0g",
+    "ingredientes": [
+      "Limão",
+      "Lima",
+      "Manjericão",
+      "Água",
+      "Gelo"
+    ],
+    "alergenios": [
+      "Limão",
+      "Lima",
+      "Manjericão"
+    ]
+  },
+  {
+    "id": 26,
+    "nome": "Edamame com Flor de Sal",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Sushi Raiz",
+    "descricao": "Edamame quente com flor de sal e lima.",
+    "preco": 4.4,
+    "avaliacao": 4.5,
+    "tempo": "10-15min",
+    "imagem": "assets/imagens/edamame com flor de sal.jpg",
+    "destaque": false,
+    "calorias": "~190 kcal",
+    "porcao": "1 dose",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "edamame-com-flor-de-sal-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "edamame-com-flor-de-sal-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "edamame-com-flor-de-sal-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "edamame-com-flor-de-sal-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "edamame-com-flor-de-sal-extras-lima-extra-0",
+            "nome": "Lima extra",
+            "preco": 0.3,
+            "incluido": false
+          },
+          {
+            "id": "edamame-com-flor-de-sal-extras-flor-de-sal-extra-1",
+            "nome": "Flor de sal extra",
+            "preco": 0.2,
+            "incluido": false
+          },
+          {
+            "id": "edamame-com-flor-de-sal-extras-edamame-extra-2",
+            "nome": "Edamame extra",
+            "preco": 1.2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "edamame-com-flor-de-sal-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "edamame-com-flor-de-sal-retirar-ingredientes-sem-flor-de-sal-0",
+            "nome": "Sem flor de sal",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "edamame-com-flor-de-sal-retirar-ingredientes-sem-lima-1",
+            "nome": "Sem lima",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "17g",
+    "hidratos": "14g",
+    "gorduras": "8g",
+    "ingredientes": [
+      "Edamame",
+      "Flor de sal",
+      "Lima"
+    ],
+    "alergenios": [
+      "Soja"
+    ]
+  },
+  {
+    "id": 27,
+    "nome": "Sopa de Lentilhas",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Folha Fresca",
+    "descricao": "Sopa cremosa de lentilhas com cenoura e cominhos.",
+    "preco": 4.2,
+    "avaliacao": 4.5,
+    "tempo": "10-15min",
+    "imagem": "assets/imagens/sopa de lentilhas.jpg",
+    "destaque": false,
+    "calorias": "~240 kcal",
+    "porcao": "1 taça",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "sopa-de-lentilhas-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "sopa-de-lentilhas-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "sopa-de-lentilhas-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "sopa-de-lentilhas-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "sopa-de-lentilhas-extras-lentilhas-extra-0",
+            "nome": "Lentilhas extra",
+            "preco": 0.9,
+            "incluido": false
+          },
+          {
+            "id": "sopa-de-lentilhas-extras-cenoura-extra-1",
+            "nome": "Cenoura extra",
+            "preco": 0.5,
+            "incluido": false
+          },
+          {
+            "id": "sopa-de-lentilhas-extras-cominhos-extra-2",
+            "nome": "Cominhos extra",
+            "preco": 0.2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "sopa-de-lentilhas-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "sopa-de-lentilhas-retirar-ingredientes-sem-cenoura-0",
+            "nome": "Sem cenoura",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "sopa-de-lentilhas-retirar-ingredientes-sem-cominhos-1",
+            "nome": "Sem cominhos",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "14g",
+    "hidratos": "34g",
+    "gorduras": "5g",
+    "ingredientes": [
+      "Lentilhas",
+      "Cenoura",
+      "Cominhos"
+    ],
+    "alergenios": []
+  },
+  {
+    "id": 28,
+    "nome": "Salada Mediterrânica",
+    "tipo": "Refeições",
+    "categoria": "Saladas",
+    "restaurante": "Folha Fresca",
+    "descricao": "Salada fresca com grão, tomate cherry, pepino, azeitonas e molho de ervas.",
+    "preco": 8.9,
+    "avaliacao": 4.5,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/salada mediterrânea.jpg",
+    "destaque": false,
+    "calorias": "~390 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "salada-mediterranica-base-0",
+        "titulo": "Base",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "salada-mediterranica-base-rucula-0",
+            "nome": "Rúcula",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "salada-mediterranica-base-alface-romana-1",
+            "nome": "Alface romana",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "salada-mediterranica-base-mix-de-folhas-2",
+            "nome": "Mix de folhas",
+            "preco": 0.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "salada-mediterranica-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "salada-mediterranica-extras-grao-extra-0",
+            "nome": "Grão extra",
+            "preco": 1,
+            "incluido": false
+          },
+          {
+            "id": "salada-mediterranica-extras-rucula-extra-1",
+            "nome": "Rúcula extra",
+            "preco": 0.7,
+            "incluido": false
+          },
+          {
+            "id": "salada-mediterranica-extras-molho-de-ervas-extra-2",
+            "nome": "Molho de ervas extra",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "salada-mediterranica-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "salada-mediterranica-retirar-ingredientes-sem-azeitonas-0",
+            "nome": "Sem azeitonas",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "salada-mediterranica-retirar-ingredientes-sem-pepino-1",
+            "nome": "Sem pepino",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "salada-mediterranica-retirar-ingredientes-sem-molho-de-ervas-2",
+            "nome": "Sem molho de ervas",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "15g",
+    "hidratos": "46g",
+    "gorduras": "15g",
+    "ingredientes": [
+      "Grão",
+      "Tomate cherry",
+      "Pepino",
+      "Azeitonas",
+      "Rúcula",
+      "Molho de ervas"
+    ],
+    "alergenios": []
+  },
+  {
+    "id": 29,
+    "nome": "Focaccia de Alecrim",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Pizzaria Luzzo",
+    "descricao": "Focaccia artesanal com azeite, alecrim e sal grosso.",
+    "preco": 4.9,
+    "avaliacao": 4.5,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/focaccia de alecrim.jpg",
+    "destaque": false,
+    "calorias": "~260 kcal",
+    "porcao": "1 entrada",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "focaccia-de-alecrim-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "focaccia-de-alecrim-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "focaccia-de-alecrim-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "focaccia-de-alecrim-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "focaccia-de-alecrim-extras-alecrim-extra-0",
+            "nome": "Alecrim extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "focaccia-de-alecrim-extras-azeite-extra-1",
+            "nome": "Azeite extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "focaccia-de-alecrim-extras-sal-grosso-extra-2",
+            "nome": "Sal grosso extra",
+            "preco": 0.2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "focaccia-de-alecrim-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "focaccia-de-alecrim-retirar-ingredientes-sem-alecrim-0",
+            "nome": "Sem alecrim",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "focaccia-de-alecrim-retirar-ingredientes-sem-azeite-1",
+            "nome": "Sem azeite",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "focaccia-de-alecrim-retirar-ingredientes-sem-sal-grosso-2",
+            "nome": "Sem sal grosso",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "7g",
+    "hidratos": "42g",
+    "gorduras": "8g",
+    "ingredientes": [
+      "Massa artesanal",
+      "Alecrim",
+      "Azeite",
+      "Sal grosso"
+    ],
+    "alergenios": [
+      "Glúten"
+    ]
+  },
+  {
+    "id": 30,
+    "nome": "Bruschetta de Tomate",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Massas Caseiras",
+    "descricao": "Pão tostado com tomate, alho, manjericão e azeite.",
+    "preco": 5.1,
+    "avaliacao": 4.5,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/bruschetta de tomate.jpg",
+    "destaque": false,
+    "calorias": "~240 kcal",
+    "porcao": "2 unidades",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "bruschetta-de-tomate-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "bruschetta-de-tomate-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "bruschetta-de-tomate-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "bruschetta-de-tomate-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "bruschetta-de-tomate-extras-tomate-extra-0",
+            "nome": "Tomate extra",
+            "preco": 0.6,
+            "incluido": false
+          },
+          {
+            "id": "bruschetta-de-tomate-extras-manjericao-extra-1",
+            "nome": "Manjericão extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "bruschetta-de-tomate-extras-azeite-extra-2",
+            "nome": "Azeite extra",
+            "preco": 0.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "bruschetta-de-tomate-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "bruschetta-de-tomate-retirar-ingredientes-sem-alho-0",
+            "nome": "Sem alho",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "bruschetta-de-tomate-retirar-ingredientes-sem-manjericao-1",
+            "nome": "Sem manjericão",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "bruschetta-de-tomate-retirar-ingredientes-sem-azeite-2",
+            "nome": "Sem azeite",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "6g",
+    "hidratos": "36g",
+    "gorduras": "8g",
+    "ingredientes": [
+      "Pão",
+      "Tomate",
+      "Alho",
+      "Manjericão",
+      "Azeite"
+    ],
+    "alergenios": [
+      "Glúten"
+    ]
+  },
+  {
+    "id": 31,
+    "nome": "Nachos com Feijão Preto",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Taco Verde",
+    "descricao": "Nachos com feijão preto, pico de gallo e queijo vegan.",
+    "preco": 7.2,
+    "avaliacao": 4.5,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/nachos com feijao preto.jpg",
+    "destaque": false,
+    "calorias": "~470 kcal",
+    "porcao": "1 dose",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "nachos-com-feijao-preto-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "nachos-com-feijao-preto-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "nachos-com-feijao-preto-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "nachos-com-feijao-preto-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "nachos-com-feijao-preto-extras-feijao-preto-extra-0",
+            "nome": "Feijão preto extra",
+            "preco": 0.9,
+            "incluido": false
+          },
+          {
+            "id": "nachos-com-feijao-preto-extras-queijo-vegan-extra-1",
+            "nome": "Queijo vegan extra",
+            "preco": 1.2,
+            "incluido": false
+          },
+          {
+            "id": "nachos-com-feijao-preto-extras-pico-de-gallo-extra-2",
+            "nome": "Pico de gallo extra",
+            "preco": 0.8,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "nachos-com-feijao-preto-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "nachos-com-feijao-preto-retirar-ingredientes-sem-feijao-preto-0",
+            "nome": "Sem feijão preto",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "nachos-com-feijao-preto-retirar-ingredientes-sem-tomate-1",
+            "nome": "Sem tomate",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "nachos-com-feijao-preto-retirar-ingredientes-sem-queijo-vegan-2",
+            "nome": "Sem queijo vegan",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "16g",
+    "hidratos": "58g",
+    "gorduras": "18g",
+    "ingredientes": [
+      "Tortilhas",
+      "Feijão preto",
+      "Tomate",
+      "Queijo vegan"
+    ],
+    "alergenios": [
+      "Soja"
+    ]
+  },
+  {
+    "id": 32,
+    "nome": "Croissant de Cogumelos",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Brunch Verde",
+    "descricao": "Croissant salgado com cogumelos salteados, rúcula e mostarda.",
+    "preco": 8.4,
+    "avaliacao": 4.5,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/croissant de cogumelos.jpg",
+    "destaque": false,
+    "calorias": "~520 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "croissant-de-cogumelos-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "croissant-de-cogumelos-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "croissant-de-cogumelos-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "croissant-de-cogumelos-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "croissant-de-cogumelos-extras-cogumelos-extra-0",
+            "nome": "Cogumelos extra",
+            "preco": 1,
+            "incluido": false
+          },
+          {
+            "id": "croissant-de-cogumelos-extras-rucula-extra-1",
+            "nome": "Rúcula extra",
+            "preco": 0.5,
+            "incluido": false
+          },
+          {
+            "id": "croissant-de-cogumelos-extras-mostarda-extra-2",
+            "nome": "Mostarda extra",
+            "preco": 0.3,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "croissant-de-cogumelos-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "croissant-de-cogumelos-retirar-ingredientes-sem-cogumelos-0",
+            "nome": "Sem cogumelos",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "croissant-de-cogumelos-retirar-ingredientes-sem-rucula-1",
+            "nome": "Sem rúcula",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "croissant-de-cogumelos-retirar-ingredientes-sem-mostarda-2",
+            "nome": "Sem mostarda",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "21g",
+    "hidratos": "48g",
+    "gorduras": "26g",
+    "ingredientes": [
+      "Croissant",
+      "Cogumelos",
+      "Rúcula",
+      "Mostarda"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja",
+      "Mostarda"
+    ]
+  },
+  {
+    "id": 33,
+    "nome": "Hot Dog de Salsicha Vegan",
+    "tipo": "Refeições",
+    "categoria": "Pratos principais",
+    "restaurante": "Green Burger Lab",
+    "descricao": "Pão macio com salsicha vegan, cebola crocante e molho mostarda.",
+    "preco": 10.5,
+    "avaliacao": 4.5,
+    "tempo": "20-30min",
+    "imagem": "assets/imagens/hot dog de salsicha vegan.jpg",
+    "destaque": false,
+    "calorias": "~520 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "hot-dog-de-salsicha-vegan-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "hot-dog-de-salsicha-vegan-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "hot-dog-de-salsicha-vegan-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "hot-dog-de-salsicha-vegan-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "hot-dog-de-salsicha-vegan-extras-salsicha-vegan-extra-0",
+            "nome": "Salsicha vegan extra",
+            "preco": 1.8,
+            "incluido": false
+          },
+          {
+            "id": "hot-dog-de-salsicha-vegan-extras-cebola-crocante-extra-1",
+            "nome": "Cebola crocante extra",
+            "preco": 0.6,
+            "incluido": false
+          },
+          {
+            "id": "hot-dog-de-salsicha-vegan-extras-mostarda-extra-2",
+            "nome": "Mostarda extra",
+            "preco": 0.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "hot-dog-de-salsicha-vegan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "hot-dog-de-salsicha-vegan-retirar-ingredientes-sem-cebola-0",
+            "nome": "Sem cebola",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "hot-dog-de-salsicha-vegan-retirar-ingredientes-sem-mostarda-1",
+            "nome": "Sem mostarda",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "23g",
+    "hidratos": "58g",
+    "gorduras": "22g",
+    "ingredientes": [
+      "Pão",
+      "Salsicha vegan",
+      "Cebola",
+      "Mostarda"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Soja",
+      "Mostarda"
+    ]
+  },
+  {
+    "id": 34,
+    "nome": "Sumo Laranja e Gengibre",
+    "tipo": "Bebidas",
+    "categoria": "Bebidas",
+    "restaurante": "Bowl Garden",
+    "descricao": "Sumo natural de laranja com gengibre fresco.",
+    "preco": 3.6,
+    "avaliacao": 4.5,
+    "tempo": "5-10min",
+    "imagem": "assets/imagens/sumo de laranja e gengibre.jpg",
+    "destaque": false,
+    "calorias": "~150 kcal",
+    "porcao": "1 bebida",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "sumo-laranja-e-gengibre-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "sumo-laranja-e-gengibre-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "sumo-laranja-e-gengibre-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "sumo-laranja-e-gengibre-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "sumo-laranja-e-gengibre-extras-gengibre-extra-0",
+            "nome": "Gengibre extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "sumo-laranja-e-gengibre-extras-laranja-extra-1",
+            "nome": "Laranja extra",
+            "preco": 0.6,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "sumo-laranja-e-gengibre-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "sumo-laranja-e-gengibre-retirar-ingredientes-sem-gengibre-0",
+            "nome": "Sem gengibre",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "2g",
+    "hidratos": "34g",
+    "gorduras": "0g",
+    "ingredientes": [
+      "Laranja",
+      "Gengibre"
+    ],
+    "alergenios": []
+  },
+  {
+    "id": 35,
+    "nome": "Cappuccino de Aveia",
+    "tipo": "Bebidas",
+    "categoria": "Bebidas",
+    "restaurante": "Brunch Verde",
+    "descricao": "Cappuccino com bebida de aveia e canela.",
+    "preco": 3.4,
+    "avaliacao": 4.5,
+    "tempo": "5-10min",
+    "imagem": "assets/imagens/cappuccino de aveia.jpg",
+    "destaque": false,
+    "calorias": "~110 kcal",
+    "porcao": "1 bebida",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "cappuccino-de-aveia-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "cappuccino-de-aveia-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "cappuccino-de-aveia-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "cappuccino-de-aveia-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "cappuccino-de-aveia-extras-canela-extra-0",
+            "nome": "Canela extra",
+            "preco": 0.2,
+            "incluido": false
+          },
+          {
+            "id": "cappuccino-de-aveia-extras-bebida-de-aveia-extra-1",
+            "nome": "Bebida de aveia extra",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "cappuccino-de-aveia-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "cappuccino-de-aveia-retirar-ingredientes-sem-canela-0",
+            "nome": "Sem canela",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "3g",
+    "hidratos": "18g",
+    "gorduras": "3g",
+    "ingredientes": [
+      "Café",
+      "Bebida de aveia",
+      "Canela"
+    ],
+    "alergenios": [
+      "Glúten"
+    ]
+  },
+  {
+    "id": 36,
+    "nome": "Latte de Baunilha",
+    "tipo": "Bebidas",
+    "categoria": "Bebidas",
+    "restaurante": "Doce Planta",
+    "descricao": "Latte com bebida vegetal e baunilha natural.",
+    "preco": 3.5,
+    "avaliacao": 4.5,
+    "tempo": "5-10min",
+    "imagem": "assets/imagens/latte de baunilha.jpg",
+    "destaque": false,
+    "calorias": "~130 kcal",
+    "porcao": "1 bebida",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "latte-de-baunilha-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "latte-de-baunilha-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "latte-de-baunilha-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "latte-de-baunilha-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "latte-de-baunilha-extras-baunilha-extra-0",
+            "nome": "Baunilha extra",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "latte-de-baunilha-extras-bebida-vegetal-extra-1",
+            "nome": "Bebida vegetal extra",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "latte-de-baunilha-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "latte-de-baunilha-retirar-ingredientes-sem-baunilha-0",
+            "nome": "Sem baunilha",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "3g",
+    "hidratos": "20g",
+    "gorduras": "4g",
+    "ingredientes": [
+      "Café",
+      "Bebida vegetal",
+      "Baunilha"
+    ],
+    "alergenios": []
+  },
+  {
+    "id": 37,
+    "nome": "Chá Frio de Pêssego",
+    "tipo": "Bebidas",
+    "categoria": "Bebidas",
+    "restaurante": "Taco Verde",
+    "descricao": "Chá frio artesanal com pêssego, hortelã e limão.",
+    "preco": 2.9,
+    "avaliacao": 4.4,
+    "tempo": "10-15min",
+    "imagem": "assets/imagens/cha frio de pessego.jpg",
+    "destaque": false,
+    "calorias": "~85 kcal",
+    "porcao": "1 bebida",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "cha-frio-de-pessego-gelo-0",
+        "titulo": "Gelo",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "cha-frio-de-pessego-gelo-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "cha-frio-de-pessego-gelo-pouco-gelo-1",
+            "nome": "Pouco gelo",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "cha-frio-de-pessego-gelo-sem-gelo-2",
+            "nome": "Sem gelo",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "cha-frio-de-pessego-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "cha-frio-de-pessego-extras-pessego-extra-0",
+            "nome": "Pêssego extra",
+            "preco": 0.6,
+            "incluido": false
+          },
+          {
+            "id": "cha-frio-de-pessego-extras-hortela-extra-1",
+            "nome": "Hortelã extra",
+            "preco": 0.3,
+            "incluido": false
+          },
+          {
+            "id": "cha-frio-de-pessego-extras-limao-extra-2",
+            "nome": "Limão extra",
+            "preco": 0.3,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "cha-frio-de-pessego-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "cha-frio-de-pessego-retirar-ingredientes-sem-hortela-0",
+            "nome": "Sem hortelã",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "cha-frio-de-pessego-retirar-ingredientes-sem-limao-1",
+            "nome": "Sem limão",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "cha-frio-de-pessego-retirar-ingredientes-sem-pessego-2",
+            "nome": "Sem pêssego",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "0g",
+    "hidratos": "21g",
+    "gorduras": "0g",
+    "ingredientes": [
+      "Chá preto",
+      "Pêssego",
+      "Hortelã",
+      "Limão"
+    ],
+    "alergenios": []
+  },
+  {
+    "id": 38,
+    "nome": "Tosta de Abacate",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Brunch Verde",
+    "descricao": "Tosta de pão de sementes com abacate, tomate, lima e sementes tostadas.",
+    "preco": 7.5,
+    "avaliacao": 4.4,
+    "tempo": "10-20min",
+    "imagem": "assets/imagens/tosta de abacate.jpg",
+    "destaque": false,
+    "calorias": "~360 kcal",
+    "porcao": "1 pessoa",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "tosta-de-abacate-pao-0",
+        "titulo": "Pão",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "tosta-de-abacate-pao-pao-de-sementes-0",
+            "nome": "Pão de sementes",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "tosta-de-abacate-pao-pao-integral-1",
+            "nome": "Pão integral",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "tosta-de-abacate-pao-pao-sem-gluten-2",
+            "nome": "Pão sem glúten",
+            "preco": 1.1,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "tosta-de-abacate-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "tosta-de-abacate-extras-abacate-extra-0",
+            "nome": "Abacate extra",
+            "preco": 1.2,
+            "incluido": false
+          },
+          {
+            "id": "tosta-de-abacate-extras-tomate-extra-1",
+            "nome": "Tomate extra",
+            "preco": 0.6,
+            "incluido": false
+          },
+          {
+            "id": "tosta-de-abacate-extras-sementes-extra-2",
+            "nome": "Sementes extra",
+            "preco": 0.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "tosta-de-abacate-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "tosta-de-abacate-retirar-ingredientes-sem-sementes-0",
+            "nome": "Sem sementes",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "tosta-de-abacate-retirar-ingredientes-sem-lima-1",
+            "nome": "Sem lima",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "tosta-de-abacate-retirar-ingredientes-sem-tomate-2",
+            "nome": "Sem tomate",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "9g",
+    "hidratos": "38g",
+    "gorduras": "19g",
+    "ingredientes": [
+      "Pão de sementes",
+      "Abacate",
+      "Tomate",
+      "Lima",
+      "Sementes"
+    ],
+    "alergenios": [
+      "Glúten",
+      "Sésamo"
+    ]
+  },
+  {
+    "id": 39,
+    "nome": "Batata Doce com Aioli",
+    "tipo": "Refeições",
+    "categoria": "Entradas",
+    "restaurante": "Green Burger Lab",
+    "descricao": "Batata doce assada com aioli vegan.",
+    "preco": 4.6,
+    "avaliacao": 4.4,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/batata doce com aioli.jpg",
+    "destaque": false,
+    "calorias": "~300 kcal",
+    "porcao": "1 dose",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "batata-doce-com-aioli-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "batata-doce-com-aioli-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "batata-doce-com-aioli-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "batata-doce-com-aioli-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "batata-doce-com-aioli-extras-aioli-vegan-extra-0",
+            "nome": "Aioli vegan extra",
+            "preco": 0.7,
+            "incluido": false
+          },
+          {
+            "id": "batata-doce-com-aioli-extras-paprika-extra-1",
+            "nome": "Paprika extra",
+            "preco": 0.3,
+            "incluido": false
+          },
+          {
+            "id": "batata-doce-com-aioli-extras-batata-doce-extra-2",
+            "nome": "Batata doce extra",
+            "preco": 1.5,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "batata-doce-com-aioli-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "batata-doce-com-aioli-retirar-ingredientes-sem-aioli-vegan-0",
+            "nome": "Sem aioli vegan",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "batata-doce-com-aioli-retirar-ingredientes-sem-paprika-1",
+            "nome": "Sem paprika",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "4g",
+    "hidratos": "48g",
+    "gorduras": "10g",
+    "ingredientes": [
+      "Batata doce",
+      "Aioli vegan",
+      "Paprika"
+    ],
+    "alergenios": []
+  },
+  {
+    "id": 40,
+    "nome": "Churros Vegan",
+    "tipo": "Sobremesas",
+    "categoria": "Sobremesas",
+    "restaurante": "Taco Verde",
+    "descricao": "Churros vegan com açúcar e canela.",
+    "preco": 4.9,
+    "avaliacao": 4.4,
+    "tempo": "15-20min",
+    "imagem": "assets/imagens/churros vegan.jpg",
+    "destaque": false,
+    "calorias": "~390 kcal",
+    "porcao": "4 unidades",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "churros-vegan-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "churros-vegan-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "churros-vegan-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "churros-vegan-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "churros-vegan-extras-canela-extra-0",
+            "nome": "Canela extra",
+            "preco": 0.2,
+            "incluido": false
+          },
+          {
+            "id": "churros-vegan-extras-acucar-extra-1",
+            "nome": "Açúcar extra",
+            "preco": 0.2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "churros-vegan-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "churros-vegan-retirar-ingredientes-sem-canela-0",
+            "nome": "Sem canela",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "churros-vegan-retirar-ingredientes-sem-acucar-1",
+            "nome": "Sem açúcar",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "5g",
+    "hidratos": "62g",
+    "gorduras": "13g",
+    "ingredientes": [
+      "Massa",
+      "Canela",
+      "Açúcar"
+    ],
+    "alergenios": [
+      "Glúten"
+    ]
+  },
+  {
+    "id": 41,
+    "nome": "Sumo Detox Verde",
+    "tipo": "Bebidas",
+    "categoria": "Bebidas",
+    "restaurante": "Folha Fresca",
+    "descricao": "Sumo de couve, maçã, pepino e limão.",
+    "preco": 3.9,
+    "avaliacao": 4.4,
+    "tempo": "5-10min",
+    "imagem": "assets/imagens/sumo detox verde.jpg",
+    "destaque": false,
+    "calorias": "~120 kcal",
+    "porcao": "1 bebida",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "sumo-detox-verde-porcao-0",
+        "titulo": "Porção",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "sumo-detox-verde-porcao-normal-0",
+            "nome": "Normal",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "sumo-detox-verde-porcao-grande-1",
+            "nome": "Grande",
+            "preco": 2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "sumo-detox-verde-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "sumo-detox-verde-extras-maca-extra-0",
+            "nome": "Maçã extra",
+            "preco": 0.5,
+            "incluido": false
+          },
+          {
+            "id": "sumo-detox-verde-extras-limao-extra-1",
+            "nome": "Limão extra",
+            "preco": 0.3,
+            "incluido": false
+          },
+          {
+            "id": "sumo-detox-verde-extras-couve-extra-2",
+            "nome": "Couve extra",
+            "preco": 0.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "sumo-detox-verde-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "sumo-detox-verde-retirar-ingredientes-sem-pepino-0",
+            "nome": "Sem pepino",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "sumo-detox-verde-retirar-ingredientes-sem-limao-1",
+            "nome": "Sem limão",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "2g",
+    "hidratos": "28g",
+    "gorduras": "0g",
+    "ingredientes": [
+      "Couve",
+      "Maçã",
+      "Pepino",
+      "Limão"
+    ],
+    "alergenios": []
+  },
+  {
+    "id": 42,
+    "nome": "Smoothie Verde",
+    "tipo": "Bebidas",
+    "categoria": "Bebidas",
+    "restaurante": "Bowl Garden",
+    "descricao": "Bebida fria com espinafre, maçã, banana, limão e leite vegetal.",
+    "preco": 3.8,
+    "avaliacao": 4.3,
+    "tempo": "5-10min",
+    "imagem": "assets/imagens/smoothie verde.jpg",
+    "destaque": false,
+    "calorias": "~210 kcal",
+    "porcao": "1 bebida",
+    "personalizavel": true,
+    "personalizacoes": [
+      {
+        "id": "smoothie-verde-leite-vegetal-0",
+        "titulo": "Leite vegetal",
+        "obrigatorio": true,
+        "escolhaMultipla": false,
+        "opcoes": [
+          {
+            "id": "smoothie-verde-leite-vegetal-aveia-0",
+            "nome": "Aveia",
+            "preco": 0,
+            "incluido": true
+          },
+          {
+            "id": "smoothie-verde-leite-vegetal-amendoa-1",
+            "nome": "Amêndoa",
+            "preco": 0.4,
+            "incluido": false
+          },
+          {
+            "id": "smoothie-verde-leite-vegetal-soja-2",
+            "nome": "Soja",
+            "preco": 0.2,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "smoothie-verde-extras-1",
+        "titulo": "Extras",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "smoothie-verde-extras-proteina-vegetal-0",
+            "nome": "Proteína vegetal",
+            "preco": 1.5,
+            "incluido": false
+          },
+          {
+            "id": "smoothie-verde-extras-gengibre-1",
+            "nome": "Gengibre",
+            "preco": 0.4,
+            "incluido": false
+          }
+        ]
+      },
+      {
+        "id": "smoothie-verde-retirar-ingredientes-2",
+        "titulo": "Retirar ingredientes",
+        "obrigatorio": false,
+        "escolhaMultipla": true,
+        "opcoes": [
+          {
+            "id": "smoothie-verde-retirar-ingredientes-sem-banana-0",
+            "nome": "Sem banana",
+            "preco": 0,
+            "incluido": false
+          },
+          {
+            "id": "smoothie-verde-retirar-ingredientes-sem-limao-1",
+            "nome": "Sem limão",
+            "preco": 0,
+            "incluido": false
+          }
+        ]
+      }
+    ],
+    "proteina": "5g",
+    "hidratos": "42g",
+    "gorduras": "4g",
+    "ingredientes": [
+      "Espinafre",
+      "Maçã",
+      "Banana",
+      "Limão",
+      "Leite vegetal"
+    ],
+    "alergenios": [
+      "Limão",
+      "Banana",
+      "Bebida vegetal"
     ]
   }
 ]
