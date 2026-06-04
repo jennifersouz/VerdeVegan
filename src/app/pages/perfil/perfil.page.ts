@@ -36,9 +36,8 @@ export class PerfilPage {
     const perfilGuardado = await this.perfilService.obterPerfil();
 
     if (!perfilGuardado) {
-      this.perfil = undefined;
-      this.historicoPontos = [];
-      this.iniciais = '';
+      // Redirecionar para login preservando returnUrl
+      this.router.navigateByUrl('/login?returnUrl=/tabs/perfil', { replaceUrl: true });
       return;
     }
 

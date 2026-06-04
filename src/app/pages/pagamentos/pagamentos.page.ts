@@ -59,8 +59,8 @@ export class PagamentosPage {
   // ── Validadores auxiliares ──────────────────────────────────────────────────
 
   public telefoneValido(telefone: string): boolean {
-    const limpo = telefone.replace(/\s/g, '');
-    return /^(9[1236]\d{7}|2\d{8})$/.test(limpo);
+    const limpo = telefone.replace(/\D/g, '');
+    return /^9[1236]\d{7}$/.test(limpo);
   }
 
   public ultimosDigitosValidos(valor: string): boolean {
@@ -83,6 +83,19 @@ export class PagamentosPage {
     if (ano === anoAtual && mes < mesAtual) return false;
 
     return true;
+  }
+
+  public filtrarApenasNumerosPagamento() {
+    this.novoPagamento.ultimosDigitos =
+      this.novoPagamento.ultimosDigitos.replace(/\D/g, '');
+
+    if (this.novoPagamento.tipo === 'MB Way') {
+      this.novoPagamento.ultimosDigitos =
+        this.novoPagamento.ultimosDigitos.slice(0, 9);
+    } else {
+      this.novoPagamento.ultimosDigitos =
+        this.novoPagamento.ultimosDigitos.slice(0, 4);
+    }
   }
 
   // ── Navegação ───────────────────────────────────────────────────────────────
@@ -125,6 +138,7 @@ export class PagamentosPage {
     this.novoPagamento.titular       = this.novoPagamento.titular.trim();
     this.novoPagamento.ultimosDigitos = this.novoPagamento.ultimosDigitos.trim();
     this.novoPagamento.validade      = this.novoPagamento.validade.trim();
+    this.filtrarApenasNumerosPagamento();
 
     if (!this.novoPagamento.tipo) {
       this.mensagemErro = 'Seleciona um tipo de pagamento.';

@@ -1,7 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
-import { PerfilService } from '../services/perfil';
+import { filter, Subscription } from 'rxjs';
+import { CarrinhoService } from '../services/carrinho';
 
 @Component({
   selector: 'app-tabs',
@@ -9,22 +9,32 @@ import { PerfilService } from '../services/perfil';
   styleUrls: ['tabs.page.scss'],
   standalone: false,
 })
-export class TabsPage implements OnDestroy {
+export class TabsPage implements OnInit, OnDestroy {
 
   public menuAtivo = false;
   public totalArtigosCarrinho = 0;
+  public quantidadeCarrinho = 0;
 
-  private readonly atualizarCarrinhoHandler = () => this.atualizarTotalCarrinho();
+  private routerEventsSub?: Subscription;
+  private readonly atualizarCarrinhoHandler = () => {
+    this.ngZone.run(() => {
+      this.atualizarTotalCarrinho();
+    });
+  };
 
   constructor(
     private router: Router,
-    private perfilService: PerfilService
-  ) {
+    private carrinhoService: CarrinhoService,
+    private ngZone: NgZone
+  ) {}
+
+  ngOnInit() {
     this.atualizarTabAtiva(this.router.url);
     this.atualizarTotalCarrinho();
+
     window.addEventListener('verdevegan_carrinho_atualizado', this.atualizarCarrinhoHandler);
 
-    this.router.events
+    this.routerEventsSub = this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.atualizarTabAtiva(event.urlAfterRedirects);
@@ -34,6 +44,7 @@ export class TabsPage implements OnDestroy {
 
   ngOnDestroy() {
     window.removeEventListener('verdevegan_carrinho_atualizado', this.atualizarCarrinhoHandler);
+    this.routerEventsSub?.unsubscribe();
   }
 
   private atualizarTabAtiva(url: string) {
@@ -45,32 +56,12 @@ export class TabsPage implements OnDestroy {
   }
 
   private async atualizarTotalCarrinho() {
-    const perfil = await this.perfilService.obterPerfil();
-    const chaveCarrinho = perfil
-      ? `verdevegan_carrinho_${perfil.email}`
-      : 'verdevegan_carrinho_anonimo';
-
-    const dados = localStorage.getItem(chaveCarrinho);
-
-    if (!dados) {
-      this.totalArtigosCarrinho = 0;
-      return;
-    }
-
     try {
-      const itens = JSON.parse(dados);
-
-      if (!Array.isArray(itens)) {
-        this.totalArtigosCarrinho = 0;
-        return;
-      }
-
-      this.totalArtigosCarrinho = itens.reduce((total: number, item: any) => {
-        return total + (Number(item.quantidade) || 1);
-      }, 0);
+      this.quantidadeCarrinho = await this.carrinhoService.contarArtigos();
+      this.totalArtigosCarrinho = this.quantidadeCarrinho;
     } catch {
+      this.quantidadeCarrinho = 0;
       this.totalArtigosCarrinho = 0;
     }
   }
-
 }

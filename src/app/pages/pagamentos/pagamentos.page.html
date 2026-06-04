@@ -99,10 +99,13 @@
     <div class="campo-grupo">
       <label>{{ novoPagamento.tipo === 'MB Way' ? 'Número MB Way *' : 'Últimos 4 dígitos *' }}</label>
       <input
-        type="text"
+        type="tel"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        maxlength="9"
         [placeholder]="novoPagamento.tipo === 'MB Way' ? 'Ex: 912345678' : 'Ex: 1234'"
-        [maxlength]="novoPagamento.tipo === 'MB Way' ? 9 : 4"
         [(ngModel)]="novoPagamento.ultimosDigitos"
+        (input)="filtrarApenasNumerosPagamento()"
         [class.invalido]="formSubmetido && (
           novoPagamento.tipo === 'MB Way'
             ? !telefoneValido(novoPagamento.ultimosDigitos)

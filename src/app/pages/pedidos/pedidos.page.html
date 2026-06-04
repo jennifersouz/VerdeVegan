@@ -50,15 +50,28 @@
     <div
       class="pedido-card"
       *ngFor="let pedido of pedidosFiltrados"
-      routerLink="/detalhe-pedido"
-    >
-      <div>
+      (click)="abrirPedido(pedido.id)">
+
+      <div class="pedido-card-info">
         <h2>{{ pedido.nome }}</h2>
-        <p>{{ pedido.data }} · {{ pedido.hora }} · {{ pedido.itens }} itens</p>
+        <p>{{ pedido.data }} · {{ pedido.hora }} · {{ obterNumeroItens(pedido) }} itens</p>
         <strong>{{ pedido.total.toFixed(2) }} €</strong>
       </div>
 
-      <span class="estado">{{ pedido.estado }}</span>
+      <div class="pedido-card-direita">
+        <span class="estado" [style.background]="obterCorEstado(pedido.estado) + '22'" [style.color]="obterCorEstado(pedido.estado)">
+          {{ pedido.estado }}
+        </span>
+        <button
+          type="button"
+          class="btn-repetir"
+          *ngIf="podeRepetirPedido(pedido)"
+          (click)="repetirPedido(pedido, $event)">
+          Repetir
+        </button>
+        <ion-icon name="chevron-forward-outline" class="seta-detalhe"></ion-icon>
+      </div>
+
     </div>
 
   </div>

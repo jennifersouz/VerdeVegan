@@ -6,7 +6,7 @@ import {
   GrupoPersonalizacao,
   OpcaoPersonalizacao
 } from '../../services/menu';
-import { PerfilService } from '../../services/perfil';
+import { CarrinhoService } from '../../services/carrinho';
 
 @Component({
   selector: 'app-personalizar-prato',
@@ -31,7 +31,7 @@ export class PersonalizarPratoPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private menuService: MenuService,
-    private perfilService: PerfilService
+    private carrinhoService: CarrinhoService
   ) {}
 
   ngOnInit() {
@@ -63,7 +63,6 @@ export class PersonalizarPratoPage implements OnInit {
         }
 
         this.gruposPersonalizacao = this.prato.personalizacoes || [];
-
         this.inicializarSelecoes();
       },
       error: (erro: unknown) => {
@@ -80,11 +79,12 @@ export class PersonalizarPratoPage implements OnInit {
   }
 
   public voltar() {
+    this.desfocarElementoAtivo();
+
     if (this.prato) {
       this.router.navigateByUrl(this.obterUrlDetalhe());
       return;
     }
-
     this.router.navigateByUrl('/tabs/menu');
   }
 
@@ -93,13 +93,11 @@ export class PersonalizarPratoPage implements OnInit {
       this.alternarOpcaoMultipla(grupo, opcao);
       return;
     }
-
     this.selecoes[grupo.id] = [opcao];
   }
 
   private alternarOpcaoMultipla(grupo: GrupoPersonalizacao, opcao: OpcaoPersonalizacao) {
     const opcoesSelecionadas = this.selecoes[grupo.id] || [];
-
     const jaExiste = opcoesSelecionadas.some(item => item.id === opcao.id);
 
     if (jaExiste) {
@@ -111,7 +109,6 @@ export class PersonalizarPratoPage implements OnInit {
 
   public opcaoEstaSelecionada(grupo: GrupoPersonalizacao, opcao: OpcaoPersonalizacao): boolean {
     const opcoesSelecionadas = this.selecoes[grupo.id] || [];
-
     return opcoesSelecionadas.some(item => item.id === opcao.id);
   }
 
@@ -127,21 +124,16 @@ export class PersonalizarPratoPage implements OnInit {
 
   public calcularPersonalizacoes(): number {
     let total = 0;
-
     Object.values(this.selecoes).forEach((opcoes: OpcaoPersonalizacao[]) => {
       opcoes.forEach((opcao: OpcaoPersonalizacao) => {
         total += opcao.preco;
       });
     });
-
     return total;
   }
 
   public calcularTotalUnidade(): number {
-    if (!this.prato) {
-      return 0;
-    }
-
+    if (!this.prato) return 0;
     return this.prato.preco + this.calcularPersonalizacoes();
   }
 
@@ -163,25 +155,26 @@ export class PersonalizarPratoPage implements OnInit {
       return;
     }
 
+    this.desfocarElementoAtivo();
+
     const itemCarrinho = {
-      nome: this.prato.nome,
+      id: Date.now(),
+      prato: this.prato,
       quantidade: this.quantidade,
-      preco: this.calcularTotalUnidade()
+      selecoes: this.selecoes,
+      observacoes: this.observacoes,
+      totalUnidade: this.calcularTotalUnidade(),
+      totalFinal: this.calcularTotalFinal()
     };
 
-    const perfil = await this.perfilService.obterPerfil();
-    const chaveCarrinho = perfil
-      ? `verdevegan_carrinho_${perfil.email}`
-      : 'verdevegan_carrinho_anonimo';
-
-    const dadosGuardados = localStorage.getItem(chaveCarrinho);
-    const itensGuardados = dadosGuardados ? JSON.parse(dadosGuardados) : [];
-
-    itensGuardados.push(itemCarrinho);
-    localStorage.setItem(chaveCarrinho, JSON.stringify(itensGuardados));
-    window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
+    await this.carrinhoService.adicionarItem(itemCarrinho);
 
     this.router.navigateByUrl('/tabs/carrinho');
+  }
+
+  private desfocarElementoAtivo() {
+    const elementoAtivo = document.activeElement as HTMLElement | null;
+    elementoAtivo?.blur();
   }
 
   private obterUrlDetalhe(): string {

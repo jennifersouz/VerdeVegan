@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PerfilService } from '../../services/perfil';
+import { CarrinhoService } from '../../services/carrinho';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,7 +9,6 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registo',
@@ -26,7 +27,9 @@ export class RegistoPage {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private perfilService: PerfilService
+    private activatedRoute: ActivatedRoute,
+    private perfilService: PerfilService,
+    private carrinhoService: CarrinhoService
   ) {
     this.registoForm = this.formBuilder.group(
       {
@@ -49,11 +52,7 @@ export class RegistoPage {
       return null;
     }
 
-    if (palavraPasse === confirmarPalavraPasse) {
-      return null;
-    }
-
-    return { palavrasPasseDiferentes: true };
+    return palavraPasse === confirmarPalavraPasse ? null : { palavrasPasseDiferentes: true };
   }
 
   public alternarVisibilidadePalavraPasse() {
@@ -65,26 +64,40 @@ export class RegistoPage {
   }
 
   public async criarConta() {
-      this.formSubmetido = true;
+    this.formSubmetido = true;
 
-  if (this.registoForm.invalid) {
-    return;
-  }
+    if (this.registoForm.invalid) {
+      return;
+    }
 
-  const nome = this.registoForm.value.nome;
-  const email = this.registoForm.value.email;
+    const nome = this.registoForm.value.nome;
+    const email = this.registoForm.value.email;
 
-  await this.perfilService.criarPerfilInicial(nome, email);
+    // Criar perfil inicial
+    await this.perfilService.criarPerfilInicial(nome, email);
 
-  const elementoAtivo = document.activeElement as HTMLElement | null;
-  elementoAtivo?.blur();
+    // Migrar carrinho de convidado para o novo utilizador
+    await this.carrinhoService.migrarCarrinhoGuestParaUtilizador();
 
-  this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
+    const elementoAtivo = document.activeElement as HTMLElement | null;
+    elementoAtivo?.blur();
+
+    // Respeitar returnUrl se existir
+    const returnUrl =
+      this.activatedRoute.snapshot.queryParamMap.get('returnUrl') || '/tabs/inicio';
+
+    this.router.navigateByUrl(returnUrl, { replaceUrl: true });
   }
 
   public irParaLogin() {
-    this.router.navigateByUrl('/login');
-  }
+    // Passar returnUrl para o login também
+    const returnUrl =
+      this.activatedRoute.snapshot.queryParamMap.get('returnUrl') || '';
 
-  
+    if (returnUrl) {
+      this.router.navigateByUrl(`/login?returnUrl=${encodeURIComponent(returnUrl)}`);
+    } else {
+      this.router.navigateByUrl('/login');
+    }
+  }
 }

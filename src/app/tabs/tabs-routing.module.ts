@@ -53,6 +53,10 @@ const routes: Routes = [
         loadChildren: () => import('../pages/personalizar-prato/personalizar-prato.module').then(m => m.PersonalizarPratoPageModule)
       },
       {
+        path: 'detalhe-pedido/:id',
+        loadChildren: () => import('../pages/detalhe-pedido/detalhe-pedido.module').then(m => m.DetalhePedidoPageModule)
+      },
+      {
         path: '',
         redirectTo: 'inicio',
         pathMatch: 'full'

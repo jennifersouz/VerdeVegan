@@ -1,6 +1,6 @@
 <ion-content class="carrinho-page">
 
-  <div class="empty-cart" *ngIf="itens.length === 0 && passoAtual !== 5">
+  <div class="empty-cart" *ngIf="itens.length === 0 && passoAtual !== 5 && !carregando">
     <ion-icon name="bag-handle-outline"></ion-icon>
     <h1>Carrinho vazio</h1>
     <button type="button" class="primary-button compact" (click)="verMenu()">Ver menu</button>
@@ -8,22 +8,25 @@
 
   <div class="checkout-wrapper" *ngIf="itens.length > 0 || passoAtual === 5">
 
-    <nav class="checkout-steps" aria-label="Progresso do checkout">
+    <nav class="checkout-steps checkout-progress" aria-label="Progresso do checkout">
       <button
         type="button"
-        class="step"
+        class="step progress-step"
         *ngFor="let passo of passos; let ultimo = last"
         [class.active]="passo.numero === passoAtual"
+        [class.ativa]="passo.numero === passoAtual"
         [class.done]="passoConcluido(passo.numero)"
+        [class.concluida]="passoConcluido(passo.numero)"
         [class.last]="ultimo"
+        [attr.aria-label]="passo.label"
         (click)="irParaPasso(passo.numero)">
-        <span class="step-circle">
+        <span class="step-circle bolinha">
           <ion-icon *ngIf="passoConcluido(passo.numero)" name="checkmark-outline"></ion-icon>
           <span *ngIf="!passoConcluido(passo.numero)">{{ passo.numero }}</span>
         </span>
-        <span class="step-label">{{ passo.label }}</span>
       </button>
     </nav>
+    <p class="etapa-atual-label">{{ obterNomeEtapaAtual() }}</p>
 
     <main class="checkout-grid" *ngIf="passoAtual !== 5">
 
@@ -31,6 +34,7 @@
 
         <ng-container [ngSwitch]="passoAtual">
 
+          <!-- PASSO 1 — Carrinho -->
           <div *ngSwitchCase="1">
             <header class="panel-heading">
               <div class="cart-panel-title">Carrinho</div>
@@ -38,21 +42,21 @@
             </header>
 
             <div class="cart-list">
-              <article class="cart-item" *ngFor="let item of itens; let i = index">
+              <article class="cart-item" *ngFor="let item of itens">
                 <div class="cart-item-main">
-                  <h2>{{ item.nome }}</h2>
+                  <h2>{{ obterNomeItem(item) }}</h2>
                   <p class="cart-item-quantity">Quantidade: {{ item.quantidade }}</p>
-                  <strong>{{ formatarPreco(item.preco) }}</strong>
+                  <strong>{{ formatarPreco(obterPrecoItem(item)) }}</strong>
                 </div>
 
                 <div class="cart-actions">
-                  <button type="button" class="icon-button" (click)="removerItem(i)" aria-label="Remover">
+                  <button type="button" class="icon-button" (click)="removerItem(item.id)" aria-label="Remover">
                     <ion-icon name="trash-outline"></ion-icon>
                   </button>
-                  <button type="button" class="icon-button" (click)="diminuirQuantidade(i)" aria-label="Diminuir">
+                  <button type="button" class="icon-button" (click)="diminuirQuantidade(item.id)" aria-label="Diminuir">
                     <ion-icon name="remove-outline"></ion-icon>
                   </button>
-                  <button type="button" class="icon-button" (click)="aumentarQuantidade(i)" aria-label="Aumentar">
+                  <button type="button" class="icon-button" (click)="aumentarQuantidade(item.id)" aria-label="Aumentar">
                     <ion-icon name="add-outline"></ion-icon>
                   </button>
                 </div>
@@ -62,6 +66,7 @@
             <button type="button" class="primary-button align-end" (click)="continuar()">Continuar</button>
           </div>
 
+          <!-- PASSO 2 — Descontos e Pontos -->
           <div *ngSwitchCase="2">
             <button type="button" class="back-link" (click)="voltarPasso()">
               <ion-icon name="chevron-back-outline"></ion-icon>
@@ -103,6 +108,7 @@
             <button type="button" class="primary-button align-end" (click)="continuar()">Continuar</button>
           </div>
 
+          <!-- PASSO 3 — Morada -->
           <div *ngSwitchCase="3">
             <button type="button" class="back-link" (click)="voltarPasso()">
               <ion-icon name="chevron-back-outline"></ion-icon>
@@ -135,6 +141,7 @@
             <button type="button" class="primary-button align-end" (click)="continuar()">Continuar</button>
           </div>
 
+          <!-- PASSO 4 — Pagamento -->
           <div *ngSwitchCase="4">
             <button type="button" class="back-link" (click)="voltarPasso()">
               <ion-icon name="chevron-back-outline"></ion-icon>
@@ -193,7 +200,15 @@
               <label for="telefone-pagamento">Número de telemóvel</label>
               <div class="input-box">
                 <ion-icon name="phone-portrait-outline"></ion-icon>
-                <input id="telefone-pagamento" type="tel" placeholder="912345678" [(ngModel)]="telefonePagamento">
+                <input
+                  id="telefone-pagamento"
+                  type="tel"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  maxlength="9"
+                  placeholder="912345678"
+                  [(ngModel)]="telefonePagamento"
+                  (input)="filtrarTelefonePagamento()">
               </div>
             </section>
 
@@ -217,16 +232,17 @@
         </ng-container>
       </section>
 
+      <!-- Painel de resumo lateral -->
       <aside class="summary-panel">
         <div class="summary-panel-title">Resumo do Pedido</div>
 
         <div class="summary-items">
           <div class="summary-item" *ngFor="let item of itens">
             <span>
-              <strong>{{ item.nome }}</strong>
-              <small>Qty: {{ item.quantidade }}</small>
+              <strong>{{ obterNomeItem(item) }}</strong>
+              <small>Qtd.: {{ item.quantidade }}</small>
             </span>
-            <b>{{ formatarPreco(item.preco * item.quantidade) }}</b>
+            <b>{{ formatarPreco(obterPrecoItem(item)) }}</b>
           </div>
         </div>
 
@@ -257,6 +273,7 @@
 
     </main>
 
+    <!-- PASSO 5 — Confirmação -->
     <main class="confirmation-grid" *ngIf="passoAtual === 5 && !pedidoConfirmado">
       <section class="checkout-panel">
         <button type="button" class="back-link" (click)="voltarPasso()">
@@ -279,7 +296,13 @@
           <span>{{ pagamentoResumo }}</span>
         </div>
 
-        <button type="button" class="primary-button align-end" (click)="confirmarPedido()">Confirmar pedido</button>
+        <button
+          type="button"
+          class="primary-button align-end"
+          [disabled]="confirmandoPedido"
+          (click)="confirmarPedido()">
+          Confirmar pedido
+        </button>
       </section>
 
       <aside class="summary-panel">
@@ -287,10 +310,10 @@
         <div class="summary-items">
           <div class="summary-item" *ngFor="let item of itens">
             <span>
-              <strong>{{ item.nome }}</strong>
-              <small>Qty: {{ item.quantidade }}</small>
+              <strong>{{ obterNomeItem(item) }}</strong>
+              <small>Qtd.: {{ item.quantidade }}</small>
             </span>
-            <b>{{ formatarPreco(item.preco * item.quantidade) }}</b>
+            <b>{{ formatarPreco(obterPrecoItem(item)) }}</b>
           </div>
         </div>
         <div class="summary-total">
@@ -300,6 +323,7 @@
       </aside>
     </main>
 
+    <!-- Pedido confirmado com sucesso -->
     <section class="success-panel" *ngIf="passoAtual === 5 && pedidoConfirmado">
       <div class="success-icon">
         <ion-icon name="checkmark-outline"></ion-icon>
@@ -308,10 +332,12 @@
       <p>O teu pedido foi registado com sucesso.</p>
       <strong>{{ pedidoConfirmado.id }}</strong>
       <span>Vais voltar para o início dentro de {{ segundosParaInicio }} segundos.</span>
+      <button type="button" class="primary-button compact" (click)="irParaInicio()">Voltar ao início</button>
     </section>
 
   </div>
 
+  <!-- Modal: exigir login para continuar -->
   <div class="modal-backdrop" *ngIf="modalLoginAberto" (click)="fecharModalLogin()">
     <section class="modal-card small-modal" (click)="$event.stopPropagation()">
       <button class="modal-close" type="button" (click)="fecharModalLogin()" aria-label="Fechar">
@@ -328,6 +354,7 @@
     </section>
   </div>
 
+  <!-- Modal: adicionar morada -->
   <div class="modal-backdrop" *ngIf="modalMoradaAberto" (click)="fecharModalMorada()">
     <section class="modal-card" (click)="$event.stopPropagation()">
       <button class="modal-close" type="button" (click)="fecharModalMorada()" aria-label="Fechar">
@@ -352,6 +379,7 @@
     </section>
   </div>
 
+  <!-- Modal: escolher / adicionar cartão -->
   <div class="modal-backdrop" *ngIf="modalCartoesAberto" (click)="fecharModalCartoes()">
     <section class="modal-card card-modal" (click)="$event.stopPropagation()">
       <button class="modal-close" type="button" (click)="fecharModalCartoes()" aria-label="Fechar">

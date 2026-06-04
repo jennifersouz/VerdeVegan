@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, NgZone, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   MetodoPagamento,
@@ -6,12 +6,14 @@ import {
   PerfilService,
   UtilizadorPerfil
 } from '../../services/perfil';
-import { Pedido, Pedidos } from '../../services/pedidos';
+import { CarrinhoService, ItemCarrinho } from '../../services/carrinho';
+import { Pedidos } from '../../services/pedidos';
 
-interface ItemCarrinho {
+interface PedidoConfirmado {
+  id: string;
   nome: string;
-  quantidade: number;
-  preco: number;
+  data: string;
+  hora: string;
 }
 
 interface PassoCheckout {
@@ -34,11 +36,16 @@ interface NovoCartao {
   standalone: false
 })
 export class CarrinhoPage implements OnDestroy {
+
+  // ── Estado geral ────────────────────────────────────────────────────────────
+  carregando = true;
   estaLogado = false;
   modalLoginAberto = false;
 
+  // ── Itens ───────────────────────────────────────────────────────────────────
   itens: ItemCarrinho[] = [];
 
+  // ── Checkout ────────────────────────────────────────────────────────────────
   taxaEntrega = 2.4;
   passoAtual = 1;
   pontosDisponiveis = 0;
@@ -74,8 +81,9 @@ export class CarrinhoPage implements OnDestroy {
     tipo: 'Mastercard'
   };
 
-  pedidoConfirmado?: Pedido;
+  pedidoConfirmado?: PedidoConfirmado;
   segundosParaInicio = 5;
+  confirmandoPedido = false;
 
   readonly passos: PassoCheckout[] = [
     { numero: 1, label: 'Carrinho' },
@@ -90,47 +98,58 @@ export class CarrinhoPage implements OnDestroy {
 
   constructor(
     private perfilService: PerfilService,
+    private carrinhoService: CarrinhoService,
     private pedidosService: Pedidos,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {}
 
+  // ── Ciclo de vida ────────────────────────────────────────────────────────────
   ionViewWillEnter() {
     this.limparTemporizadorConfirmacao();
     this.passoAtual = 1;
-    this.atualizarSessao();
+    this.pedidoConfirmado = undefined;
+    this.confirmandoPedido = false;
+    this.carregarCarrinho();
+  }
+
+  ionViewWillLeave() {
+    this.limparTemporizadorConfirmacao();
   }
 
   ngOnDestroy() {
     this.limparTemporizadorConfirmacao();
   }
 
-  private async atualizarSessao() {
-    const perfil = await this.perfilService.obterPerfil();
-    this.perfilAtual = perfil;
-    this.estaLogado = !!perfil;
+  // ── Carregar dados ───────────────────────────────────────────────────────────
+  async carregarCarrinho() {
+    this.carregando = true;
 
-    if (!perfil) {
-      this.itens = this.obterCarrinhoAnonimo();
-      return;
+    try {
+      this.itens = await this.carrinhoService.obterItens();
+
+      const perfil = await this.perfilService.obterPerfil();
+      this.perfilAtual = perfil;
+      this.estaLogado = !!perfil;
+
+      if (perfil) {
+        this.pontosDisponiveis = perfil.pontos || 0;
+        this.telefonePagamento = perfil.telefone || '';
+        this.moradas = await this.perfilService.obterMoradas();
+        this.metodosPagamento = await this.perfilService.obterMetodosPagamento();
+        this.moradaSelecionadaId = this.moradas.find(m => m.principal)?.id || this.moradas[0]?.id || 0;
+        this.cartaoSelecionadoId = this.metodosPagamento.find(m => m.principal)?.id || this.metodosPagamento[0]?.id || 0;
+      }
+    } catch (erro) {
+      console.error('Erro ao carregar carrinho:', erro);
+    } finally {
+      this.carregando = false;
     }
-
-    this.itens = this.obterCarrinhoGuardado(perfil);
-    this.pontosDisponiveis = perfil.pontos || 0;
-    this.telefonePagamento = perfil.telefone || '';
-    this.moradas = await this.perfilService.obterMoradas();
-    this.metodosPagamento = await this.perfilService.obterMetodosPagamento();
-    this.moradaSelecionadaId = this.moradas.find((morada) => morada.principal)?.id || this.moradas[0]?.id || 0;
-    this.cartaoSelecionadoId = this.metodosPagamento.find((metodo) => metodo.principal)?.id || this.metodosPagamento[0]?.id || 0;
   }
 
+  // ── Getters ──────────────────────────────────────────────────────────────────
   get subtotal() {
-    return this.itens.reduce((total, item) => {
-      return total + item.preco * item.quantidade;
-    }, 0);
-  }
-
-  get total() {
-    return Math.max(this.totalAntesDesconto - this.descontoTotal, 0);
+    return this.itens.reduce((total, item) => total + item.totalFinal, 0);
   }
 
   get totalAntesDesconto() {
@@ -145,66 +164,83 @@ export class CarrinhoPage implements OnDestroy {
     return this.descontoPontos + this.descontoCodigo;
   }
 
+  get total() {
+    return Math.max(this.totalAntesDesconto - this.descontoTotal, 0);
+  }
+
   get maximoPontosUsaveis() {
     return Math.min(this.pontosDisponiveis, Math.floor(this.totalAntesDesconto * 10));
   }
 
   get moradaSelecionada() {
-    return this.moradas.find((morada) => morada.id === this.moradaSelecionadaId);
+    return this.moradas.find(m => m.id === this.moradaSelecionadaId);
   }
 
   get cartaoSelecionado() {
-    return this.metodosPagamento.find((metodo) => metodo.id === this.cartaoSelecionadoId);
+    return this.metodosPagamento.find(m => m.id === this.cartaoSelecionadoId);
   }
 
   get pagamentoResumo() {
     if (this.metodoSelecionado === 'cartao' && this.cartaoSelecionado) {
       return `${this.cartaoSelecionado.tipo} terminado em ${this.cartaoSelecionado.ultimosDigitos}`;
     }
-
     if (this.metodoSelecionado === 'dinheiro') {
       return this.pagamentoEntrega ? `Dinheiro · ${this.pagamentoEntrega}` : 'Dinheiro';
     }
-
-    if (this.metodoSelecionado === 'applepay') {
-      return 'Apple Pay';
-    }
-
+    if (this.metodoSelecionado === 'applepay') return 'Apple Pay';
     return 'MB WAY';
   }
 
-  removerItem(index: number) {
-    this.itens.splice(index, 1);
-    this.guardarCarrinhoAtual();
+  // ── Gerir itens ──────────────────────────────────────────────────────────────
+  async removerItem(id: number) {
+    await this.carrinhoService.removerItem(id);
+    this.itens = await this.carrinhoService.obterItens();
     this.validarPontosUsados();
   }
 
-  diminuirQuantidade(index: number) {
-    if (this.itens[index].quantidade <= 1) {
-      return;
-    }
-
-    this.itens[index].quantidade--;
-    this.guardarCarrinhoAtual();
+  async diminuirQuantidade(id: number) {
+    const item = this.itens.find(i => i.id === id);
+    if (!item || item.quantidade <= 1) return;
+    await this.carrinhoService.atualizarQuantidade(id, item.quantidade - 1);
+    this.itens = await this.carrinhoService.obterItens();
     this.validarPontosUsados();
   }
 
-  aumentarQuantidade(index: number) {
-    this.itens[index].quantidade++;
-    this.guardarCarrinhoAtual();
+  async aumentarQuantidade(id: number) {
+    const item = this.itens.find(i => i.id === id);
+    if (!item) return;
+    await this.carrinhoService.atualizarQuantidade(id, item.quantidade + 1);
+    this.itens = await this.carrinhoService.obterItens();
     this.validarPontosUsados();
   }
 
+  // ── Navegação por passos ─────────────────────────────────────────────────────
   async continuar() {
-    const perfil = await this.perfilService.obterPerfil();
+    this.desfocarElementoAtivo();
 
-    if (!perfil) {
-      this.modalLoginAberto = true;
-      return;
+    // Passo 1 → verificar autenticação
+    if (this.passoAtual === 1) {
+      const emailAtual = await this.perfilService.obterEmailUtilizadorAtual();
+
+      if (!emailAtual) {
+        this.modalLoginAberto = true;
+        return;
+      }
+
+      // Recarregar dados do perfil caso acabou de fazer login
+      const perfil = await this.perfilService.obterPerfil();
+      this.perfilAtual = perfil;
+      this.estaLogado = !!perfil;
+
+      if (perfil) {
+        this.pontosDisponiveis = perfil.pontos || 0;
+        this.telefonePagamento = perfil.telefone || '';
+        this.moradas = await this.perfilService.obterMoradas();
+        this.metodosPagamento = await this.perfilService.obterMetodosPagamento();
+        this.moradaSelecionadaId = this.moradas.find(m => m.principal)?.id || this.moradas[0]?.id || 0;
+        this.cartaoSelecionadoId = this.metodosPagamento.find(m => m.principal)?.id || this.metodosPagamento[0]?.id || 0;
+      }
     }
-
-    this.perfilAtual = perfil;
-    this.estaLogado = true;
 
     if (this.passoAtual === 2) {
       this.validarPontosUsados();
@@ -224,6 +260,8 @@ export class CarrinhoPage implements OnDestroy {
   }
 
   voltarPasso() {
+    this.desfocarElementoAtivo();
+
     if (this.passoAtual > 1 && this.passoAtual < 5) {
       this.passoAtual--;
     }
@@ -239,6 +277,12 @@ export class CarrinhoPage implements OnDestroy {
     return numero < this.passoAtual;
   }
 
+  obterNomeEtapaAtual(): string {
+    const passo = this.passos.find(etapa => etapa.numero === this.passoAtual);
+    return passo ? passo.label : '';
+  }
+
+  // ── Descontos e pontos ───────────────────────────────────────────────────────
   aplicarCodigo() {
     const codigo = this.codigoDesconto.trim().toUpperCase();
     this.codigoAplicado = codigo.length > 0;
@@ -255,19 +299,13 @@ export class CarrinhoPage implements OnDestroy {
     this.pontosUsados = Math.max(0, Math.min(Math.floor(pontos), this.maximoPontosUsaveis));
   }
 
+  // ── Moradas ──────────────────────────────────────────────────────────────────
   selecionarMorada(id: number) {
     this.moradaSelecionadaId = id;
   }
 
   abrirModalMorada() {
-    this.novaMorada = {
-      titulo: '',
-      rua: '',
-      numero: '',
-      codigoPostal: '',
-      cidade: '',
-      localidade: ''
-    };
+    this.novaMorada = { titulo: '', rua: '', numero: '', codigoPostal: '', cidade: '', localidade: '' };
     this.modalMoradaAberto = true;
   }
 
@@ -295,8 +333,10 @@ export class CarrinhoPage implements OnDestroy {
     this.fecharModalMorada();
   }
 
+  // ── Pagamentos ───────────────────────────────────────────────────────────────
   selecionarMetodo(metodo: string) {
     this.metodoSelecionado = metodo;
+    this.filtrarTelefonePagamento();
   }
 
   selecionarPagamentoEntrega(tipo: string) {
@@ -314,13 +354,7 @@ export class CarrinhoPage implements OnDestroy {
 
   mostrarNovoCartao() {
     this.modoNovoCartao = true;
-    this.novoCartao = {
-      titular: '',
-      numero: '',
-      validade: '',
-      cvv: '',
-      tipo: 'Mastercard'
-    };
+    this.novoCartao = { titular: '', numero: '', validade: '', cvv: '', tipo: 'Mastercard' };
   }
 
   voltarAosCartoes() {
@@ -334,10 +368,7 @@ export class CarrinhoPage implements OnDestroy {
 
   async guardarCartao() {
     const ultimosDigitos = this.novoCartao.numero.replace(/\s/g, '').slice(-4);
-
-    if (!this.novoCartao.titular || ultimosDigitos.length < 4 || !this.novoCartao.validade) {
-      return;
-    }
+    if (!this.novoCartao.titular || ultimosDigitos.length < 4 || !this.novoCartao.validade) return;
 
     const pagamento: MetodoPagamento = {
       id: Date.now(),
@@ -355,138 +386,130 @@ export class CarrinhoPage implements OnDestroy {
     this.fecharModalCartoes();
   }
 
-  pagamentoValido() {
-    if (this.metodoSelecionado === 'cartao') {
-      return !!this.cartaoSelecionadoId;
-    }
-
+  pagamentoValido(): boolean {
+    if (this.metodoSelecionado === 'cartao') return !!this.cartaoSelecionadoId;
     if (this.metodoSelecionado === 'mbway' || this.metodoSelecionado === 'applepay') {
-      return this.telefonePagamento.trim().length >= 9;
+      return /^9[1236]\d{7}$/.test(this.telefonePagamento);
     }
-
-    if (this.metodoSelecionado === 'dinheiro') {
-      return !!this.pagamentoEntrega;
-    }
-
+    if (this.metodoSelecionado === 'dinheiro') return !!this.pagamentoEntrega;
     return true;
   }
 
+  filtrarTelefonePagamento() {
+    this.telefonePagamento = this.telefonePagamento.replace(/\D/g, '').slice(0, 9);
+  }
+
+  // ── Confirmar pedido ─────────────────────────────────────────────────────────
   async confirmarPedido() {
-    if (!this.pagamentoValido() || !this.moradaSelecionada) {
-      return;
-    }
+    if (this.confirmandoPedido || !this.pagamentoValido() || !this.moradaSelecionada) return;
+
+    this.confirmandoPedido = true;
+    this.desfocarElementoAtivo();
 
     const agora = new Date();
-    const pedido: Pedido = {
+    const criadoEm = Date.now();
+    const pedidoSimples = {
       id: '#VV-' + Math.floor(1000 + Math.random() * 9000),
-      nome: this.itens[0]?.nome || 'Pedido VerdeVegan',
+      nome: this.itens[0]?.prato?.nome || 'Pedido VerdeVegan',
       data: 'Hoje',
       hora: agora.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
       itens: this.itens.reduce((total, item) => total + item.quantidade, 0),
-      estado: 'A preparar',
+      estado: 'Recebido',
       total: this.total,
       pagamento: this.pagamentoResumo,
       morada: this.moradaSelecionada.titulo
     };
 
-    this.pedidosService.adicionarPedido(pedido);
-    await this.atualizarPontosDepoisPedido();
-    this.itens = [];
-    await this.guardarCarrinhoAtual();
-    this.pedidoConfirmado = pedido;
-    this.passoAtual = 5;
-    this.iniciarContadorInicio();
+    // Converter itens do carrinho para ItemPedido[]
+    const itensPedido = this.itens.map(item => ({
+      nome: item.prato?.nome || 'Produto',
+      quantidade: item.quantidade,
+      preco: item.totalUnidade
+    }));
+
+    const quantidadeTotal = itensPedido.reduce((t, i) => t + i.quantidade, 0);
+    const estimativaEntregaMinutos = quantidadeTotal <= 1 ? 25 : quantidadeTotal <= 3 ? 35 : 45;
+
+    const pedidoCompleto = {
+      id: Date.now(),
+      codigo: pedidoSimples.id,
+      nome: pedidoSimples.nome,
+      data: pedidoSimples.data,
+      hora: pedidoSimples.hora,
+      estado: 'Recebido' as const,
+      restaurante: this.itens[0]?.prato?.restaurante || 'VerdeVegan',
+      morada: this.moradaSelecionada.titulo,
+      pagamento: this.pagamentoResumo,
+      metodoPagamento: this.pagamentoResumo,
+      pontosGanhos: Math.floor(this.total) * 10,
+      subtotal: this.subtotal,
+      total: this.total,
+      taxaEntrega: this.taxaEntrega,
+      desconto: this.descontoTotal,
+      criadoEm,
+      cancelavelAte: criadoEm + 45000,
+      estimativaEntregaMinutos,
+      estimativaEntregaEm: criadoEm + estimativaEntregaMinutos * 60 * 1000,
+      itens: itensPedido
+    };
+
+    try {
+      const pedidoCriado = await this.pedidosService.adicionarPedido(pedidoCompleto);
+      await this.atualizarPontosDepoisPedido();
+      await this.carrinhoService.limparCarrinho();
+      this.itens = [];
+      await this.router.navigateByUrl(`/tabs/detalhe-pedido/${pedidoCriado.id}`, { replaceUrl: true });
+    } finally {
+      this.confirmandoPedido = false;
+    }
   }
 
+  // ── Modal de login ───────────────────────────────────────────────────────────
   fecharModalLogin() {
     this.modalLoginAberto = false;
   }
 
   irParaLogin() {
     this.fecharModalLogin();
-    this.router.navigateByUrl('/login');
+    this.desfocarElementoAtivo();
+    this.router.navigateByUrl('/login?returnUrl=/tabs/carrinho');
   }
 
   irParaRegisto() {
     this.fecharModalLogin();
-    this.router.navigateByUrl('/registo');
+    this.desfocarElementoAtivo();
+    this.router.navigateByUrl('/registo?returnUrl=/tabs/carrinho');
   }
 
   verMenu() {
+    this.desfocarElementoAtivo();
     this.router.navigateByUrl('/tabs/menu');
   }
 
+  irParaInicio() {
+    this.limparTemporizadorConfirmacao();
+    this.desfocarElementoAtivo();
+    this.ngZone.run(() => {
+      this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
+    });
+  }
+
+  // ── Formatação ───────────────────────────────────────────────────────────────
   formatarPreco(valor: number): string {
     return `${valor.toFixed(2).replace('.', ',')} €`;
   }
 
-  private obterCarrinhoGuardado(perfil: UtilizadorPerfil): ItemCarrinho[] {
-    const dados = localStorage.getItem(this.obterChaveCarrinho(perfil.email));
-
-    if (!dados) {
-      return [];
-    }
-
-    try {
-      return this.normalizarItensCarrinho(JSON.parse(dados));
-    } catch {
-      return [];
-    }
+  obterNomeItem(item: ItemCarrinho): string {
+    return item.prato?.nome || 'Produto';
   }
 
-  private async guardarCarrinhoAtual() {
-    const perfil = await this.perfilService.obterPerfil();
-
-    if (!perfil) {
-      localStorage.setItem(this.obterChaveCarrinhoAnonimo(), JSON.stringify(this.itens));
-      window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
-      return;
-    }
-
-    localStorage.setItem(this.obterChaveCarrinho(perfil.email), JSON.stringify(this.itens));
-    window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
+  obterPrecoItem(item: ItemCarrinho): number {
+    return item.totalFinal;
   }
 
-  private obterChaveCarrinho(email: string): string {
-    return `verdevegan_carrinho_${email}`;
-  }
-
-  private obterChaveCarrinhoAnonimo(): string {
-    return 'verdevegan_carrinho_anonimo';
-  }
-
-  private obterCarrinhoAnonimo(): ItemCarrinho[] {
-    const dados = localStorage.getItem(this.obterChaveCarrinhoAnonimo());
-
-    if (!dados) {
-      return [];
-    }
-
-    try {
-      return this.normalizarItensCarrinho(JSON.parse(dados));
-    } catch {
-      return [];
-    }
-  }
-
-  private normalizarItensCarrinho(dados: unknown): ItemCarrinho[] {
-    if (!Array.isArray(dados)) {
-      return [];
-    }
-
-    return dados
-      .map((item: any) => ({
-        nome: item.nome || item.prato?.nome || 'Produto',
-        quantidade: Number(item.quantidade) || 1,
-        preco: Number(item.preco ?? item.totalUnidade ?? item.prato?.preco ?? 0)
-      }))
-      .filter((item: ItemCarrinho) => item.preco > 0);
-  }
-
+  // ── Auxiliares privadas ──────────────────────────────────────────────────────
   private async atualizarPontosDepoisPedido() {
-    if (!this.perfilAtual) {
-      return;
-    }
+    if (!this.perfilAtual) return;
 
     const pontosGanhos = Math.floor(this.total) * 10;
     const perfilAtualizado: UtilizadorPerfil = {
@@ -504,12 +527,12 @@ export class CarrinhoPage implements OnDestroy {
     this.limparTemporizadorConfirmacao();
 
     this.temporizadorConfirmacao = setInterval(() => {
-      this.segundosParaInicio--;
-
-      if (this.segundosParaInicio <= 0) {
-        this.limparTemporizadorConfirmacao();
-        this.router.navigateByUrl('/tabs/inicio');
-      }
+      this.ngZone.run(() => {
+        this.segundosParaInicio = Math.max(0, this.segundosParaInicio - 1);
+        if (this.segundosParaInicio <= 0) {
+          this.irParaInicio();
+        }
+      });
     }, 1000);
   }
 
@@ -518,5 +541,10 @@ export class CarrinhoPage implements OnDestroy {
       clearInterval(this.temporizadorConfirmacao);
       this.temporizadorConfirmacao = undefined;
     }
+  }
+
+  private desfocarElementoAtivo() {
+    const elementoAtivo = document.activeElement as HTMLElement | null;
+    elementoAtivo?.blur();
   }
 }

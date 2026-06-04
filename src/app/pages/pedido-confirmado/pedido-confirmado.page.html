@@ -11,13 +11,19 @@
       Carrinho
     </a>
 
-    <div class="steps">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span class="active"></span>
+    <div class="checkout-progress">
+      <div
+        class="progress-step"
+        *ngFor="let etapa of etapasCheckout"
+        [class.ativa]="etapa.numero === etapaAtual"
+        [class.concluida]="etapa.numero < etapaAtual">
+        <div class="bolinha">
+          <ion-icon name="checkmark-outline" *ngIf="etapa.numero < etapaAtual"></ion-icon>
+          <span *ngIf="etapa.numero >= etapaAtual">{{ etapa.numero }}</span>
+        </div>
+      </div>
     </div>
+    <p class="etapa-atual-label">{{ obterNomeEtapaAtual() }}</p>
 
     <section class="success-section">
       <div class="success-icon">
@@ -26,6 +32,7 @@
 
       <h1>Pedido confirmado!</h1>
       <p>O teu pedido está a ser preparado</p>
+      <p>Vais voltar para o início dentro de {{ segundosParaInicio }} segundos.</p>
     </section>
 
     <section class="order-card">
@@ -92,9 +99,9 @@
       </div>
     </section>
 
-    <ion-button expand="block" routerLink="/tabs/inicio">
-      Fazer novo pedido
-    </ion-button>
+    <button type="button" class="btn-principal" (click)="irParaInicio()">
+      Voltar ao início
+    </button>
 
   </div>
 

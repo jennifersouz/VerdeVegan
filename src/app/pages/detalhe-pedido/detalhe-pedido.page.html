@@ -1,13 +1,298 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>detalhe-pedido</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="detalhe-pedido-content" scrollY="true">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">detalhe-pedido</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="loading-state" *ngIf="carregando">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>A carregar pedido...</p>
+  </div>
+
+  <div class="detalhe-wrapper" *ngIf="!carregando && pedido">
+
+    <section class="mapa-area" *ngIf="!estaEntregue() && !estaCancelado()">
+      <button type="button" class="btn-voltar" (click)="voltar()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+        Voltar
+      </button>
+
+      <div class="mapa-fundo" aria-hidden="true">
+
+        <!-- Ruas de fundo (horizontais e verticais, como grelha de cidade) -->
+        <span class="rua rua-h1"></span>
+        <span class="rua rua-h2"></span>
+        <span class="rua rua-h3"></span>
+        <span class="rua rua-h4"></span>
+        <span class="rua rua-v1"></span>
+        <span class="rua rua-v2"></span>
+        <span class="rua rua-v3"></span>
+
+        <!-- Quarteirões -->
+        <span class="quarteirao q1"></span>
+        <span class="quarteirao q2"></span>
+        <span class="quarteirao q3"></span>
+        <span class="quarteirao q4"></span>
+        <span class="quarteirao q5"></span>
+        <span class="quarteirao q6"></span>
+
+        <!-- Rota SVG — só visível no estado A caminho -->
+        <svg
+          class="rota-svg"
+          *ngIf="pedido.estado === 'A caminho'"
+          viewBox="0 0 390 410"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <!--
+            Caminho: restaurante (110,330) → sobe (110,160) → vai à direita (270,160) → sobe (270,110)
+            Simula virar numa rua, tal como na imagem de referência
+          -->
+          <path
+            d="M 110 330 L 110 160 L 270 160 L 270 110"
+            fill="none"
+            stroke="#5f9f5a"
+            stroke-width="10"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+
+        <!-- Pin do restaurante — Recebido e A preparar -->
+        <div class="pin-restaurante" *ngIf="pedido.estado === 'Recebido' || pedido.estado === 'A preparar'">
+          <ion-icon name="restaurant-outline" *ngIf="pedido.estado === 'Recebido'"></ion-icon>
+          <ion-icon name="fast-food-outline"  *ngIf="pedido.estado === 'A preparar'"></ion-icon>
+          <span class="pin-pulso"></span>
+          <div class="vapor" *ngIf="pedido.estado === 'A preparar'">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <!-- Restaurante no mapa durante A caminho -->
+        <div class="pin-restaurante pin-restaurante--caminho" *ngIf="pedido.estado === 'A caminho'">
+          <ion-icon name="restaurant-outline"></ion-icon>
+        </div>
+
+        <!-- Estafeta a meio da rota — A caminho -->
+        <div class="pin-estafeta" *ngIf="pedido.estado === 'A caminho'">
+          <ion-icon name="bicycle-outline"></ion-icon>
+        </div>
+
+        <!-- Pin de destino — só em A caminho -->
+        <div class="pin-destino" *ngIf="pedido.estado === 'A caminho'">
+          <ion-icon name="location"></ion-icon>
+        </div>
+
+      </div>
+    </section>
+
+    <ng-container [ngSwitch]="pedido.estado">
+
+      <section *ngSwitchCase="'Recebido'" class="estado-screen">
+        <div class="estado-card-bottom">
+          <div class="titulo-com-icone">
+            <span class="icone-redondo sucesso">
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </span>
+            <h1>Pedido recebido!</h1>
+          </div>
+
+          <p class="texto-estado">Confirmamos o teu pedido com o restaurante.</p>
+
+          <div class="chegada-mini">
+            <span>Chegada estimada:</span>
+            <strong>{{ obterHoraEstimada() }}</strong>
+          </div>
+
+          <button type="button" class="btn-principal" (click)="verDetalhesPedido()">
+            Ver detalhes do pedido
+          </button>
+
+          <button type="button" class="btn-cancelar" *ngIf="podeCancelar()" (click)="abrirModalCancelar()">
+            Cancelar pedido {{ obterTempoCancelamento() }}
+          </button>
+
+          <p class="timer-expirado" *ngIf="!podeCancelar()">
+            O tempo para cancelar este pedido terminou.
+          </p>
+
+          <div class="detalhes-compactos" id="detalhes-pedido" *ngIf="mostrarDetalhesRecebido">
+            <h2>{{ pedido.codigo }}</h2>
+            <div class="linha-item" *ngFor="let item of pedido.itens">
+              <span>{{ item.quantidade }}x {{ item.nome }}</span>
+              <strong>{{ item.preco * item.quantidade | number:'1.2-2' }}€</strong>
+            </div>
+            <div class="total-linha total-final">
+              <span>Total</span>
+              <strong>{{ obterTotalPedido() | number:'1.2-2' }}€</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'A preparar'" class="estado-screen">
+        <div class="estado-card-bottom estado-card-info">
+          <h1>A preparar</h1>
+          <p class="texto-estado">O restaurante está a preparar a refeição.</p>
+
+          <div class="barra-progresso">
+            <span [style.width.%]="obterPercentagemProgresso()"></span>
+          </div>
+
+          <div class="linha-destaque">
+            <span>Chega às</span>
+            <strong>{{ obterHoraEstimada() }}</strong>
+          </div>
+
+          <section class="info-pedido">
+            <h2>Pedido {{ pedido.codigo }}</h2>
+            <p>{{ obterTotalPedido() | number:'1.2-2' }}€ · {{ pedido.metodoPagamento }}</p>
+
+            <div class="info-linha">
+              <span>{{ pedido.morada }}</span>
+            </div>
+            <div class="info-linha">
+              <span>Vais ganhar +{{ pedido.pontosGanhos }} pontos</span>
+              <small>Após entrega</small>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'A caminho'" class="estado-screen">
+        <div class="estado-card-bottom estado-card-info card-a-caminho">
+          <div class="chegada-linha">
+            <strong>Chega em</strong>
+            <span>
+              <ion-icon name="time-outline"></ion-icon>
+              {{ obterMinutosEntrega() }}
+            </span>
+          </div>
+
+          <section class="itens-section">
+            <div class="section-heading">
+              <h2>Itens</h2>
+            </div>
+
+            <div class="linha-item" *ngFor="let item of pedido.itens">
+              <span>{{ item.nome }}</span>
+              <strong>{{ item.quantidade }}x</strong>
+              <small>{{ item.preco * item.quantidade | number:'1.2-2' }}€</small>
+            </div>
+          </section>
+
+          <section class="resumo-section">
+            <div class="total-linha">
+              <span>Subtotal</span>
+              <strong>{{ obterSubtotal() | number:'1.2-2' }}€</strong>
+            </div>
+            <div class="total-linha">
+              <span>Taxa de entrega</span>
+              <strong>{{ pedido.taxaEntrega | number:'1.2-2' }}€</strong>
+            </div>
+            <div class="total-linha total-final">
+              <span>Total</span>
+              <strong>{{ obterTotalPedido() | number:'1.2-2' }}€</strong>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'Entregue'" class="estado-screen entregue-screen">
+        <div class="estado-card-bottom entregue-card">
+          <span class="icone-redondo sucesso grande">
+            <ion-icon name="checkmark-outline"></ion-icon>
+          </span>
+          <h1>Pedido entregue!</h1>
+          <p class="texto-estado">Foram adicionados +{{ pedido.pontosGanhos }} pontos à tua conta.</p>
+
+          <section class="avaliacao-card">
+            <h2>Como foi a tua experiência?</h2>
+
+            <div class="estrelas">
+              <button
+                type="button"
+                *ngFor="let estrela of [1, 2, 3, 4, 5]"
+                [class.ativa]="estrela <= avaliacao"
+                [disabled]="avaliacaoSubmetida"
+                (click)="definirAvaliacao(estrela)"
+                [attr.aria-label]="'Avaliar com ' + estrela + ' estrelas'">
+                <ion-icon name="star"></ion-icon>
+              </button>
+            </div>
+
+            <textarea
+              [(ngModel)]="comentario"
+              [disabled]="avaliacaoSubmetida"
+              rows="3"
+              placeholder="Comentário opcional">
+            </textarea>
+
+            <button
+              type="button"
+              class="btn-principal"
+              [disabled]="avaliacao === 0 || avaliacaoSubmetida"
+              (click)="submeterAvaliacao()">
+              {{ avaliacaoSubmetida ? 'Avaliação submetida' : 'Submeter avaliação' }}
+            </button>
+          </section>
+
+          <button type="button" class="btn-secundario-verde" (click)="voltarAoInicio()">Voltar ao início</button>
+          <button type="button" class="btn-texto" (click)="repetirPedido()">Repetir pedido</button>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'Cancelado'" class="estado-screen cancelado-screen">
+        <div class="estado-card-bottom cancelado-card">
+          <span class="icone-redondo erro grande">
+            <ion-icon name="close-outline"></ion-icon>
+          </span>
+          <h1>Pedido cancelado</h1>
+          <p class="texto-estado">O pedido foi cancelado com sucesso.</p>
+
+          <section class="itens-section">
+            <h2>Itens</h2>
+            <div class="linha-item" *ngFor="let item of pedido.itens">
+              <span>{{ item.quantidade }}x {{ item.nome }}</span>
+              <strong>{{ item.preco * item.quantidade | number:'1.2-2' }}€</strong>
+            </div>
+          </section>
+
+          <section class="resumo-section">
+            <div class="info-linha">
+              <span>{{ pedido.metodoPagamento }}</span>
+            </div>
+            <div class="info-linha">
+              <span>{{ pedido.morada }}</span>
+            </div>
+            <div class="total-linha total-final">
+              <span>Total</span>
+              <strong>{{ obterTotalPedido() | number:'1.2-2' }}€</strong>
+            </div>
+          </section>
+
+          <button type="button" class="btn-principal" (click)="repetirPedido()">Repetir pedido</button>
+          <button type="button" class="btn-secundario-verde" (click)="voltarAosPedidos()">Voltar aos pedidos</button>
+        </div>
+      </section>
+
+    </ng-container>
+  </div>
+
+  <div class="modal-overlay" *ngIf="mostrarModalCancelar" (click)="fecharModalCancelar()">
+    <div class="modal-cancelar" (click)="$event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="modal-icon">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+      </div>
+
+      <h2>Cancelar pedido?</h2>
+      <p>O restaurante já recebeu o seu pedido.</p>
+
+      <button type="button" class="btn-principal" (click)="fecharModalCancelar()">
+        Manter o pedido
+      </button>
+
+      <button type="button" class="btn-texto" (click)="confirmarCancelamento()">
+        Cancelar mesmo assim
+      </button>
+    </div>
+  </div>
+
 </ion-content>
