@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>verde-vegan</string>
+	<string>VerdeVegan</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -24,6 +24,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>A VerdeVegan usa a tua localização para mostrar a morada atual e facilitar entregas enquanto estás a usar a app.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>A VerdeVegan usa a tua localização para mostrar a morada atual e facilitar entregas enquanto estás a usar a app.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
