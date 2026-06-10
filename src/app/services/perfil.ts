@@ -376,18 +376,18 @@ export class PerfilService {
       return [];
     }
 
+    const historicoRemoto = await this.supabaseService.listarHistoricoPontos();
+
+    if (historicoRemoto?.length) {
+      return this.ordenarHistoricoPontos(historicoRemoto.filter((item) => item.email === emailAtual));
+    }
+
     const historicoGuardado: HistoricoPontos[] =
       (await this.storage.get(this.CHAVE_HISTORICO_PONTOS)) || [];
 
-    return historicoGuardado
-      .filter((item: HistoricoPontos) => item.email === emailAtual)
-      .sort((a: HistoricoPontos, b: HistoricoPontos) => {
-        if (a.data === b.data) {
-          return b.id - a.id;
-        }
-
-        return b.data.localeCompare(a.data);
-      });
+    return this.ordenarHistoricoPontos(
+      historicoGuardado.filter((item: HistoricoPontos) => item.email === emailAtual)
+    );
   }
 
   public async adicionarPontos(descricao: string, pontos: number): Promise<void> {
@@ -452,6 +452,16 @@ export class PerfilService {
     const ultimaInicial = partesNome[partesNome.length - 1].charAt(0);
 
     return `${primeiraInicial}${ultimaInicial}`.toUpperCase();
+  }
+
+  private ordenarHistoricoPontos(historico: HistoricoPontos[]): HistoricoPontos[] {
+    return [...historico].sort((a: HistoricoPontos, b: HistoricoPontos) => {
+      if (a.data === b.data) {
+        return b.id - a.id;
+      }
+
+      return b.data.localeCompare(a.data);
+    });
   }
 
 public async obterMoradas(): Promise<MoradaEntrega[]> {

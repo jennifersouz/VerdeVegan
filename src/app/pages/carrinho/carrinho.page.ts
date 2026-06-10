@@ -439,6 +439,7 @@ export class CarrinhoPage implements OnDestroy {
       moradaDetalhe: `${this.moradaSelecionada.rua}, ${this.moradaSelecionada.numero} · ${this.moradaSelecionada.cidade}`,
       taxaEntrega: this.taxaEntrega,
       pontosGanhos: Math.floor(this.total) * 10,
+      pontosUsados: this.pontosARedimir,
       saldoPontos: Math.max(0, (this.perfilAtual?.pontos || 0) - this.pontosARedimir) + Math.floor(this.total) * 10,
       criadoEm: agora.toISOString(),
       tempoConfirmacaoMinutos: 2,

@@ -135,7 +135,7 @@ export class PedidosPage implements OnInit, OnDestroy {
         estadoAtual.toLowerCase().includes(estadoFiltro.toLowerCase()) ||
         (estadoFiltro === 'A preparar' && estadoAtual === 'Recebido');
 
-      const data = this.extrairDataPedido(pedido.data);
+      const data = this.extrairDataPedido(pedido.dataIso || pedido.data);
       const correspondeMes =
         this.mesSelecionado === 'Todos' ||
         (!!data && data.mes === this.meses.indexOf(this.mesSelecionado));
@@ -270,7 +270,7 @@ export class PedidosPage implements OnInit, OnDestroy {
   }
 
   private obterTituloGrupo(pedido: Pedido): string {
-    const data = this.extrairDataPedido(pedido.data);
+    const data = this.extrairDataPedido(pedido.dataIso || pedido.data);
 
     if (!data) {
       return `${this.mesesTitulos[new Date().getMonth()]} DE ${new Date().getFullYear()}`;
@@ -282,6 +282,12 @@ export class PedidosPage implements OnInit, OnDestroy {
   }
 
   private obterAnoPedido(pedido: Pedido): number {
+    const dataIso = this.extrairDataIsoPedido(pedido);
+
+    if (dataIso) {
+      return dataIso.getFullYear();
+    }
+
     if (pedido.data.toLowerCase().includes('hoje') || pedido.data.toLowerCase().includes('ontem')) {
       return new Date().getFullYear();
     }
@@ -290,6 +296,15 @@ export class PedidosPage implements OnInit, OnDestroy {
   }
 
   private extrairDataPedido(valor: string): { dia: number; mes: number } | null {
+    const iso = valor.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+    if (iso) {
+      return {
+        dia: Number(iso[3]),
+        mes: Number(iso[2])
+      };
+    }
+
     if (valor.toLowerCase().includes('hoje') || valor.toLowerCase().includes('ontem')) {
       const dataAtual = new Date();
       return {
@@ -308,5 +323,17 @@ export class PedidosPage implements OnInit, OnDestroy {
       dia: Number(match[1]),
       mes: Number(match[2])
     };
+  }
+
+  private extrairDataIsoPedido(pedido: Pedido): Date | null {
+    const valor = pedido.dataIso || pedido.data;
+    const iso = valor.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+    if (!iso) {
+      return null;
+    }
+
+    const data = new Date(`${iso[1]}-${iso[2]}-${iso[3]}T00:00:00`);
+    return Number.isNaN(data.getTime()) ? null : data;
   }
 }

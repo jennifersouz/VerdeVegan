@@ -5,6 +5,7 @@ export interface Pedido {
   email?: string;
   nome: string;
   data: string;
+  dataIso?: string;
   hora: string;
   itens: number;
   estado: string;
@@ -15,6 +16,7 @@ export interface Pedido {
   taxaEntrega?: number;
   moradaDetalhe?: string;
   pontosGanhos?: number;
+  pontosUsados?: number;
   saldoPontos?: number;
   criadoEm?: string;
   estadoManual?: EstadoPedido;

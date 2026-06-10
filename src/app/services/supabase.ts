@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthChangeEvent, AuthError, createClient, RealtimeChannel, Session, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
 import type { Pedido } from './pedidos';
-import type { MetodoPagamento, MoradaEntrega, UtilizadorPerfil } from './perfil';
+import type { HistoricoPontos, MetodoPagamento, MoradaEntrega, UtilizadorPerfil } from './perfil';
 
 type ProfileRow = {
   id: string;
@@ -40,6 +40,7 @@ type OrderRow = {
 })
 export class SupabaseService {
 
+  private readonly pedidosDefaultRemovidos = new Set(['VV-3078']);
   private supabase: SupabaseClient;
 
   constructor() {
@@ -174,9 +175,60 @@ export class SupabaseService {
       .order('created_at_app', { ascending: false });
 
     return {
-      data: error ? null : (data as OrderRow[]).map((row) => this.orderRowParaPedido(row)),
+      data: error
+        ? null
+        : (data as OrderRow[])
+            .filter((row) => !this.pedidosDefaultRemovidos.has(row.id))
+            .map((row) => this.orderRowParaPedido(row)),
       error
     };
+  }
+
+  public async listarHistoricoPontos(): Promise<HistoricoPontos[] | null> {
+    const { data: userData } = await this.supabase.auth.getUser();
+    const email = userData.user?.email?.trim().toLowerCase();
+
+    if (!email) {
+      return null;
+    }
+
+    const { data, error } = await this.supabase
+      .from('orders')
+      .select('id, date, created_at_app, points_used, points_earned')
+      .order('date', { ascending: false });
+
+    if (error || !data) {
+      return null;
+    }
+
+    const rows = data as Pick<OrderRow, 'id' | 'date' | 'created_at_app' | 'points_used' | 'points_earned'>[];
+    const historico: HistoricoPontos[] = [];
+
+    rows
+      .filter((row) => !this.pedidosDefaultRemovidos.has(row.id))
+      .forEach((row, index) => {
+        if (row.points_earned > 0) {
+          historico.push({
+            id: this.historicoId(row.id, index, 1),
+            email,
+            descricao: 'Acumulaste',
+            pontos: row.points_earned,
+            data: row.date
+          });
+        }
+
+        if (row.points_used > 0) {
+          historico.push({
+            id: this.historicoId(row.id, index, 2),
+            email,
+            descricao: 'Redimidos',
+            pontos: -row.points_used,
+            data: row.date
+          });
+        }
+      });
+
+    return historico;
   }
 
   public async subscribeToCurrentUserOrders(callback: () => void): Promise<(() => void) | null> {
@@ -370,7 +422,7 @@ export class SupabaseService {
         price: artigo.preco,
         extras: []
       })),
-      points_used: 0,
+      points_used: pedido.pontosUsados || 0,
       points_earned: pedido.pontosGanhos || 0,
       delivery_fee: pedido.taxaEntrega || null,
       total: pedido.total,
@@ -381,7 +433,10 @@ export class SupabaseService {
   }
 
   private orderRowParaPedido(row: OrderRow): Pedido {
-    const criadoEm = row.created_at_app || new Date().toISOString();
+    const estadoBase = this.estadoParaMobile(row.status);
+    const pedidoAntigo = row.date < new Date().toISOString().slice(0, 10);
+    const estado = pedidoAntigo && estadoBase !== 'Cancelado' ? 'Entregue' : estadoBase;
+    const criadoEm = pedidoAntigo ? undefined : row.created_at_app || new Date().toISOString();
     const artigos = Array.isArray(row.items)
       ? row.items.map((item: any) => ({
           nome: String(item.nome || item.name || 'Artigo'),
@@ -393,19 +448,23 @@ export class SupabaseService {
     return {
       id: row.id,
       nome: artigos[0]?.nome || 'Pedido VerdeVegan',
-      data: row.date,
-      hora: new Date(criadoEm).toLocaleTimeString('pt-PT', {
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
+      data: this.formatarDataPedido(row.date),
+      dataIso: row.date,
+      hora: criadoEm
+        ? new Date(criadoEm).toLocaleTimeString('pt-PT', {
+            hour: '2-digit',
+            minute: '2-digit'
+          })
+        : '',
       itens: artigos.reduce((total, artigo) => total + artigo.quantidade, 0),
-      estado: this.estadoParaMobile(row.status),
+      estado,
       total: Number(row.total),
       pagamento: '',
       morada: row.restaurant || '',
       artigos,
       taxaEntrega: row.delivery_fee || undefined,
       pontosGanhos: row.points_earned,
+      pontosUsados: row.points_used,
       criadoEm,
       tempoEntregaMinutos: row.estimated_delivery_minutes || undefined,
       avaliado: row.rated,
@@ -434,5 +493,23 @@ export class SupabaseService {
     }
 
     return new Date().toISOString().slice(0, 10);
+  }
+
+  private formatarDataPedido(data: string): string {
+    const partes = data.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+    if (!partes) {
+      return data;
+    }
+
+    return `${partes[3]}/${partes[2]}`;
+  }
+
+  private historicoId(id: string, index: number, tipo: number): number {
+    return Math.abs(
+      id.split('').reduce((total, char) => total + char.charCodeAt(0), 0) * 100 +
+      index * 10 +
+      tipo
+    );
   }
 }
