@@ -152,21 +152,21 @@ export class PedidosPage implements OnInit, OnDestroy {
   }
 
   get pedidosAcontecerAgora(): Pedido[] {
-    return this.pedidosFiltrados.filter((pedido) => this.pedidoEstaAcontecerAgora(pedido));
+    return this.ordenarPedidosPorData(this.pedidosFiltrados.filter((pedido) => this.pedidoEstaAcontecerAgora(pedido)));
   }
 
   get pedidosAgrupados(): { titulo: string; pedidos: Pedido[] }[] {
     const grupos = new Map<string, Pedido[]>();
 
-    this.pedidosFiltrados
+    this.ordenarPedidosPorData(this.pedidosFiltrados)
       .filter((pedido) => !this.pedidoEstaAcontecerAgora(pedido))
       .forEach((pedido) => {
-      const titulo = this.obterTituloGrupo(pedido);
-      const pedidos = grupos.get(titulo) || [];
+        const titulo = this.obterTituloGrupo(pedido);
+        const pedidos = grupos.get(titulo) || [];
 
-      pedidos.push(pedido);
-      grupos.set(titulo, pedidos);
-    });
+        pedidos.push(pedido);
+        grupos.set(titulo, pedidos);
+      });
 
     return Array.from(grupos.entries()).map(([titulo, pedidos]) => ({ titulo, pedidos }));
   }
@@ -279,6 +279,43 @@ export class PedidosPage implements OnInit, OnDestroy {
     const ano = this.obterAnoPedido(pedido);
 
     return `${this.mesesTitulos[data.mes - 1]} DE ${ano}`;
+  }
+
+  private ordenarPedidosPorData(pedidos: Pedido[]): Pedido[] {
+    return [...pedidos].sort((a, b) => {
+      const dataA = this.obterTimestampPedido(a);
+      const dataB = this.obterTimestampPedido(b);
+
+      if (dataA === dataB) {
+        return a.id.localeCompare(b.id);
+      }
+
+      return dataA - dataB;
+    });
+  }
+
+  private obterTimestampPedido(pedido: Pedido): number {
+    if (pedido.criadoEm) {
+      const criadoEm = new Date(pedido.criadoEm).getTime();
+
+      if (!Number.isNaN(criadoEm)) {
+        return criadoEm;
+      }
+    }
+
+    const dataIso = this.extrairDataIsoPedido(pedido);
+
+    if (dataIso) {
+      return dataIso.getTime();
+    }
+
+    const data = this.extrairDataPedido(pedido.data);
+
+    if (data) {
+      return new Date(this.obterAnoPedido(pedido), data.mes - 1, data.dia).getTime();
+    }
+
+    return 0;
   }
 
   private obterAnoPedido(pedido: Pedido): number {
