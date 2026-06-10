@@ -93,8 +93,7 @@ export class CarrinhoPage implements OnDestroy {
   ) {}
 
   ionViewWillEnter() {
-    this.limparTemporizadorConfirmacao();
-    this.passoAtual = 1;
+    this.prepararNovoCheckout();
     this.atualizarSessao();
   }
 
@@ -424,6 +423,9 @@ export class CarrinhoPage implements OnDestroy {
       return;
     }
 
+    this.limparTemporizadorConfirmacao();
+    this.segundosParaInicio = 5;
+
     const agora = new Date();
     const pedido: Pedido = {
       id: '#VV-' + Math.floor(1000 + Math.random() * 9000),
@@ -538,5 +540,16 @@ export class CarrinhoPage implements OnDestroy {
       clearInterval(this.temporizadorConfirmacao);
       this.temporizadorConfirmacao = undefined;
     }
+  }
+
+  private prepararNovoCheckout() {
+    this.limparTemporizadorConfirmacao();
+    this.passoAtual = 1;
+    this.pedidoConfirmado = undefined;
+    this.segundosParaInicio = 5;
+    this.codigoDesconto = '';
+    this.codigoAplicado = false;
+    this.descontoCodigo = 0;
+    this.pontosUsados = 0;
   }
 }
