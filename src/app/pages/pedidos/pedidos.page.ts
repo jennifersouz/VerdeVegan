@@ -290,7 +290,7 @@ export class PedidosPage implements OnInit, OnDestroy {
         return a.id.localeCompare(b.id);
       }
 
-      return dataA - dataB;
+      return dataB - dataA;
     });
   }
 
