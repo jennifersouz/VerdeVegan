@@ -37,8 +37,32 @@ const routes: Routes = [
       loadChildren: () => import('../pages/moradas/moradas.module').then(m => m.MoradasPageModule)
       },
       {
-      path: 'pagamentos',
-      loadChildren: () => import('../pages/pagamentos/pagamentos.module').then(m => m.PagamentosPageModule)
+        path: 'pagamentos',
+        loadChildren: () => import('../pages/pagamentos/pagamentos.module').then(m => m.PagamentosPageModule)
+      },
+      {
+        path: 'historico-pontos',
+        loadChildren: () => import('../pages/historico-pontos/historico-pontos.module').then(m => m.HistoricoPontosPageModule)
+      },
+      {
+        path: 'historico-pedidos',
+        loadChildren: () => import('../pages/historico-pedidos/historico-pedidos.module').then(m => m.HistoricoPedidosPageModule)
+      },
+      {
+        path: 'detalhe-pedido/:id',
+        loadChildren: () => import('../pages/detalhe-pedido/detalhe-pedido.module').then(m => m.DetalhePedidoPageModule)
+      },
+      {
+        path: 'detalhe-pedido',
+        loadChildren: () => import('../pages/detalhe-pedido/detalhe-pedido.module').then(m => m.DetalhePedidoPageModule)
+      },
+      {
+        path: 'acompanhar-pedido/:id',
+        loadChildren: () => import('../pages/acompanhar-pedido/acompanhar-pedido.module').then(m => m.AcompanharPedidoPageModule)
+      },
+      {
+        path: 'acompanhar-pedido',
+        loadChildren: () => import('../pages/acompanhar-pedido/acompanhar-pedido.module').then(m => m.AcompanharPedidoPageModule)
       },
       {
         path: 'detalhe-prato/:id',
@@ -51,10 +75,6 @@ const routes: Routes = [
       {
         path: 'personalizar-prato/:id',
         loadChildren: () => import('../pages/personalizar-prato/personalizar-prato.module').then(m => m.PersonalizarPratoPageModule)
-      },
-      {
-        path: 'detalhe-pedido/:id',
-        loadChildren: () => import('../pages/detalhe-pedido/detalhe-pedido.module').then(m => m.DetalhePedidoPageModule)
       },
       {
         path: '',

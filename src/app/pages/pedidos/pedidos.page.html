@@ -47,32 +47,47 @@
       <p>Quando confirmares uma encomenda, ela aparece aqui.</p>
     </div>
 
-    <div
-      class="pedido-card"
-      *ngFor="let pedido of pedidosFiltrados"
-      (click)="abrirPedido(pedido.id)">
+    <section class="pedido-grupo acontecer-agora" *ngIf="pedidosAcontecerAgora.length > 0">
+      <h3>A acontecer agora</h3>
 
-      <div class="pedido-card-info">
-        <h2>{{ pedido.nome }}</h2>
-        <p>{{ pedido.data }} · {{ pedido.hora }} · {{ obterNumeroItens(pedido) }} itens</p>
-        <strong>{{ pedido.total.toFixed(2) }} €</strong>
+      <div
+        class="pedido-card pedido-card-agora"
+        *ngFor="let pedido of pedidosAcontecerAgora"
+        [routerLink]="['/tabs/acompanhar-pedido', pedido.id.replace('#', '')]"
+      >
+        <div class="pedido-info">
+          <h2>{{ pedido.nome }}</h2>
+          <p>{{ pedido.data }} · {{ pedido.hora }} · {{ pedido.itens }} itens</p>
+          <strong>{{ pedido.total.toFixed(2) }} €</strong>
+        </div>
+
+        <div class="pedido-acoes">
+          <span class="estado">{{ estadoAtualPedido(pedido) }}</span>
+          <span class="ver-detalhe">Ver detalhe <ion-icon name="chevron-forward-outline"></ion-icon></span>
+        </div>
       </div>
+    </section>
 
-      <div class="pedido-card-direita">
-        <span class="estado" [style.background]="obterCorEstado(pedido.estado) + '22'" [style.color]="obterCorEstado(pedido.estado)">
-          {{ pedido.estado }}
-        </span>
-        <button
-          type="button"
-          class="btn-repetir"
-          *ngIf="podeRepetirPedido(pedido)"
-          (click)="repetirPedido(pedido, $event)">
-          Repetir
-        </button>
-        <ion-icon name="chevron-forward-outline" class="seta-detalhe"></ion-icon>
+    <section class="pedido-grupo" *ngFor="let grupo of pedidosAgrupados">
+      <h3>{{ grupo.titulo }}</h3>
+
+      <div
+        class="pedido-card"
+        *ngFor="let pedido of grupo.pedidos"
+        [routerLink]="['/tabs/detalhe-pedido', pedido.id.replace('#', '')]"
+      >
+        <div class="pedido-info">
+          <h2>{{ pedido.nome }}</h2>
+          <p>{{ pedido.data }} · {{ pedido.hora }} · {{ pedido.itens }} itens</p>
+          <strong>{{ pedido.total.toFixed(2) }} €</strong>
+        </div>
+
+        <div class="pedido-acoes">
+          <span class="estado">{{ estadoAtualPedido(pedido) }}</span>
+          <span class="ver-detalhe">Ver detalhes <ion-icon name="chevron-forward-outline"></ion-icon></span>
+        </div>
       </div>
-
-    </div>
+    </section>
 
   </div>
 
@@ -108,9 +123,10 @@
       <div class="filtro-grid ano-grid">
         <button
           type="button"
-          [class.ativo]="anoSelecionado === 'Todos'"
-          (click)="anoSelecionado = 'Todos'">
-          Todos
+          *ngFor="let ano of anosDisponiveis"
+          [class.ativo]="anoSelecionado === ano"
+          (click)="selecionarAno(ano)">
+          {{ ano }}
         </button>
       </div>
     </div>

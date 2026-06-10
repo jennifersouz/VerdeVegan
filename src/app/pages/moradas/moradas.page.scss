@@ -5,7 +5,7 @@
 
 .moradas-container {
   min-height: 100%;
-  padding: 42px 28px 118px;
+  padding: 34px 20px 112px;
 }
 
 .moradas-loading {
@@ -21,16 +21,17 @@
 .topo {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 34px;
+  justify-content: flex-start;
+  gap: 4px;
+  margin-bottom: 28px;
 }
 
 .voltar-button {
-  width: 46px;
-  height: 46px;
+  width: 28px;
+  height: 28px;
   border: none;
-  border-radius: 14px;
-  background: #eef4eb;
+  border-radius: 999px;
+  background: transparent;
   color: #2f5d27;
   display: flex;
   align-items: center;
@@ -38,20 +39,15 @@
 }
 
 .voltar-button ion-icon {
-  font-size: 25px;
+  font-size: 21px;
 }
 
 .topo h1 {
   margin: 0;
   color: #111827;
-  font-size: 28px;
-  font-weight: 800;
-}
-
-.topo p {
-  margin: 4px 0 0;
-  color: #6b7280;
-  font-size: 15px;
+  font-size: 22px;
+  line-height: 1.12;
+  font-weight: 700;
 }
 
 .lista-moradas {
@@ -61,10 +57,11 @@
 }
 
 .morada-card {
-  border: 1px solid #d7e4d2;
-  border-radius: 18px;
-  padding: 16px;
+  border: 1px solid #b7e5b6;
+  border-radius: 8px;
+  padding: 18px;
   background: #ffffff;
+  box-shadow: 0 20px 46px rgba(17, 24, 39, 0.08);
 }
 
 .morada-card.principal {
@@ -82,18 +79,18 @@
 .card-titulo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .card-titulo ion-icon {
-  font-size: 22px;
-  color: #2f5d27;
+  font-size: 26px;
+  color: #111827;
 }
 
 .card-titulo strong {
   color: #111827;
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .card-acoes {
@@ -104,7 +101,7 @@
 .card-acoes button {
   border: none;
   background: transparent;
-  color: #6b7280;
+  color: #667085;
   padding: 4px;
 }
 
@@ -113,43 +110,53 @@
 }
 
 .morada-card p {
-  margin: 4px 0;
-  color: #6b7280;
-  font-size: 15px;
-  line-height: 1.4;
+  margin: 6px 0 0 38px;
+  color: #667085;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 600;
 }
 
-.card-footer {
-  margin-top: 12px;
+.morada-card.principal .card-titulo ion-icon,
+.morada-card.principal .card-titulo strong {
+  color: #2f5d27;
 }
 
-.card-footer span {
-  display: inline-block;
+.principal-badge {
+  width: fit-content;
+  margin: 14px 0 0 38px;
+  min-height: 30px;
   border-radius: 999px;
   background: #2f5d27;
   color: #ffffff;
-  padding: 6px 12px;
-  font-size: 12px;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
   font-weight: 700;
 }
 
-.card-footer button {
+.tornar-principal {
+  margin: 14px 0 0 38px;
   border: none;
   background: transparent;
   color: #2f5d27;
-  font-size: 13px;
-  font-weight: 800;
   padding: 0;
+  display: block;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
 }
 
 .adicionar-card {
-  min-height: 76px;
-  border: 1.5px dashed #9ca3af;
-  border-radius: 18px;
+  min-height: 82px;
+  border: 1.5px dashed #667085;
+  border-radius: 8px;
   background: #ffffff;
   color: #2f5d27;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -166,33 +173,48 @@
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(17, 24, 39, 0.36);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  padding: 20px;
 }
 
 .form-modal {
+  position: relative;
   width: 100%;
-  max-width: 430px;
+  max-width: 560px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
   background: #ffffff;
-  border-radius: 24px 24px 0 0;
-  padding: 18px 28px 28px;
+  border-radius: 18px;
+  padding: 30px 24px 24px;
 }
 
 .modal-handle {
-  width: 82px;
-  height: 4px;
-  border-radius: 999px;
-  background: #c8c8c8;
-  margin: 0 auto 26px;
+  display: none;
+}
+
+.modal-close {
+  position: absolute;
+  top: 24px;
+  right: 22px;
+  border: none;
+  background: transparent;
+  color: #111827;
+  padding: 4px;
+}
+
+.modal-close ion-icon {
+  font-size: 26px;
 }
 
 .form-modal h2 {
-  margin: 0 0 20px;
+  margin: 0 42px 22px 0;
   color: #111827;
-  font-size: 24px;
-  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.12;
+  font-weight: 700;
 }
 
 .campo-grupo {
@@ -203,18 +225,38 @@
   display: block;
   margin-bottom: 7px;
   color: #111827;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .campo-grupo input {
   width: 100%;
-  height: 50px;
-  border: 1px solid #e1e4e8;
-  border-radius: 14px;
+  height: 46px;
+  border: 1px solid #d8dee8;
+  border-radius: 9px;
   padding: 0 14px;
   outline: none;
-  font-size: 15px;
+  color: #111827;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  background: #ffffff;
+  box-shadow: none;
+  appearance: none;
+}
+
+.campo-grupo input:focus {
+  border-color: #2f6f2f;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(47, 111, 47, 0.12);
+}
+
+.campo-grupo input:-webkit-autofill,
+.campo-grupo input:-webkit-autofill:hover,
+.campo-grupo input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #111827;
+  box-shadow: 0 0 0 1000px #ffffff inset;
+  border-color: #2f6f2f;
 }
 
 .linha-campos {
@@ -224,6 +266,7 @@
 }
 
 .checkbox-linha {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -233,28 +276,49 @@
   margin: 8px 0 20px;
 }
 
-.modal-botoes {
-  display: flex;
-  gap: 14px;
+.checkbox-linha input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.modal-botoes button {
-  flex: 1;
-  height: 46px;
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 800;
+.checkbox-visual {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #d8dee8;
+  border-radius: 4px;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.btn-cancelar {
-  background: #d1d5db;
-  color: #ffffff;
+.checkbox-linha input:checked + .checkbox-visual {
+  border-color: #2f5d27;
+  background: #2f5d27;
+}
+
+.checkbox-linha input:checked + .checkbox-visual::after {
+  content: "";
+  width: 8px;
+  height: 4px;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  transform: rotate(-45deg);
+  margin-top: -2px;
 }
 
 .btn-guardar {
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 9px;
   background: #2f5d27;
   color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(17, 24, 39, 0.18);
 }
 
 .mensagem-erro {

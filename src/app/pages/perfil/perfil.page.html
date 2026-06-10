@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true" class="perfil-content" scrollY="true">
+<ion-content [fullscreen]="true" class="perfil-content" scrollY="false">
 
   <div *ngIf="carregando" class="perfil-loading">
     <ion-spinner name="crescent"></ion-spinner>
@@ -14,8 +14,26 @@
         Editar
       </button>
 
-      <div class="avatar">
-        {{ iniciais }}
+      <div class="avatar-wrap">
+        <div class="avatar" *ngIf="!perfil.fotoPerfil">
+          {{ iniciais }}
+        </div>
+        <img
+          class="avatar avatar-foto"
+          *ngIf="perfil.fotoPerfil"
+          [src]="perfil.fotoPerfil"
+          alt="Foto de perfil">
+
+        <button type="button" class="foto-button" aria-label="Alterar foto" (click)="escolherFoto(fotoInput)">
+          <ion-icon name="pencil-outline"></ion-icon>
+        </button>
+
+        <input
+          #fotoInput
+          class="foto-input"
+          type="file"
+          accept="image/*"
+          (change)="alterarFoto($event)">
       </div>
 
       <h1>{{ perfil.nome }}</h1>
@@ -59,7 +77,7 @@
       <button type="button" class="opcao-linha" (click)="abrirMorada()">
         <div>
           <ion-icon name="location-outline"></ion-icon>
-          <span>Morada</span>
+          <span>Moradas de entrega</span>
         </div>
 
         <ion-icon name="chevron-forward-outline"></ion-icon>
@@ -68,7 +86,7 @@
       <button type="button" class="opcao-linha" (click)="abrirMetodoPagamento()">
         <div>
           <ion-icon name="card-outline"></ion-icon>
-          <span>Método de pagamento</span>
+          <span>Métodos de pagamento</span>
         </div>
 
         <ion-icon name="chevron-forward-outline"></ion-icon>
@@ -87,15 +105,6 @@
 
     <!-- Ajuda -->
     <section class="perfil-secao ajuda-secao">
-
-      <button type="button" class="opcao-linha" (click)="abrirAjuda()">
-        <div>
-          <ion-icon name="help-circle-outline"></ion-icon>
-          <span>Central de Ajuda</span>
-        </div>
-
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </button>
 
       <button type="button" class="opcao-linha sair-linha" (click)="sair()">
         <div>

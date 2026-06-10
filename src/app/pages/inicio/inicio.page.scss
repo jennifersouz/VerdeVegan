@@ -8,6 +8,12 @@
   padding: 14px 20px 118px;
 }
 
+@media (max-width: 600px) {
+  .inicio-container {
+    padding-top: 34px;
+  }
+}
+
 .inicio-loading {
   min-height: 100%;
   display: flex;
@@ -64,7 +70,7 @@
   margin-top: 2px;
   color: #1f1f1f;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .morada-card .morada-seta {
@@ -118,7 +124,7 @@
   padding: 0 12px;
   font-family: inherit;
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 700;
   text-align: left;
 }
 
@@ -144,7 +150,7 @@
   margin: 0 0 8px;
   color: #111827;
   font-size: 30px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .inicio-hero p {
@@ -213,7 +219,7 @@
   margin: 0;
   color: #111827;
   font-size: 25px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .categorias-lista {
@@ -231,12 +237,12 @@
   color: #ffffff;
   padding: 9px 14px;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .categorias-lista button.active {
-  background: #2f6f2f;
+  background: #2E6F2F;
 }
 
 .cards-grid {
@@ -277,14 +283,14 @@
   margin: 0;
   color: #111827;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.15;
 }
 
 .restaurante-titulo span {
   color: #2f6f2f;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -298,7 +304,7 @@
 .restaurante-info strong {
   color: #6b7280;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .pontos-card {
@@ -315,7 +321,7 @@
   color: #111827;
   font-size: 16px;
   line-height: 1.12;
-  font-weight: 800;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -343,7 +349,7 @@
   color: #ffffff;
   padding: 8px 12px;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -388,7 +394,7 @@
   color: #111827;
   font-size: 14px;
   line-height: 1.15;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .mais-pedido-card p {
@@ -403,7 +409,7 @@
 .mais-pedido-card strong {
   color: #2f6f2f;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .sem-resultados {

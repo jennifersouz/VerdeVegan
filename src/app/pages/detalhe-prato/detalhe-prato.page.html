@@ -136,18 +136,106 @@
     <button
       type="button"
       class="personalizar-button"
-      (click)="acaoPrincipal()">
+      [class.inativo]="!prato.personalizavel"
+      [disabled]="!prato.personalizavel"
+      (click)="personalizar()">
 
-      <ion-icon [name]="prato.personalizavel ? 'settings-outline' : 'cart-outline'"></ion-icon>
+      <ion-icon name="settings-outline"></ion-icon>
 
       <span>
-        {{ prato.personalizavel ? 'Personalizar' : 'Adicionar ao carrinho' }}
+        {{ prato.personalizavel ? 'Personalizar' : 'Indisponível' }}
       </span>
 
       <strong>{{ calcularTotal() | number:'1.2-2' }} €</strong>
 
-    </button>
+  </button>
 
   </div>
 
 </ion-footer>
+
+<div class="personalizar-overlay" *ngIf="modalPersonalizacaoAberto && prato" (click)="fecharPersonalizacao()">
+
+  <section class="personalizar-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-handle"></div>
+
+    <button type="button" class="modal-close" (click)="fecharPersonalizacao()" aria-label="Fechar">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+
+    <header class="modal-topo">
+      <h1>Personalizar pedido</h1>
+      <p>{{ prato.nome }}</p>
+    </header>
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-scroll">
+
+      <section class="grupo-opcoes" *ngFor="let grupo of gruposPersonalizacao">
+        <h2>{{ grupo.titulo }}</h2>
+
+        <button
+          type="button"
+          class="opcao-linha"
+          *ngFor="let opcao of grupo.opcoes"
+          [class.selecionada]="opcaoEstaSelecionada(grupo, opcao)"
+          (click)="selecionarOpcao(grupo, opcao)">
+
+          <span class="opcao-marcador">
+            <span></span>
+          </span>
+
+          <strong>{{ opcao.nome }}</strong>
+
+          <span class="preco-opcao">
+            {{ formatarPrecoOpcao(opcao) }}
+          </span>
+        </button>
+      </section>
+
+      <section class="observacoes-area">
+        <h2>Notas para o restaurante</h2>
+
+        <textarea
+          maxlength="200"
+          placeholder="Ex.: sem cebola, entregar sem talheres"
+          [(ngModel)]="observacoes">
+        </textarea>
+      </section>
+
+      <section class="resumo-card">
+        <div class="resumo-linha">
+          <span>Preço base</span>
+          <strong>{{ formatarPreco(prato.preco) }}</strong>
+        </div>
+
+        <div class="resumo-linha">
+          <span>Quantidade</span>
+          <strong>x{{ quantidade }}</strong>
+        </div>
+
+        <div class="resumo-total">
+          <span>Total</span>
+          <strong>{{ formatarPreco(calcularTotalFinalPersonalizado()) }}</strong>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="adicionar-button"
+        [disabled]="!formularioPersonalizacaoValido()"
+        [class.inativo]="!formularioPersonalizacaoValido()"
+        (click)="adicionarPersonalizadoAoCarrinho()">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span>Adicionar ao carrinho · {{ formatarPreco(calcularTotalFinalPersonalizado()) }}</span>
+      </button>
+    </div>
+
+  </section>
+
+</div>

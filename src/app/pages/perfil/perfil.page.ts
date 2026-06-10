@@ -36,8 +36,9 @@ export class PerfilPage {
     const perfilGuardado = await this.perfilService.obterPerfil();
 
     if (!perfilGuardado) {
-      // Redirecionar para login preservando returnUrl
-      this.router.navigateByUrl('/login?returnUrl=/tabs/perfil', { replaceUrl: true });
+      this.perfil = undefined;
+      this.historicoPontos = [];
+      this.iniciais = '';
       return;
     }
 
@@ -65,7 +66,28 @@ export class PerfilPage {
   }
 
   public alternarHistoricoPontos() {
-    this.mostrarHistorico = !this.mostrarHistorico;
+    this.router.navigateByUrl('/tabs/historico-pontos');
+  }
+
+  public escolherFoto(input: HTMLInputElement) {
+    input.click();
+  }
+
+  public async alterarFoto(evento: Event) {
+    const input = evento.target as HTMLInputElement;
+    const ficheiro = input.files?.[0];
+
+    if (!ficheiro || !this.perfil) {
+      return;
+    }
+
+    const fotoPerfil = await this.lerFicheiroComoDataUrl(ficheiro);
+    this.perfil = {
+      ...this.perfil,
+      fotoPerfil
+    };
+    await this.perfilService.atualizarPerfil(this.perfil);
+    input.value = '';
   }
 
   public abrirMorada() {
@@ -91,5 +113,15 @@ public abrirMetodoPagamento() {
     elementoAtivo?.blur();
 
     this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
+
+  private lerFicheiroComoDataUrl(ficheiro: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const leitor = new FileReader();
+
+      leitor.onload = () => resolve(String(leitor.result));
+      leitor.onerror = () => reject(leitor.error);
+      leitor.readAsDataURL(ficheiro);
+    });
   }
 }

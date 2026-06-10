@@ -12,10 +12,7 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </button>
 
-      <div>
-        <h1>Métodos de pagamento</h1>
-        <p>Gere os teus cartões guardados</p>
-      </div>
+      <h1>Métodos de Pagamento</h1>
     </header>
 
     <section class="lista-pagamentos">
@@ -26,9 +23,10 @@
         [class.principal]="pagamento.principal">
 
         <div class="card-topo">
-          <div>
-            <strong>{{ pagamento.tipo }}</strong>
-            <span *ngIf="pagamento.principal">Principal</span>
+          <div class="cartao-bandeira" [class.visa]="obterBandeira(pagamento) === 'visa'">
+            <span *ngIf="obterBandeira(pagamento) === 'mastercard'" class="mc-red"></span>
+            <span *ngIf="obterBandeira(pagamento) === 'mastercard'" class="mc-yellow"></span>
+            <strong *ngIf="obterBandeira(pagamento) === 'visa'">VISA</strong>
           </div>
 
           <div class="card-acoes">
@@ -45,14 +43,17 @@
         <p class="cartao-numero">{{ obterMascaraCartao(pagamento) }}</p>
         <p class="cartao-validade" *ngIf="pagamento.validade !== 'N/A'">Válido até {{ pagamento.validade }}</p>
 
-        <div class="card-footer">
-          <button
-            type="button"
-            *ngIf="!pagamento.principal"
-            (click)="definirPrincipal(pagamento.id)">
-            Tornar principal
-          </button>
-        </div>
+        <span class="principal-badge" *ngIf="pagamento.principal">
+          Cartão principal
+        </span>
+
+        <button
+          type="button"
+          class="tornar-principal"
+          *ngIf="!pagamento.principal"
+          (click)="definirPrincipal(pagamento.id)">
+          Tornar principal
+        </button>
 
       </article>
 
@@ -71,76 +72,94 @@
 
   <div class="form-modal" (click)="$event.stopPropagation()">
 
-    <div class="modal-handle"></div>
+    <button type="button" class="modal-close" (click)="fecharFormulario()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
 
-    <h2>{{ editandoId ? 'Editar cartão' : 'Novo cartão' }}</h2>
-
-    <!-- Tipo -->
-    <div class="campo-grupo">
-      <label>Tipo *</label>
-      <select [(ngModel)]="novoPagamento.tipo">
-        <option value="Visa">Visa</option>
-        <option value="Mastercard">Mastercard</option>
-        <option value="MB Way">MB Way</option>
-      </select>
-    </div>
+    <h2>{{ editandoId ? 'Editar cartão' : 'Adicionar novo cartão' }}</h2>
 
     <!-- Titular — oculto para MB Way -->
     <div class="campo-grupo" *ngIf="novoPagamento.tipo !== 'MB Way'">
-      <label>Titular *</label>
+      <label>Nome do titular</label>
       <input
         type="text"
-        placeholder="Nome do titular"
+        placeholder=""
         [(ngModel)]="novoPagamento.titular"
         [class.invalido]="formSubmetido && (!novoPagamento.titular.trim() || novoPagamento.titular.trim().length < 2)">
     </div>
 
-    <!-- Últimos dígitos / número MB Way -->
     <div class="campo-grupo">
-      <label>{{ novoPagamento.tipo === 'MB Way' ? 'Número MB Way *' : 'Últimos 4 dígitos *' }}</label>
-      <input
-        type="tel"
-        inputmode="numeric"
-        pattern="[0-9]*"
-        maxlength="9"
-        [placeholder]="novoPagamento.tipo === 'MB Way' ? 'Ex: 912345678' : 'Ex: 1234'"
-        [(ngModel)]="novoPagamento.ultimosDigitos"
-        (input)="filtrarApenasNumerosPagamento()"
-        [class.invalido]="formSubmetido && (
-          novoPagamento.tipo === 'MB Way'
-            ? !telefoneValido(novoPagamento.ultimosDigitos)
-            : !ultimosDigitosValidos(novoPagamento.ultimosDigitos)
-        )">
-    </div>
-
-    <!-- Validade — oculta para MB Way -->
-    <div class="campo-grupo" *ngIf="novoPagamento.tipo !== 'MB Way'">
-      <label>Validade *</label>
+      <label>Número do cartão</label>
       <input
         type="text"
-        placeholder="Ex: 08/2028"
+        inputmode="numeric"
+        placeholder=""
+        maxlength="19"
+        [(ngModel)]="novoPagamento.numeroCartao"
+        (keydown)="bloquearNaoNumerico($event)"
+        (paste)="colarApenasNumeros($event, 'numeroCartao', 19)"
+        (input)="normalizarNumeroCartao()"
+        [class.invalido]="formSubmetido && !numeroCartaoValido(novoPagamento.numeroCartao || '')">
+    </div>
+
+    <div class="campo-grupo" *ngIf="novoPagamento.tipo !== 'MB Way'">
+      <label>Data de validade</label>
+      <input
+        type="text"
+        placeholder="MM/AAAA"
         maxlength="7"
         [(ngModel)]="novoPagamento.validade"
         [class.invalido]="formSubmetido && !validadeValida(novoPagamento.validade)">
     </div>
 
+    <div class="campo-grupo">
+      <label>CVV</label>
+      <input
+        type="text"
+        inputmode="numeric"
+        placeholder=""
+        maxlength="4"
+        [(ngModel)]="novoPagamento.cvv"
+        (keydown)="bloquearNaoNumerico($event)"
+        (paste)="colarApenasNumeros($event, 'cvv', 4)"
+        (input)="normalizarCvv()"
+        [class.invalido]="formSubmetido && !cvvValido(novoPagamento.cvv || '')">
+    </div>
+
+    <div class="campo-grupo">
+      <label>Tipo de cartão</label>
+      <div class="tipo-cartao-select" [class.aberto]="tipoCartaoAberto">
+        <button type="button" class="tipo-cartao-trigger" (click)="alternarTipoCartao()">
+          <span>{{ novoPagamento.tipo }}</span>
+          <ion-icon name="chevron-down-outline"></ion-icon>
+        </button>
+
+        <div class="tipo-cartao-opcoes" *ngIf="tipoCartaoAberto">
+          <button type="button" (click)="selecionarTipoCartao('Mastercard')">
+            <ion-icon name="checkmark-outline" *ngIf="novoPagamento.tipo === 'Mastercard'"></ion-icon>
+            <span>Mastercard</span>
+          </button>
+
+          <button type="button" (click)="selecionarTipoCartao('Visa')">
+            <ion-icon name="checkmark-outline" *ngIf="novoPagamento.tipo === 'Visa'"></ion-icon>
+            <span>Visa</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <label class="checkbox-linha">
       <input type="checkbox" [(ngModel)]="novoPagamento.principal">
-      Definir como principal
+      <span class="checkbox-visual"></span>
+      <span>Definir como principal</span>
     </label>
 
     <!-- Mensagem de erro -->
     <p class="mensagem-erro" *ngIf="mensagemErro">{{ mensagemErro }}</p>
 
-    <div class="modal-botoes">
-      <button type="button" class="btn-cancelar" (click)="fecharFormulario()">
-        Cancelar
-      </button>
-
-      <button type="button" class="btn-guardar" (click)="guardarPagamento()">
-        Guardar
-      </button>
-    </div>
+    <button type="button" class="btn-guardar" (click)="guardarPagamento()">
+      Guardar cartão
+    </button>
 
   </div>
 

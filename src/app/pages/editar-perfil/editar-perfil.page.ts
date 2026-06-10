@@ -19,6 +19,8 @@ export class EditarPerfilPage {
     telefone: '',
     morada: '',
     metodoPagamento: '',
+    dieta: '',
+    alergias: '',
     pontos: 0
   };
 
@@ -49,7 +51,11 @@ export class EditarPerfilPage {
         return;
       }
 
-      this.perfil = { ...perfilGuardado };
+      this.perfil = {
+        ...perfilGuardado,
+        dieta: perfilGuardado.dieta || '',
+        alergias: perfilGuardado.alergias || ''
+      };
     } catch (erro) {
       console.error('Erro ao carregar perfil:', erro);
     } finally {
@@ -88,6 +94,8 @@ export class EditarPerfilPage {
     this.perfil.telefone         = this.perfil.telefone.trim();
     this.perfil.morada           = this.perfil.morada.trim();
     this.perfil.metodoPagamento  = this.perfil.metodoPagamento.trim();
+    this.perfil.dieta            = this.perfil.dieta.trim();
+    this.perfil.alergias         = this.perfil.alergias.trim();
 
     if (!this.perfil.nome || this.perfil.nome.length < 2) {
       this.mensagemErro = 'Introduz um nome válido (mínimo 2 caracteres).';

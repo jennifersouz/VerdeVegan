@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { PerfilService } from '../../services/perfil';
-import { CarrinhoService } from '../../services/carrinho';
 import {
   FormBuilder,
   FormGroup,
   Validators
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Carrinho } from '../../services/carrinho';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,11 @@ export class LoginPage {
 
   public loginForm: FormGroup;
   public formSubmetido = false;
+  public erroLogin = false;
+  public erroRecuperacao = false;
+  public recuperacaoSubmetida = false;
+  public mensagemRecuperacao = '';
+
   public mostrarPalavraPasse = false;
 
   constructor(
@@ -25,7 +31,7 @@ export class LoginPage {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private perfilService: PerfilService,
-    private carrinhoService: CarrinhoService
+    private carrinhoService: Carrinho
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -39,42 +45,64 @@ export class LoginPage {
 
   public async entrar() {
     this.formSubmetido = true;
+    this.erroLogin = false;
+    this.erroRecuperacao = false;
+    this.recuperacaoSubmetida = false;
+    this.mensagemRecuperacao = '';
 
     if (this.loginForm.invalid) {
       return;
     }
 
-    const email = this.loginForm.value.email;
+    const email = this.loginForm.value.email.trim().toLowerCase();
+    const palavraPasse = this.loginForm.value.palavraPasse;
 
-    // Iniciar sessão (cria perfil se ainda não existe)
-    await this.perfilService.iniciarSessao(email);
+    try {
+      await this.perfilService.iniciarSessao(email, palavraPasse);
+      this.carrinhoService.migrarGuestParaUtilizador(email);
+    } catch (erro) {
+      console.error('Erro no login:', erro);
+      this.erroLogin = true;
+      return;
+    }
 
-    // Migrar carrinho de convidado para o utilizador autenticado
-    await this.carrinhoService.migrarCarrinhoGuestParaUtilizador();
+    console.log('Login efetuado:', { email });
 
     const elementoAtivo = document.activeElement as HTMLElement | null;
     elementoAtivo?.blur();
 
-    // Respeitar returnUrl se existir, caso contrário vai para Início
-    const returnUrl =
-      this.activatedRoute.snapshot.queryParamMap.get('returnUrl') || '/tabs/inicio';
-
+    const returnUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl') || '/tabs/inicio';
     this.router.navigateByUrl(returnUrl, { replaceUrl: true });
   }
 
   public irParaRegisto() {
-    // Passar returnUrl para o registo também
-    const returnUrl =
-      this.activatedRoute.snapshot.queryParamMap.get('returnUrl') || '';
-
-    if (returnUrl) {
-      this.router.navigateByUrl(`/registo?returnUrl=${encodeURIComponent(returnUrl)}`);
-    } else {
-      this.router.navigateByUrl('/registo');
-    }
+    this.router.navigateByUrl('/registo');
   }
 
-  public esqueciPalavraPasse() {
-    console.log('Recuperação de palavra-passe — funcionalidade pendente');
+  public fecharLogin() {
+    this.router.navigateByUrl('/tabs/inicio');
+  }
+
+  public async esqueciPalavraPasse() {
+    const emailControl = this.loginForm.get('email');
+    this.erroLogin = false;
+    this.erroRecuperacao = false;
+    this.recuperacaoSubmetida = true;
+    this.mensagemRecuperacao = '';
+
+    if (!emailControl || emailControl.invalid) {
+      emailControl?.markAsTouched();
+      return;
+    }
+
+    const email = emailControl.value.trim().toLowerCase();
+
+    try {
+      await this.perfilService.recuperarPalavraPasse(email);
+      this.mensagemRecuperacao = `Enviámos um email de recuperação para ${email}.`;
+    } catch (erro) {
+      console.error('Erro na recuperação de palavra-passe:', erro);
+      this.erroRecuperacao = true;
+    }
   }
 }

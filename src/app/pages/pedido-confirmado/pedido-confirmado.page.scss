@@ -23,7 +23,7 @@
   gap: 2px;
   color: #2d612b;
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 700;
   text-decoration: none;
   margin-bottom: 24px;
 
@@ -75,7 +75,7 @@
   h1 {
     margin: 0;
     font-size: 30px;
-    font-weight: 800;
+    font-weight: 700;
     color: #252525;
   }
 
@@ -102,7 +102,7 @@
   h2 {
     margin: 6px 0 18px;
     font-size: 28px;
-    font-weight: 800;
+    font-weight: 700;
     color: #1e1e1e;
   }
 }
@@ -134,7 +134,7 @@
   h2 {
     margin: 0 0 18px;
     font-size: 20px;
-    font-weight: 800;
+    font-weight: 700;
     color: #1e1e1e;
   }
 }
@@ -193,16 +193,4 @@ ion-button {
   font-size: 20px;
   font-weight: 700;
   text-transform: none;
-}
-
-.btn-principal {
-  width: 100%;
-  min-height: 56px;
-  border: none;
-  border-radius: 10px;
-  background: #2f6b2f;
-  color: #ffffff;
-  font-size: 20px;
-  font-weight: 700;
-  font-family: inherit;
 }

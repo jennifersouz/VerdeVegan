@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { ScreenOrientation } from '@capacitor/screen-orientation';
 
@@ -9,8 +12,12 @@ import { ScreenOrientation } from '@capacitor/screen-orientation';
 })
 export class AppComponent {
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private location: Location
+  ) {
     this.bloquearOrientacaoPortrait();
+    this.configurarBotaoVoltarAndroid();
   }
 
   private async bloquearOrientacaoPortrait() {
@@ -28,5 +35,27 @@ export class AppComponent {
     } catch (erro) {
       console.error('Erro ao bloquear orientação:', erro);
     }
+  }
+
+  private configurarBotaoVoltarAndroid() {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+      const urlAtual = this.router.url.split('?')[0];
+
+      if (urlAtual === '/splash') {
+        this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
+        return;
+      }
+
+      if (urlAtual === '/tabs/inicio' || !canGoBack) {
+        CapacitorApp.exitApp();
+        return;
+      }
+
+      this.location.back();
+    });
   }
 }

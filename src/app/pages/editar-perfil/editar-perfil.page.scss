@@ -28,33 +28,35 @@
 
 .editar-topo {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  align-items: flex-start;
+  gap: 4px;
   margin-bottom: 36px;
 }
 
 .voltar-button {
-  width: 46px;
-  height: 46px;
+  width: 28px;
+  height: 28px;
   border: none;
-  border-radius: 14px;
-  background: #eef4eb;
+  border-radius: 999px;
+  background: transparent;
   color: #2f5d27;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin-top: 0;
 }
 
 .voltar-button ion-icon {
-  font-size: 25px;
+  font-size: 21px;
 }
 
 .editar-topo h1 {
   margin: 0;
   color: #111827;
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.12;
+  font-weight: 700;
 }
 
 .editar-topo p {
@@ -110,6 +112,10 @@
   font-family: inherit;
 }
 
+.campo-input.sem-icone {
+  padding: 0 18px;
+}
+
 .guardar-button {
   height: 56px;
   border: none;
@@ -118,7 +124,7 @@
   color: #ffffff;
   margin-top: 18px;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;

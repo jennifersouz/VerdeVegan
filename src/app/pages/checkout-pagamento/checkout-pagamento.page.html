@@ -11,19 +11,13 @@
       Carrinho
     </a>
 
-    <div class="checkout-progress">
-      <div
-        class="progress-step"
-        *ngFor="let etapa of etapasCheckout"
-        [class.ativa]="etapa.numero === etapaAtual"
-        [class.concluida]="etapa.numero < etapaAtual">
-        <div class="bolinha">
-          <ion-icon name="checkmark-outline" *ngIf="etapa.numero < etapaAtual"></ion-icon>
-          <span *ngIf="etapa.numero >= etapaAtual">{{ etapa.numero }}</span>
-        </div>
-      </div>
+    <div class="steps">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="active"></span>
+      <span></span>
     </div>
-    <p class="etapa-atual-label">{{ obterNomeEtapaAtual() }}</p>
 
     <section class="page-title">
       <h1>Método de pagamento</h1>
@@ -40,7 +34,7 @@
         <ion-icon name="card-outline"></ion-icon>
 
         <div>
-          <h2>Cartão de crédito/débito</h2>
+          <h2>Cartão de crédito</h2>
           <p>Visa, Mastercard, Amex</p>
         </div>
       </button>
@@ -79,8 +73,8 @@
         <ion-icon name="cash-outline"></ion-icon>
 
         <div>
-          <h2>Dinheiro</h2>
-          <p>Pagamento na Entrega</p>
+          <h2>Pagamento na entrega</h2>
+          <p>Cartão de crédito, dinheiro</p>
         </div>
       </button>
 

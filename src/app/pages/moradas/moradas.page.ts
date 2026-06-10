@@ -50,8 +50,10 @@ export class MoradasPage {
       id: Date.now(),
       titulo: '',
       rua: '',
+      numero: '',
       codigoPostal: '',
       cidade: '',
+      localidade: '',
       principal: false
     };
   }
@@ -79,6 +81,17 @@ export class MoradasPage {
   public editarMorada(morada: MoradaEntrega) {
     this.editandoId = morada.id;
     this.novaMorada = { ...morada };
+
+    if (!this.novaMorada.numero && this.novaMorada.rua.includes(',')) {
+      const partesRua = this.novaMorada.rua.split(',');
+      this.novaMorada.numero = partesRua.pop()?.trim() || '';
+      this.novaMorada.rua = partesRua.join(',').trim();
+    }
+
+    if (!this.novaMorada.localidade) {
+      this.novaMorada.localidade = this.novaMorada.cidade;
+    }
+
     this.formSubmetido = false;
     this.mensagemErro = '';
     this.formularioAberto = true;
@@ -101,8 +114,10 @@ export class MoradasPage {
     // Trim antes de validar
     this.novaMorada.titulo       = this.novaMorada.titulo.trim();
     this.novaMorada.rua          = this.novaMorada.rua.trim();
+    this.novaMorada.numero       = this.novaMorada.numero?.trim() || '';
     this.novaMorada.codigoPostal = this.novaMorada.codigoPostal.trim();
     this.novaMorada.cidade       = this.novaMorada.cidade.trim();
+    this.novaMorada.localidade   = this.novaMorada.localidade?.trim() || '';
 
     if (!this.novaMorada.titulo || this.novaMorada.titulo.length < 2) {
       this.mensagemErro = 'Introduz um título válido (mínimo 2 caracteres).';
@@ -114,6 +129,11 @@ export class MoradasPage {
       return;
     }
 
+    if (!this.novaMorada.numero) {
+      this.mensagemErro = 'Introduz o número da morada.';
+      return;
+    }
+
     if (!this.codigoPostalValido(this.novaMorada.codigoPostal)) {
       this.mensagemErro = 'Introduz um código postal válido no formato 0000-000.';
       return;
@@ -121,6 +141,11 @@ export class MoradasPage {
 
     if (!this.novaMorada.cidade || this.novaMorada.cidade.length < 2) {
       this.mensagemErro = 'Introduz uma cidade válida.';
+      return;
+    }
+
+    if (!this.novaMorada.localidade || this.novaMorada.localidade.length < 2) {
+      this.mensagemErro = 'Introduz uma localidade válida.';
       return;
     }
 

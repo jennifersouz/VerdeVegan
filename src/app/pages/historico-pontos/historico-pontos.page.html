@@ -1,0 +1,42 @@
+<ion-content [fullscreen]="true" class="historico-pontos-content" scrollY="true">
+
+  <div class="historico-pontos-container">
+
+    <button type="button" class="voltar-link" (click)="voltar()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      <span>Perfil</span>
+    </button>
+
+    <section class="historico-cabecalho">
+      <h1>Histórico de pontos</h1>
+      <p>
+        Os pontos são adicionados automaticamente após cada compra. Pode levar algum tempo
+        para que os pontos apareçam na app.
+      </p>
+    </section>
+
+    <div *ngIf="carregando" class="historico-loading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <section class="historico-lista" *ngIf="!carregando">
+      <article class="historico-linha" *ngFor="let item of historicoPontos">
+        <ion-icon
+          [name]="item.pontos >= 0 ? 'caret-up-outline' : 'caret-down-outline'"
+          [class.negativo]="item.pontos < 0">
+        </ion-icon>
+
+        <div class="historico-info">
+          <strong>{{ item.descricao }}</strong>
+          <span>{{ item.data }}</span>
+        </div>
+
+        <strong class="historico-valor" [class.negativo]="item.pontos < 0">
+          {{ valorFormatado(item.pontos) }}
+        </strong>
+      </article>
+    </section>
+
+  </div>
+
+</ion-content>

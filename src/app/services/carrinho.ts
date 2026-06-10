@@ -1,134 +1,93 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
-import { PerfilService } from './perfil';
-import { Prato } from './menu';
 
 export interface ItemCarrinho {
-  id: number;
-  prato: Prato;
+  nome: string;
   quantidade: number;
-  selecoes: any;
-  observacoes: string;
-  totalUnidade: number;
-  totalFinal: number;
+  preco: number;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CarrinhoService {
+export class Carrinho {
+  private readonly chaveGuest = 'verdevegan_carrinho_guest';
 
-  private storageInicializado = false;
+  public obterItens(email?: string | null): ItemCarrinho[] {
+    const dados = email
+      ? localStorage.getItem(this.obterChaveUtilizador(email))
+      : sessionStorage.getItem(this.chaveGuest);
 
-  private readonly CHAVE_CARRINHO_GUEST = 'carrinho_guest';
-  private readonly PREFIXO_CARRINHO_USER = 'carrinho_user_';
+    if (!dados) {
+      return [];
+    }
 
-  constructor(
-    private storage: Storage,
-    private perfilService: PerfilService
-  ) {}
-
-  private async inicializarStorage(): Promise<void> {
-    if (!this.storageInicializado) {
-      await this.storage.create();
-      this.storageInicializado = true;
+    try {
+      return this.normalizarItens(JSON.parse(dados));
+    } catch {
+      return [];
     }
   }
 
-  private async obterChaveCarrinhoAtual(): Promise<string> {
-    await this.inicializarStorage();
-    const emailAtual = await this.perfilService.obterEmailUtilizadorAtual();
-    if (!emailAtual) {
-      return this.CHAVE_CARRINHO_GUEST;
-    }
-    return `${this.PREFIXO_CARRINHO_USER}${emailAtual}`;
-  }
+  public guardarItens(itens: ItemCarrinho[], email?: string | null) {
+    const itensNormalizados = this.normalizarItens(itens);
 
-  public async obterItens(): Promise<ItemCarrinho[]> {
-    await this.inicializarStorage();
-    const chave = await this.obterChaveCarrinhoAtual();
-    return (await this.storage.get(chave)) || [];
-  }
-
-  public async guardarItens(itens: ItemCarrinho[]): Promise<void> {
-    await this.inicializarStorage();
-    const chave = await this.obterChaveCarrinhoAtual();
-    await this.storage.set(chave, itens);
-  }
-
-  public async adicionarItem(item: ItemCarrinho): Promise<void> {
-    const itens = await this.obterItens();
-    itens.push({ ...item, id: Date.now() });
-    await this.guardarItens(itens);
-    window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
-  }
-
-  public async removerItem(id: number): Promise<void> {
-    const itens = await this.obterItens();
-    const itensAtualizados = itens.filter((item: ItemCarrinho) => item.id !== id);
-    await this.guardarItens(itensAtualizados);
-    window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
-  }
-
-  public async atualizarQuantidade(id: number, quantidade: number): Promise<void> {
-    const itens = await this.obterItens();
-    const itensAtualizados = itens.map((item: ItemCarrinho) => {
-      if (item.id !== id) return item;
-      const novaQtd = Math.max(1, quantidade);
-      return {
-        ...item,
-        quantidade: novaQtd,
-        totalFinal: item.totalUnidade * novaQtd
-      };
-    });
-    await this.guardarItens(itensAtualizados);
-    window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
-  }
-
-  public async limparCarrinho(): Promise<void> {
-    await this.guardarItens([]);
-    window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
-  }
-
-  public async calcularTotal(): Promise<number> {
-    const itens = await this.obterItens();
-    return itens.reduce((total: number, item: ItemCarrinho) => {
-      return total + item.totalFinal;
-    }, 0);
-  }
-
-  public async contarArtigos(): Promise<number> {
-    const itens = await this.obterItens();
-    return itens.reduce((total: number, item: ItemCarrinho) => {
-      return total + item.quantidade;
-    }, 0);
-  }
-
-  public async migrarCarrinhoGuestParaUtilizador(): Promise<void> {
-    await this.inicializarStorage();
-    const emailAtual = await this.perfilService.obterEmailUtilizadorAtual();
-
-    if (!emailAtual) {
-      return;
+    if (email) {
+      localStorage.setItem(this.obterChaveUtilizador(email), JSON.stringify(itensNormalizados));
+    } else {
+      sessionStorage.setItem(this.chaveGuest, JSON.stringify(itensNormalizados));
     }
 
-    const chaveUser = `${this.PREFIXO_CARRINHO_USER}${emailAtual}`;
+    this.notificarAtualizacao();
+  }
 
-    const itensGuest: ItemCarrinho[] =
-      (await this.storage.get(this.CHAVE_CARRINHO_GUEST)) || [];
+  public adicionarItem(item: ItemCarrinho, email?: string | null) {
+    const itens = this.obterItens(email);
+    itens.push(item);
+    this.guardarItens(itens, email);
+  }
+
+  public limparCarrinho(email?: string | null) {
+    if (email) {
+      localStorage.removeItem(this.obterChaveUtilizador(email));
+    } else {
+      sessionStorage.removeItem(this.chaveGuest);
+    }
+
+    this.notificarAtualizacao();
+  }
+
+  public migrarGuestParaUtilizador(email: string) {
+    const itensGuest = this.obterItens(null);
 
     if (itensGuest.length === 0) {
       return;
     }
 
-    const itensUser: ItemCarrinho[] =
-      (await this.storage.get(chaveUser)) || [];
+    const itensUtilizador = this.obterItens(email);
+    this.guardarItens([...itensUtilizador, ...itensGuest], email);
+    sessionStorage.removeItem(this.chaveGuest);
+    this.notificarAtualizacao();
+  }
 
-    const itensCombinados = [...itensUser, ...itensGuest];
+  private obterChaveUtilizador(email: string): string {
+    return `verdevegan_carrinho_${email}`;
+  }
 
-    await this.storage.set(chaveUser, itensCombinados);
-    await this.storage.remove(this.CHAVE_CARRINHO_GUEST);
+  private normalizarItens(dados: unknown): ItemCarrinho[] {
+    if (!Array.isArray(dados)) {
+      return [];
+    }
 
+    return dados
+      .map((item: any) => ({
+        nome: item.nome || item.prato?.nome || 'Produto',
+        quantidade: Number(item.quantidade) || 1,
+        preco: Number(item.preco ?? item.totalUnidade ?? item.prato?.preco ?? 0)
+      }))
+      .filter((item: ItemCarrinho) => item.preco > 0);
+  }
+
+  private notificarAtualizacao() {
     window.dispatchEvent(new Event('verdevegan_carrinho_atualizado'));
   }
 }

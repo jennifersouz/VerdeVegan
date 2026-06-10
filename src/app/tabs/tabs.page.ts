@@ -1,7 +1,8 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
-import { CarrinhoService } from '../services/carrinho';
+import { filter } from 'rxjs';
+import { PerfilService } from '../services/perfil';
+import { Carrinho } from '../services/carrinho';
 
 @Component({
   selector: 'app-tabs',
@@ -9,32 +10,23 @@ import { CarrinhoService } from '../services/carrinho';
   styleUrls: ['tabs.page.scss'],
   standalone: false,
 })
-export class TabsPage implements OnInit, OnDestroy {
+export class TabsPage implements OnDestroy {
 
   public menuAtivo = false;
   public totalArtigosCarrinho = 0;
-  public quantidadeCarrinho = 0;
 
-  private routerEventsSub?: Subscription;
-  private readonly atualizarCarrinhoHandler = () => {
-    this.ngZone.run(() => {
-      this.atualizarTotalCarrinho();
-    });
-  };
+  private readonly atualizarCarrinhoHandler = () => this.atualizarTotalCarrinho();
 
   constructor(
     private router: Router,
-    private carrinhoService: CarrinhoService,
-    private ngZone: NgZone
-  ) {}
-
-  ngOnInit() {
+    private perfilService: PerfilService,
+    private carrinhoService: Carrinho
+  ) {
     this.atualizarTabAtiva(this.router.url);
     this.atualizarTotalCarrinho();
-
     window.addEventListener('verdevegan_carrinho_atualizado', this.atualizarCarrinhoHandler);
 
-    this.routerEventsSub = this.router.events
+    this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.atualizarTabAtiva(event.urlAfterRedirects);
@@ -44,7 +36,6 @@ export class TabsPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     window.removeEventListener('verdevegan_carrinho_atualizado', this.atualizarCarrinhoHandler);
-    this.routerEventsSub?.unsubscribe();
   }
 
   private atualizarTabAtiva(url: string) {
@@ -56,12 +47,12 @@ export class TabsPage implements OnInit, OnDestroy {
   }
 
   private async atualizarTotalCarrinho() {
-    try {
-      this.quantidadeCarrinho = await this.carrinhoService.contarArtigos();
-      this.totalArtigosCarrinho = this.quantidadeCarrinho;
-    } catch {
-      this.quantidadeCarrinho = 0;
-      this.totalArtigosCarrinho = 0;
-    }
+    const perfil = await this.perfilService.obterPerfil();
+    const itens = this.carrinhoService.obterItens(perfil?.email);
+
+    this.totalArtigosCarrinho = itens.reduce((total: number, item) => {
+      return total + (Number(item.quantidade) || 1);
+    }, 0);
   }
+
 }

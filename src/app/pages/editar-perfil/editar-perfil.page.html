@@ -65,6 +65,32 @@
         </div>
       </div>
 
+      <!-- Dieta -->
+      <div class="campo-grupo">
+        <label>Dieta</label>
+
+        <div class="campo-input sem-icone">
+          <input
+            type="text"
+            placeholder="Ex: Vegan"
+            [(ngModel)]="perfil.dieta"
+            name="dieta">
+        </div>
+      </div>
+
+      <!-- Alergias -->
+      <div class="campo-grupo">
+        <label>Alergias</label>
+
+        <div class="campo-input sem-icone">
+          <input
+            type="text"
+            placeholder="Indica alergias ou intolerâncias"
+            [(ngModel)]="perfil.alergias"
+            name="alergias">
+        </div>
+      </div>
+
       <!-- Mensagem de erro -->
       <p class="mensagem-erro" *ngIf="mensagemErro">{{ mensagemErro }}</p>
 

@@ -23,6 +23,7 @@ export class PagamentosPage {
 
   public formSubmetido = false;
   public mensagemErro = '';
+  public tipoCartaoAberto = false;
 
   constructor(
     private perfilService: PerfilService,
@@ -50,8 +51,10 @@ export class PagamentosPage {
       id: Date.now(),
       tipo: 'Visa' as MetodoPagamento['tipo'],
       titular: '',
+      numeroCartao: '',
       ultimosDigitos: '',
       validade: '',
+      cvv: '',
       principal: false
     };
   }
@@ -60,11 +63,56 @@ export class PagamentosPage {
 
   public telefoneValido(telefone: string): boolean {
     const limpo = telefone.replace(/\D/g, '');
-    return /^9[1236]\d{7}$/.test(limpo);
+    return /^(9[1236]\d{7}|2\d{8})$/.test(limpo);
+  }
+
+  public normalizarNumeroMbWay() {
+    if (this.novoPagamento.tipo !== 'MB Way') {
+      return;
+    }
+
+    this.novoPagamento.ultimosDigitos = this.novoPagamento.ultimosDigitos.replace(/\D/g, '').slice(0, 9);
+  }
+
+  public normalizarNumeroCartao() {
+    this.novoPagamento.numeroCartao = (this.novoPagamento.numeroCartao || '').replace(/\D/g, '').slice(0, 19);
+  }
+
+  public normalizarCvv() {
+    this.novoPagamento.cvv = (this.novoPagamento.cvv || '').replace(/\D/g, '').slice(0, 4);
+  }
+
+  public bloquearNaoNumerico(event: KeyboardEvent) {
+    const teclasPermitidas = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+
+    if (
+      teclasPermitidas.includes(event.key) ||
+      ((event.ctrlKey || event.metaKey) && ['a', 'c', 'v', 'x'].includes(event.key.toLowerCase()))
+    ) {
+      return;
+    }
+
+    if (!/^\d$/.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  public colarApenasNumeros(event: ClipboardEvent, campo: 'numeroCartao' | 'cvv' | 'ultimosDigitos', limite: number) {
+    event.preventDefault();
+    const valor = event.clipboardData?.getData('text') || '';
+    this.novoPagamento[campo] = valor.replace(/\D/g, '').slice(0, limite);
   }
 
   public ultimosDigitosValidos(valor: string): boolean {
     return /^\d{4}$/.test(valor.trim());
+  }
+
+  public numeroCartaoValido(valor: string): boolean {
+    return /^\d{13,19}$/.test(valor.replace(/\s/g, ''));
+  }
+
+  public cvvValido(valor: string): boolean {
+    return /^\d{3,4}$/.test(valor.trim());
   }
 
   public validadeValida(validade: string): boolean {
@@ -85,19 +133,6 @@ export class PagamentosPage {
     return true;
   }
 
-  public filtrarApenasNumerosPagamento() {
-    this.novoPagamento.ultimosDigitos =
-      this.novoPagamento.ultimosDigitos.replace(/\D/g, '');
-
-    if (this.novoPagamento.tipo === 'MB Way') {
-      this.novoPagamento.ultimosDigitos =
-        this.novoPagamento.ultimosDigitos.slice(0, 9);
-    } else {
-      this.novoPagamento.ultimosDigitos =
-        this.novoPagamento.ultimosDigitos.slice(0, 4);
-    }
-  }
-
   // ── Navegação ───────────────────────────────────────────────────────────────
 
   public voltar() {
@@ -109,14 +144,27 @@ export class PagamentosPage {
     this.novoPagamento = this.criarPagamentoVazio();
     this.formSubmetido = false;
     this.mensagemErro = '';
+    this.tipoCartaoAberto = false;
     this.formularioAberto = true;
   }
 
   public editarPagamento(pagamento: MetodoPagamento) {
     this.editandoId = pagamento.id;
     this.novoPagamento = { ...pagamento };
+
+    if (!this.novoPagamento.numeroCartao) {
+      this.novoPagamento.numeroCartao = this.novoPagamento.ultimosDigitos === '1443'
+        ? '4123456789011443'
+        : `555544443333${this.novoPagamento.ultimosDigitos || '1234'}`;
+    }
+
+    if (!this.novoPagamento.cvv) {
+      this.novoPagamento.cvv = this.novoPagamento.ultimosDigitos === '1443' ? '456' : '123';
+    }
+
     this.formSubmetido = false;
     this.mensagemErro = '';
+    this.tipoCartaoAberto = false;
     this.formularioAberto = true;
   }
 
@@ -126,6 +174,16 @@ export class PagamentosPage {
     this.novoPagamento = this.criarPagamentoVazio();
     this.formSubmetido = false;
     this.mensagemErro = '';
+    this.tipoCartaoAberto = false;
+  }
+
+  public alternarTipoCartao() {
+    this.tipoCartaoAberto = !this.tipoCartaoAberto;
+  }
+
+  public selecionarTipoCartao(tipo: MetodoPagamento['tipo']) {
+    this.novoPagamento.tipo = tipo;
+    this.tipoCartaoAberto = false;
   }
 
   // ── Guardar ─────────────────────────────────────────────────────────────────
@@ -136,9 +194,10 @@ export class PagamentosPage {
 
     // Trim antes de validar
     this.novoPagamento.titular       = this.novoPagamento.titular.trim();
+    this.novoPagamento.numeroCartao  = this.novoPagamento.numeroCartao?.replace(/\s/g, '') || '';
     this.novoPagamento.ultimosDigitos = this.novoPagamento.ultimosDigitos.trim();
     this.novoPagamento.validade      = this.novoPagamento.validade.trim();
-    this.filtrarApenasNumerosPagamento();
+    this.novoPagamento.cvv           = this.novoPagamento.cvv?.trim() || '';
 
     if (!this.novoPagamento.tipo) {
       this.mensagemErro = 'Seleciona um tipo de pagamento.';
@@ -146,6 +205,8 @@ export class PagamentosPage {
     }
 
     if (this.novoPagamento.tipo === 'MB Way') {
+      this.novoPagamento.ultimosDigitos = this.novoPagamento.ultimosDigitos.replace(/\D/g, '').slice(0, 9);
+
       if (!this.telefoneValido(this.novoPagamento.ultimosDigitos)) {
         this.mensagemErro = 'Introduz um número MB Way português válido (ex: 912345678).';
         return;
@@ -158,8 +219,8 @@ export class PagamentosPage {
         return;
       }
 
-      if (!this.ultimosDigitosValidos(this.novoPagamento.ultimosDigitos)) {
-        this.mensagemErro = 'Introduz os últimos 4 dígitos do cartão (apenas números).';
+      if (!this.numeroCartaoValido(this.novoPagamento.numeroCartao || '')) {
+        this.mensagemErro = 'Introduz um número de cartão válido.';
         return;
       }
 
@@ -167,6 +228,13 @@ export class PagamentosPage {
         this.mensagemErro = 'Introduz uma validade válida no formato MM/AAAA (ex: 08/2028).';
         return;
       }
+
+      if (!this.cvvValido(this.novoPagamento.cvv || '')) {
+        this.mensagemErro = 'Introduz um CVV válido.';
+        return;
+      }
+
+      this.novoPagamento.ultimosDigitos = (this.novoPagamento.numeroCartao || '').slice(-4);
     }
 
     if (this.editandoId) {
@@ -210,5 +278,9 @@ export class PagamentosPage {
     }
 
     return `**** **** **** ${pagamento.ultimosDigitos}`;
+  }
+
+  public obterBandeira(pagamento: MetodoPagamento): 'visa' | 'mastercard' {
+    return pagamento.tipo === 'Mastercard' ? 'mastercard' : 'visa';
   }
 }

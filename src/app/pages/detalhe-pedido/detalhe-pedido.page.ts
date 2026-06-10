@@ -1,7 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CarrinhoService } from '../../services/carrinho';
-import { Pedido, Pedidos } from '../../services/pedidos';
+import { ArtigoPedido, Pedido, Pedidos } from 'src/app/services/pedidos';
+import { PerfilService } from 'src/app/services/perfil';
+import { Carrinho } from 'src/app/services/carrinho';
 
 @Component({
   selector: 'app-detalhe-pedido',
@@ -9,308 +10,230 @@ import { Pedido, Pedidos } from '../../services/pedidos';
   styleUrls: ['./detalhe-pedido.page.scss'],
   standalone: false
 })
-export class DetalhePedidoPage implements OnDestroy {
-
-  public pedido: Pedido | null = null;
-  public carregando = true;
-  public mostrarModalCancelar = false;
-  public segundosParaCancelar = 0;
-  public avaliacao = 0;
-  public comentario = '';
-  public avaliacaoSubmetida = false;
-  public mostrarDetalhesRecebido = false;
-
-  // Verifica mudança de estado a cada segundo — só toca em this.pedido se mudou
-  private intervaloEstado: ReturnType<typeof setInterval> | null = null;
-  // Actualiza apenas segundosParaCancelar — nunca altera this.pedido
-  private intervaloCancelamento: ReturnType<typeof setInterval> | null = null;
+export class DetalhePedidoPage {
+  pedido?: Pedido;
+  saldoPontos = 0;
+  reviewAberta = false;
+  avaliacao = 0;
+  comentarioAvaliacao = '';
+  estrelas = [1, 2, 3, 4, 5];
+  private readonly anosPorPedido: Record<string, number> = {
+    '#VV-1233': 2026,
+    '#VV-8444': 2026,
+    '#VV-7461': 2026,
+    '#VV-3078': 2026,
+    '#VV-2048': 2026,
+    '#VV-2006': 2026,
+    '#VV-2007': 2026,
+    '#VV-2008': 2026,
+    '#VV-2009': 2026,
+    '#VV-2010': 2025,
+    '#VV-2011': 2025,
+    '#VV-2012': 2025,
+    '#VV-2013': 2025,
+    '#VV-2014': 2024,
+    '#VV-2015': 2024,
+    '#VV-2016': 2026,
+    '#VV-2017': 2025,
+    '#VV-2018': 2025,
+    '#VV-2019': 2026,
+    '#VV-2020': 2026
+  };
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
     private router: Router,
     private pedidosService: Pedidos,
-    private carrinhoService: CarrinhoService
-  ) {}
+    private perfilService: PerfilService,
+    private carrinhoService: Carrinho
+  ) { }
 
-  async ionViewWillEnter() {
-    this.pararVerificacaoEstado();
-    this.pararTimerCancelamento();
-    this.mostrarModalCancelar = false;
-    this.mostrarDetalhesRecebido = false;
-
-    await this.carregarPedido();
-    this.iniciarTimerCancelamento();
-    this.iniciarVerificacaoEstado();
+  ionViewWillEnter() {
+    this.carregarPedido();
   }
 
-  ionViewWillLeave() {
-    this.pararVerificacaoEstado();
-    this.pararTimerCancelamento();
-  }
+  async carregarPedido() {
+    const perfil = await this.perfilService.obterPerfil();
+    const id = this.route.snapshot.paramMap.get('id');
 
-  ngOnDestroy() {
-    this.pararVerificacaoEstado();
-    this.pararTimerCancelamento();
-  }
+    this.saldoPontos = perfil?.pontos || 0;
+    const pedidos = perfil ? this.pedidosService.obterPedidos(perfil.email) : this.pedidosService.obterPedidos();
+    this.pedido = id
+      ? this.pedidosService.obterPedidoPorId(id, perfil?.email)
+      : pedidos[0];
 
-  // ── Carregamento inicial / após ações fortes ─────────────────────────────
-  private async carregarPedido() {
-    this.carregando = true;
+    if (
+      this.pedido &&
+      this.pedido.estadoManual !== 'Cancelado' &&
+      this.pedido.estadoManual !== 'Entregue'
+    ) {
+      const estado = this.pedidosService.obterEstadoAtual(this.pedido);
 
-    const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-
-    if (!id) {
-      await this.router.navigateByUrl('/tabs/pedidos', { replaceUrl: true });
-      return;
-    }
-
-    const pedidoEncontrado = await this.pedidosService.obterPedidoPorId(id);
-
-    if (!pedidoEncontrado) {
-      await this.router.navigateByUrl('/tabs/pedidos', { replaceUrl: true });
-      return;
-    }
-
-    this.pedido = pedidoEncontrado;
-    this.avaliacao = this.pedido.avaliacao || 0;
-    this.comentario = this.pedido.comentario || '';
-    this.avaliacaoSubmetida = (this.pedido.avaliacao ?? 0) > 0;
-    this.atualizarTimerCancelamento();
-    this.carregando = false;
-  }
-
-  // Usado após cancelar/avaliar para reflectir o novo estado sem reiniciar timers
-  private async atualizarPedidoAposAcao() {
-    if (!this.pedido) return;
-    const atualizado = await this.pedidosService.obterPedidoPorId(this.pedido.id);
-    if (atualizado) {
-      this.pedido = atualizado;
-    }
-  }
-
-  // ── Verificação de estado — leve, só altera this.pedido se estado mudou ──
-  private iniciarVerificacaoEstado() {
-    this.pararVerificacaoEstado();
-
-    this.intervaloEstado = setInterval(async () => {
-      if (!this.pedido) return;
-
-      // Pedidos terminais não precisam de verificação
-      if (this.pedido.estado === 'Entregue' || this.pedido.estado === 'Cancelado') {
-        this.pararVerificacaoEstado();
-        return;
+      if (estado !== this.pedido.estado) {
+        this.pedido = {
+          ...this.pedido,
+          estado,
+          estadoManual: undefined
+        };
+        this.pedidosService.atualizarPedido(this.pedido);
       }
+    }
+  }
 
-      const atualizado = await this.pedidosService.obterPedidoPorId(this.pedido.id);
-      if (!atualizado) return;
+  get artigos(): ArtigoPedido[] {
+    if (!this.pedido) {
+      return [];
+    }
 
-      // Só substitui this.pedido se o estado realmente mudou — evita flicker
-      if (atualizado.estado !== this.pedido.estado) {
-        this.pedido = atualizado;
+    if (this.pedido.artigos?.length) {
+      return this.pedido.artigos;
+    }
 
-        if (this.pedido.estado === 'Entregue' || this.pedido.estado === 'Cancelado') {
-          this.pararVerificacaoEstado();
-          this.pararTimerCancelamento();
-        }
+    return [
+      {
+        nome: this.pedido.nome,
+        quantidade: this.pedido.itens,
+        preco: this.subtotal
       }
-    }, 1000);
+    ];
   }
 
-  private pararVerificacaoEstado() {
-    if (this.intervaloEstado) {
-      clearInterval(this.intervaloEstado);
-      this.intervaloEstado = null;
-    }
+  get taxaEntrega(): number {
+    return this.pedido?.taxaEntrega ?? 3.4;
   }
 
-  // ── Timer de cancelamento — só altera segundosParaCancelar ───────────────
-  private iniciarTimerCancelamento() {
-    this.pararTimerCancelamento();
-    this.atualizarTimerCancelamento();
-
-    this.intervaloCancelamento = setInterval(() => {
-      this.atualizarTimerCancelamento();
-      if (this.segundosParaCancelar <= 0) {
-        this.pararTimerCancelamento();
-      }
-    }, 1000);
-  }
-
-  private atualizarTimerCancelamento() {
-    if (!this.pedido?.cancelavelAte) {
-      this.segundosParaCancelar = 0;
-      return;
-    }
-    const restante = Math.ceil((this.pedido.cancelavelAte - Date.now()) / 1000);
-    this.segundosParaCancelar = Math.max(0, restante);
-  }
-
-  private pararTimerCancelamento() {
-    if (this.intervaloCancelamento) {
-      clearInterval(this.intervaloCancelamento);
-      this.intervaloCancelamento = null;
-    }
-  }
-
-  // ── Cancelamento ─────────────────────────────────────────────────────────
-  public podeCancelar(): boolean {
-    return !!this.pedido &&
-      this.pedido.estado === 'Recebido' &&
-      this.segundosParaCancelar > 0;
-  }
-
-  public abrirModalCancelar() {
-    if (this.podeCancelar()) {
-      this.mostrarModalCancelar = true;
-    }
-  }
-
-  public fecharModalCancelar() {
-    this.mostrarModalCancelar = false;
-  }
-
-  public async confirmarCancelamento() {
-    if (!this.pedido) return;
-
-    this.mostrarModalCancelar = false;
-    await this.pedidosService.cancelarPedido(this.pedido.id);
-    await this.atualizarPedidoAposAcao();
-    this.pararVerificacaoEstado();
-    this.pararTimerCancelamento();
-  }
-
-  // ── Avaliação ────────────────────────────────────────────────────────────
-  public definirAvaliacao(valor: number) {
-    if (!this.avaliacaoSubmetida) {
-      this.avaliacao = valor;
-    }
-  }
-
-  public async submeterAvaliacao() {
-    if (!this.pedido || this.avaliacao === 0) return;
-
-    await this.pedidosService.avaliarPedido(this.pedido.id, this.avaliacao, this.comentario);
-    this.avaliacaoSubmetida = true;
-    this.desfocarElementoAtivo();
-    await this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
-  }
-
-  // ── Repetir pedido ───────────────────────────────────────────────────────
-  public async repetirPedido() {
-    if (!this.pedido) return;
-
-    for (const item of this.pedido.itens) {
-      const idBase = Date.now() + Math.floor(Math.random() * 1000);
-      await this.carrinhoService.adicionarItem({
-        id: idBase,
-        prato: {
-          id: idBase,
-          nome: item.nome,
-          tipo: 'Refeições',
-          categoria: 'Pedido anterior',
-          restaurante: this.pedido.restaurante,
-          descricao: 'Item repetido a partir do histórico de pedidos.',
-          preco: item.preco,
-          avaliacao: 5,
-          tempo: '25-35 min',
-          imagem: '',
-          destaque: false,
-          personalizavel: false
-        },
-        quantidade: item.quantidade,
-        selecoes: {},
-        observacoes: '',
-        totalUnidade: item.preco,
-        totalFinal: item.preco * item.quantidade
-      });
+  get subtotal(): number {
+    if (!this.pedido) {
+      return 0;
     }
 
-    this.desfocarElementoAtivo();
-    await this.router.navigateByUrl('/tabs/carrinho');
+    if (this.pedido.artigos?.length) {
+      return this.pedido.artigos.reduce((total, artigo) => total + artigo.preco, 0);
+    }
+
+    return Math.max(0, this.pedido.total - this.taxaEntrega);
   }
 
-  // ── Navegação ────────────────────────────────────────────────────────────
-  public voltar() {
-    this.desfocarElementoAtivo();
+  get dataPedido(): string {
+    if (!this.pedido) {
+      return '';
+    }
+
+    if (this.pedido.data.toLowerCase() === 'hoje') {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    const match = this.pedido.data.match(/(\d{2})\/(\d{2})/);
+
+    if (!match) {
+      return this.pedido.data;
+    }
+
+    const ano = this.anosPorPedido[this.pedido.id.replace('-A', '')] || new Date().getFullYear();
+
+    return `${ano}-${match[2]}-${match[1]}`;
+  }
+
+  get pontosGanhos(): number {
+    return this.pedido?.pontosGanhos ?? Math.floor(this.pedido?.total || 0);
+  }
+
+  get saldoAtual(): number {
+    return this.pedido?.saldoPontos ?? this.saldoPontos;
+  }
+
+  get podeAcompanharPedido(): boolean {
+    if (!this.pedido) {
+      return false;
+    }
+
+    return this.estadoAtual !== 'Entregue' && this.estadoAtual !== 'Cancelado';
+  }
+
+  get podeDarReview(): boolean {
+    return this.estadoAtual === 'Entregue';
+  }
+
+  get textoBotaoReview(): string {
+    return this.pedido?.avaliado ? 'Alterar review' : 'Dar review ao pedido';
+  }
+
+  get estadoAtual(): string {
+    return this.pedido ? this.pedidosService.obterEstadoAtual(this.pedido) : '';
+  }
+
+  formatarMoeda(valor: number): string {
+    return `${valor.toFixed(2).replace('.', ',')} €`;
+  }
+
+  voltarPedidos() {
     this.router.navigateByUrl('/tabs/pedidos');
   }
 
-  public voltarAoInicio() {
-    this.desfocarElementoAtivo();
-    this.router.navigateByUrl('/tabs/inicio');
+  acompanharPedido() {
+    if (!this.pedido) {
+      return;
+    }
+
+    this.router.navigate(['/tabs/acompanhar-pedido', this.pedido.id.replace('#', '')]);
   }
 
-  public voltarAosPedidos() {
-    this.voltar();
+  abrirReview() {
+    if (!this.pedido) {
+      return;
+    }
+
+    this.avaliacao = this.pedido.avaliacao || 0;
+    this.comentarioAvaliacao = this.pedido.comentarioAvaliacao || '';
+    this.reviewAberta = true;
   }
 
-  public irParaMenu() {
-    this.desfocarElementoAtivo();
-    this.router.navigateByUrl('/tabs/menu');
+  fecharReview() {
+    this.reviewAberta = false;
   }
 
-  public verDetalhesPedido() {
-    this.mostrarDetalhesRecebido = true;
-    setTimeout(() => {
-      document.getElementById('detalhes-pedido')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+  preenchimentoEstrela(estrela: number): number {
+    const valor = Math.max(0, Math.min(1, this.avaliacao - (estrela - 1)));
+
+    return valor >= 1 ? 100 : valor >= 0.5 ? 50 : 0;
   }
 
-  // ── Cálculos ─────────────────────────────────────────────────────────────
-  public obterSubtotal(): number {
-    if (!this.pedido) return 0;
-    return this.pedido.itens.reduce((total, item) => total + item.preco * item.quantidade, 0);
+  selecionarAvaliacao(event: MouseEvent, estrela: number) {
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    const metade = event.clientX - rect.left <= rect.width / 2 ? 0.5 : 1;
+
+    this.avaliacao = estrela - 1 + metade;
   }
 
-  public obterTotalPedido(): number {
-    if (!this.pedido) return 0;
-    const subtotal = this.obterSubtotal();
-    const taxaEntrega = this.pedido.taxaEntrega || 0;
-    const desconto = this.pedido.desconto || 0;
-    return Math.max(0, subtotal + taxaEntrega - desconto);
+  guardarReview() {
+    if (!this.pedido) {
+      return;
+    }
+
+    this.pedido = {
+      ...this.pedido,
+      avaliado: true,
+      avaliacao: this.avaliacao,
+      comentarioAvaliacao: this.comentarioAvaliacao.trim()
+    };
+    this.pedidosService.atualizarPedido(this.pedido);
+    this.fecharReview();
   }
 
-  public obterTempoCancelamento(): string {
-    return `00:${String(this.segundosParaCancelar).padStart(2, '0')}`;
-  }
+  async repetirPedido() {
+    if (!this.pedido) {
+      return;
+    }
 
-  public obterHoraEstimada(): string {
-    if (!this.pedido?.estimativaEntregaEm) return '';
-    const data = new Date(this.pedido.estimativaEntregaEm);
-    return data.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
-  }
+    const perfil = await this.perfilService.obterPerfil();
+    const itensAtuais = this.carrinhoService.obterItens(perfil?.email);
+    const itensPedido = this.artigos.map((artigo) => ({
+      nome: artigo.nome,
+      quantidade: artigo.quantidade,
+      preco: artigo.preco / artigo.quantidade
+    }));
 
-  public obterMinutosRestantesEntrega(): number {
-    if (!this.pedido?.estimativaEntregaEm) return 0;
-    const diferenca = this.pedido.estimativaEntregaEm - Date.now();
-    const minutos = Math.ceil(diferenca / 60000);
-    return Math.max(1, minutos);
-  }
-
-  // Mantido por retrocompatibilidade com o template (usado em "Chega em X min")
-  public obterMinutosEntrega(): string {
-    return `${this.obterMinutosRestantesEntrega()} min`;
-  }
-
-  public obterPercentagemProgresso(): number {
-    if (!this.pedido) return 0;
-    if (this.pedido.estado === 'Recebido')   return 22;
-    if (this.pedido.estado === 'A preparar') return 52;
-    if (this.pedido.estado === 'A caminho')  return 82;
-    if (this.pedido.estado === 'Entregue')   return 100;
-    return 0;
-  }
-
-  public estaEntregue(): boolean {
-    return this.pedido?.estado === 'Entregue';
-  }
-
-  public estaCancelado(): boolean {
-    return this.pedido?.estado === 'Cancelado';
-  }
-
-  private desfocarElementoAtivo() {
-    const elementoAtivo = document.activeElement as HTMLElement | null;
-    elementoAtivo?.blur();
+    this.carrinhoService.guardarItens([...itensAtuais, ...itensPedido], perfil?.email);
+    this.router.navigateByUrl('/tabs/carrinho');
   }
 }

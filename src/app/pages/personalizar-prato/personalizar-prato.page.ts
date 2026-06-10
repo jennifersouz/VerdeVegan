@@ -6,7 +6,8 @@ import {
   GrupoPersonalizacao,
   OpcaoPersonalizacao
 } from '../../services/menu';
-import { CarrinhoService } from '../../services/carrinho';
+import { PerfilService } from '../../services/perfil';
+import { Carrinho } from '../../services/carrinho';
 
 @Component({
   selector: 'app-personalizar-prato',
@@ -31,7 +32,8 @@ export class PersonalizarPratoPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private menuService: MenuService,
-    private carrinhoService: CarrinhoService
+    private perfilService: PerfilService,
+    private carrinhoService: Carrinho
   ) {}
 
   ngOnInit() {
@@ -63,6 +65,7 @@ export class PersonalizarPratoPage implements OnInit {
         }
 
         this.gruposPersonalizacao = this.prato.personalizacoes || [];
+
         this.inicializarSelecoes();
       },
       error: (erro: unknown) => {
@@ -74,17 +77,21 @@ export class PersonalizarPratoPage implements OnInit {
 
   private inicializarSelecoes() {
     this.gruposPersonalizacao.forEach((grupo: GrupoPersonalizacao) => {
-      this.selecoes[grupo.id] = [];
+      const opcaoInicial = grupo.opcoes.find((opcao: OpcaoPersonalizacao) => opcao.incluido)
+        || (grupo.obrigatorio && !grupo.escolhaMultipla
+          ? grupo.opcoes.find((opcao: OpcaoPersonalizacao) => opcao.preco === 0)
+          : undefined);
+
+      this.selecoes[grupo.id] = opcaoInicial ? [opcaoInicial] : [];
     });
   }
 
   public voltar() {
-    this.desfocarElementoAtivo();
-
     if (this.prato) {
       this.router.navigateByUrl(this.obterUrlDetalhe());
       return;
     }
+
     this.router.navigateByUrl('/tabs/menu');
   }
 
@@ -93,11 +100,13 @@ export class PersonalizarPratoPage implements OnInit {
       this.alternarOpcaoMultipla(grupo, opcao);
       return;
     }
+
     this.selecoes[grupo.id] = [opcao];
   }
 
   private alternarOpcaoMultipla(grupo: GrupoPersonalizacao, opcao: OpcaoPersonalizacao) {
     const opcoesSelecionadas = this.selecoes[grupo.id] || [];
+
     const jaExiste = opcoesSelecionadas.some(item => item.id === opcao.id);
 
     if (jaExiste) {
@@ -109,6 +118,7 @@ export class PersonalizarPratoPage implements OnInit {
 
   public opcaoEstaSelecionada(grupo: GrupoPersonalizacao, opcao: OpcaoPersonalizacao): boolean {
     const opcoesSelecionadas = this.selecoes[grupo.id] || [];
+
     return opcoesSelecionadas.some(item => item.id === opcao.id);
   }
 
@@ -124,21 +134,43 @@ export class PersonalizarPratoPage implements OnInit {
 
   public calcularPersonalizacoes(): number {
     let total = 0;
+
     Object.values(this.selecoes).forEach((opcoes: OpcaoPersonalizacao[]) => {
       opcoes.forEach((opcao: OpcaoPersonalizacao) => {
         total += opcao.preco;
       });
     });
+
     return total;
   }
 
   public calcularTotalUnidade(): number {
-    if (!this.prato) return 0;
+    if (!this.prato) {
+      return 0;
+    }
+
     return this.prato.preco + this.calcularPersonalizacoes();
   }
 
   public calcularTotalFinal(): number {
     return this.calcularTotalUnidade() * this.quantidade;
+  }
+
+  public formatarPreco(valor: number): string {
+    return `€${valor.toFixed(2)}`;
+  }
+
+  public formatarPrecoOpcao(opcao: OpcaoPersonalizacao): string {
+    if (opcao.incluido && opcao.preco === 0) {
+      return 'Incluído';
+    }
+
+    if (opcao.preco === 0) {
+      return 'Sem custo';
+    }
+
+    const prefixo = opcao.preco > 0 ? '+' : '-';
+    return `${prefixo}€${Math.abs(opcao.preco).toFixed(2)}`;
   }
 
   public formularioValido(): boolean {
@@ -155,26 +187,16 @@ export class PersonalizarPratoPage implements OnInit {
       return;
     }
 
-    this.desfocarElementoAtivo();
-
     const itemCarrinho = {
-      id: Date.now(),
-      prato: this.prato,
+      nome: this.prato.nome,
       quantidade: this.quantidade,
-      selecoes: this.selecoes,
-      observacoes: this.observacoes,
-      totalUnidade: this.calcularTotalUnidade(),
-      totalFinal: this.calcularTotalFinal()
+      preco: this.calcularTotalUnidade()
     };
 
-    await this.carrinhoService.adicionarItem(itemCarrinho);
+    const perfil = await this.perfilService.obterPerfil();
+    this.carrinhoService.adicionarItem(itemCarrinho, perfil?.email);
 
     this.router.navigateByUrl('/tabs/carrinho');
-  }
-
-  private desfocarElementoAtivo() {
-    const elementoAtivo = document.activeElement as HTMLElement | null;
-    elementoAtivo?.blur();
   }
 
   private obterUrlDetalhe(): string {
