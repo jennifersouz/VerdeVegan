@@ -28,12 +28,15 @@ export class PointsHistoryPage {
 
   private toPointEntries(order: Order): PointEntry[] {
     const entries: PointEntry[] = [];
+    // Pontos ganhos só aparecem depois da encomenda ser entregue.
     if (order.status === 'Entregue' && order.pointsEarned > 0) {
       entries.push({ type: 'Acumulaste', date: order.date, points: order.pointsEarned });
     }
+    // Pontos usados aparecem logo como movimento negativo.
     if (order.pointsUsed > 0) {
       entries.push({ type: 'Redimidos', date: order.date, points: -order.pointsUsed });
     }
+    // Se cancelar, devolve no histórico os pontos que tinham sido usados.
     if (order.status === 'Cancelado' && order.pointsUsed > 0) {
       entries.push({ type: 'Devolução', date: order.date, points: order.pointsUsed });
     }

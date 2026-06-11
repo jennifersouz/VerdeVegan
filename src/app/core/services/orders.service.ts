@@ -60,6 +60,7 @@ export class OrdersService {
     [...seed, ...storedOrders].forEach((order) => orderMap.set(order.id, order));
     const orders = Array.from(orderMap.values()).sort((a, b) => b.date.localeCompare(a.date));
     const points = await this.readStoredPoints(user, isDefaultUser ? 86 : 0);
+    // Ao carregar, atualiza pedidos que entretanto chegaram ao fim e credita pontos só nessa transição.
     const synced = this.syncStatusesAndPoints(orders, points);
     if (persistRemote) {
       await this.persistUserOrders(user, synced.orders);
@@ -88,12 +89,14 @@ export class OrdersService {
         extras: item.selectedExtras,
       })),
       pointsUsed,
+      // Pontos a ganhar no futuro: calculados sobre o total final pago, depois dos descontos.
       pointsEarned: this.pointsEarned(total),
       deliveryFee: this.cartDeliveryFee(items),
       total,
       rated: false,
     };
     const orders = this.sortOrders([order, ...this.ordersSubject.value]);
+    // Ao criar o pedido, os pontos usados saem logo; os pontos ganhos só entram quando for entregue.
     const points = Math.max(0, this.pointsSubject.value - pointsUsed);
     await this.persistUserOrders(user, orders);
     await this.persistUserPoints(user, points);
@@ -123,6 +126,7 @@ export class OrdersService {
     const user = this.requireUser();
     await this.ensureLoadedFor(user);
     const orderToComplete = this.ordersSubject.value.find((order) => order.id === orderId);
+    // Evita duplicar pontos se o pedido já tiver sido marcado como entregue.
     const pointsToEarn = orderToComplete?.status === 'Entregue' ? 0 : (orderToComplete?.pointsEarned ?? 0);
     const orders = this.ordersSubject.value.map((order) =>
       order.id === orderId ? { ...order, status: 'Entregue' as const, rated: rated || order.rated } : order,
@@ -138,6 +142,7 @@ export class OrdersService {
     const user = this.requireUser();
     await this.ensureLoadedFor(user);
     const orderToCancel = this.ordersSubject.value.find((order) => order.id === orderId);
+    // Cancelar devolve apenas os pontos usados; pontos ganhos ainda não foram atribuídos antes da entrega.
     const pointsToReturn = orderToCancel?.status === 'Cancelado' ? 0 : (orderToCancel?.pointsUsed ?? 0);
     const orders = this.ordersSubject.value.map((order) =>
       order.id === orderId ? { ...order, status: 'Cancelado' as const } : order,
@@ -156,6 +161,7 @@ export class OrdersService {
     }
 
     await this.ensureLoadedFor(user);
+    // Sincroniza o estado com o tempo real e, se passar a entregue, atualiza o saldo de pontos.
     const result = this.syncStatusesAndPoints(this.ordersSubject.value, this.pointsSubject.value);
     const changed =
       result.orders.some((order, index) => order.status !== this.ordersSubject.value[index]?.status) ||
@@ -181,6 +187,7 @@ export class OrdersService {
     }
 
     const deliveryMinutes = this.deliveryMinutes(order);
+    // Divide a duração total em três fases visuais: recebido, preparação e a caminho.
     const stepMinutes = deliveryMinutes / 3;
     const elapsedMinutes = (now.getTime() - createdAt.getTime()) / 60_000;
     if (elapsedMinutes >= deliveryMinutes) {
@@ -336,6 +343,7 @@ export class OrdersService {
       }
 
       if (status === 'Entregue' && order.status !== 'Entregue') {
+        // Os pontos são atribuídos uma única vez: quando o estado muda para entregue.
         points += order.pointsEarned;
       }
 
@@ -369,6 +377,7 @@ export class OrdersService {
     const averages = Array.from(restaurantMinutes.values()).map(
       (minutes) => minutes.reduce((sum, value) => sum + value, 0) / minutes.length,
     );
+    // Se houver vários restaurantes, usa a média dos tempos médios de cada um.
     return averages.length ? Math.round(averages.reduce((sum, value) => sum + value, 0) / averages.length) : 30;
   }
 
@@ -383,6 +392,7 @@ export class OrdersService {
 
   private parseDeliveryTime(time: string): number {
     const values = time.match(/\d+/g)?.map(Number).filter(Number.isFinite) ?? [];
+    // Exemplo: "30-40min" passa a 35 minutos.
     return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0;
   }
 

@@ -318,6 +318,7 @@ export class OrderStatusPage implements OnInit, OnDestroy {
 
   private statusDate(order: Order, createdAt: Date): Date {
     const deliveryMinutes = this.deliveryMinutes(order);
+    // As horas das etapas são calculadas a partir da hora do pedido e do tempo médio de entrega.
     const stepMinutes = deliveryMinutes / 3;
     const offsets: Record<Order['status'], number> = {
       Recebido: 0,
@@ -428,6 +429,7 @@ export class OrderStatusPage implements OnInit, OnDestroy {
     const createdAt = this.createdAtDate(this.order)?.getTime() ?? Date.now();
     const deliveryMinutes = this.deliveryMinutes(this.order);
     const eta = deliveryMinutes * 60_000;
+    // O estafeta só começa a avançar visualmente quando o pedido entra em "A caminho".
     const routeStart = createdAt + (deliveryMinutes / 3) * 2 * 60_000;
     const routeEnd = createdAt + eta;
 
