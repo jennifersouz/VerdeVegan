@@ -25,6 +25,7 @@ const REMOVED_DEFAULT_ORDER_IDS = new Set(['VV-3078']);
 export class OrdersService {
   private ordersSubject = new BehaviorSubject<Order[]>([]);
   private pointsSubject = new BehaviorSubject<number>(86);
+  // BehaviorSubject guarda o estado atual e também permite que os ecrãs reajam automaticamente.
   private seedOrders = new Map<string, Order>();
   private loadedUserEmail = '';
   private ordersRealtimeUnsubscribe: (() => void) | null = null;
@@ -38,6 +39,7 @@ export class OrdersService {
     private auth: AuthService,
     private supabase: SupabaseService,
   ) {
+    // Sempre que muda o utilizador autenticado, recarrega encomendas e pontos desse utilizador.
     this.auth.currentUser$.subscribe((user) => {
       void this.handleUserChange(user);
     });
@@ -52,11 +54,13 @@ export class OrdersService {
       return;
     }
     const isDefaultUser = user.email === DEFAULT_EMAIL || user.email === LEGACY_DEFAULT_EMAIL;
+    // A conta default recebe encomendas iniciais do JSON para a demonstração não começar vazia.
     const seed = isDefaultUser ? await firstValueFrom(this.http.get<Order[]>('assets/data/orders.json')) : [];
     this.seedOrders = new Map(seed.map((order) => [order.id, order]));
     this.loadedUserEmail = user.email;
     const storedOrders = await this.readStoredOrders(user);
     const orderMap = new Map<string, Order>();
+    // Map por id evita pedidos duplicados quando há dados no JSON, localStorage e Supabase.
     [...seed, ...storedOrders].forEach((order) => orderMap.set(order.id, order));
     const orders = Array.from(orderMap.values()).sort((a, b) => b.date.localeCompare(a.date));
     const points = await this.readStoredPoints(user, isDefaultUser ? 86 : 0);
@@ -79,6 +83,7 @@ export class OrdersService {
       date: createdAt.toISOString().slice(0, 10),
       createdAt: createdAt.toISOString(),
       estimatedDeliveryMinutes: this.estimatedDeliveryMinutes(items),
+      // Junta nomes diferentes porque o carrinho pode ter itens de mais do que um restaurante.
       restaurant: Array.from(new Set(items.map((item) => item.dish.restaurant))).join(', ') || 'VerdeVegan',
       status: 'Recebido',
       items: items.map((item) => ({
@@ -108,6 +113,7 @@ export class OrdersService {
   async markRated(orderId: string, rating?: number, reviewComment?: string): Promise<void> {
     const user = this.requireUser();
     await this.ensureLoadedFor(user);
+    // Mantém os dados antigos e só altera avaliação/comentário do pedido escolhido.
     const orders = this.ordersSubject.value.map((order) =>
       order.id === orderId
         ? {
@@ -213,10 +219,12 @@ export class OrdersService {
   }
 
   getOrder(orderId: string): Order | undefined {
+    // Leitura rápida usada pelas páginas de detalhe/acompanhamento.
     return this.ordersSubject.value.find((order) => order.id === orderId);
   }
 
   toCartItems(order: Order, dishes: Dish[]): CartItem[] {
+    // Converte uma encomenda antiga de volta para itens de carrinho quando o utilizador repete pedido.
     return order.items
       .map((item): CartItem | undefined => {
         const dish = dishes.find((entry) => entry.id === item.dishId);
@@ -252,6 +260,7 @@ export class OrdersService {
   }
 
   private async readStoredOrders(user: UserAccount): Promise<Order[]> {
+    // Supabase tem prioridade; se não houver dados remotos, tenta recuperar armazenamento local.
     const remoteOrders = await this.supabase.getOrders();
     if (remoteOrders?.length) {
       return this.filterRemovedDefaultOrders(remoteOrders);
@@ -276,6 +285,7 @@ export class OrdersService {
   }
 
   private async readStoredPoints(user: UserAccount, fallback: number): Promise<number> {
+    // Mesma lógica dos pedidos: primeiro Supabase, depois storage por utilizador, depois fallback.
     if (this.supabase.enabled) {
       const remotePoints = await this.supabase.getPoints();
       if (remotePoints > 0) {
@@ -304,6 +314,7 @@ export class OrdersService {
 
   private async persistUserOrders(user: UserAccount, orders: Order[]): Promise<void> {
     const sortedOrders = this.sortOrders(orders);
+    // Guarda em Supabase e localmente para funcionar online e também depois de recarregar a app.
     await this.supabase.saveOrders(sortedOrders);
     await this.storage.set(this.ordersKey(user), sortedOrders);
     await this.storage.set(PERSISTED_ORDERS_KEY, sortedOrders);
@@ -316,10 +327,12 @@ export class OrdersService {
   }
 
   private sortOrders(orders: Order[]): Order[] {
+    // Mais recentes primeiro no histórico.
     return [...orders].sort((a, b) => this.sortTimestamp(b) - this.sortTimestamp(a));
   }
 
   private addOrdersToMap(orderMap: Map<string, Order>, orders: Order[] | null): void {
+    // Ignora entradas inválidas e o pedido default removido para não voltar a aparecer.
     (orders ?? [])
       .filter((order) => order?.id && Array.isArray(order.items) && !REMOVED_DEFAULT_ORDER_IDS.has(order.id))
       .forEach((order) => orderMap.set(order.id, order));
@@ -354,6 +367,7 @@ export class OrdersService {
   }
 
   private createdAtDate(order: Order): Date | null {
+    // Protege contra datas inválidas antes de calcular estados e tempos.
     if (!order.createdAt) {
       return null;
     }
@@ -382,11 +396,13 @@ export class OrdersService {
   }
 
   private cartDeliveryFee(items: CartItem[]): number {
+    // Cobra entrega por restaurante diferente presente no carrinho.
     const restaurants = new Set(items.map((item) => item.dish.restaurant));
     return Array.from(restaurants).reduce((sum, restaurant) => sum + restaurantDeliveryFee(restaurant), 0);
   }
 
   private pointsEarned(total: number): number {
+    // Regra usada na app: 10 pontos por cada euro efetivamente pago.
     return Math.max(0, Math.floor(Math.round(total * 100) / 10));
   }
 
@@ -403,6 +419,7 @@ export class OrdersService {
   private nextOrderId(): string {
     const existingIds = new Set(this.ordersSubject.value.map((order) => order.id));
     let id = '';
+    // Gera ids VV-0000 e repete se por acaso já existir.
     do {
       id = `VV-${Math.floor(1000 + Math.random() * 9000)}`;
     } while (existingIds.has(id));
@@ -410,6 +427,7 @@ export class OrdersService {
   }
 
   private requireUser(): UserAccount {
+    // Impede criar, cancelar ou avaliar pedidos sem sessão iniciada.
     const user = this.auth.currentUser;
     if (!user) {
       throw new Error('É preciso iniciar sessão para criar ou alterar pedidos.');
@@ -430,6 +448,7 @@ export class OrdersService {
   }
 
   private async startOrdersRealtime(email: string): Promise<void> {
+    // Realtime faz a app atualizar quando Supabase recebe alterações de pedidos.
     if (!this.supabase.enabled || this.ordersRealtimeEmail === email) {
       return;
     }
@@ -442,6 +461,7 @@ export class OrdersService {
   }
 
   private stopOrdersRealtime(): void {
+    // Cancela a subscrição antiga para não ficar a ouvir pedidos de outro utilizador.
     this.ordersRealtimeUnsubscribe?.();
     this.ordersRealtimeUnsubscribe = null;
     this.ordersRealtimeEmail = '';
