@@ -1,268 +1,261 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuService, Prato } from '../../services/menu';
+import { BehaviorSubject, combineLatest, map, Observable, shareReplay, startWith, Subject, switchMap, tap } from 'rxjs';
+import { Dish } from '../../core/models/dish';
+import { CartService } from '../../core/services/cart.service';
+import { MenuService, RestaurantSummary } from '../../core/services/menu.service';
+import { StringsService } from '../../core/services/strings.service';
+
+type SortMode = 'popular' | 'rating' | 'priceAsc' | 'priceDesc';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.page.html',
   styleUrls: ['./menu.page.scss'],
-  standalone: false
+  standalone: false,
 })
-export class MenuPage implements OnInit {
-
-  public pratos: Prato[] = [];
-  public pratosFiltrados: Prato[] = [];
-
-  public termoPesquisa = '';
-
-  public tipoSelecionado = 'Todos';
-  public categoriaSelecionada = 'Todas';
-
-  public filtrosAberto = false;
-
-  public filtroOrdenacao = 'Popular';
-  public precoMaximo = 50;
-  public avaliacaoMinima = 'Todas';
-
-  public carregando = true;
-  public erroCarregamento = '';
-
-  public tipos = [
-    { nome: 'Todos', icone: 'grid-outline' },
-    { nome: 'Refeições', icone: 'restaurant-outline' },
-    { nome: 'Bebidas', icone: 'cafe-outline' },
-    { nome: 'Sobremesas', icone: 'ice-cream-outline' }
-  ];
-
-  public categoriasPrincipais = [
-    'Todas',
-    'Pizza',
-    'Massas',
-    'Hambúrgueres',
-    'Bowls',
-    'Bebidas',
-    'Sobremesas',
-    'Sushi',
-    'Ramen',
-    'Tacos',
-    'Wraps',
-    'Pratos principais',
-    'Saladas',
-    'Entradas'
-  ];
-
-  private readonly emojisCategoria: { [categoria: string]: string } = {
-    Todas: '🍽️',
+export class MenuPage {
+  categoryIcons: Record<string, string> = {
+    Todos: '🍽️',
+    Entradas: '🥟',
     Pizza: '🍕',
     Massas: '🍝',
+    'Carne vegetal': '🌱',
+    'Pratos principais': '🍽️',
     Hambúrgueres: '🍔',
     Bowls: '🥗',
-    Bebidas: '🥤',
-    Sobremesas: '🍰',
-    Sushi: '🍣',
     Ramen: '🍜',
+    Sushi: '🍣',
+    Saladas: '🥬',
+    Sobremesas: '🍰',
     Tacos: '🌮',
     Wraps: '🌯',
-    'Pratos principais': '🍽️',
-    Saladas: '🥬',
-    Entradas: '🥟',
-    Bolos: '🍰',
-    'Pratos Quentes': '🍲',
-    Sumos: '🧃',
-    Smoothies: '🥤',
-    Chás: '🍵',
-    Cheesecakes: '🍰',
-    Mousses: '🍫',
-    Panquecas: '🥞',
-    Águas: '💧'
+    Bebidas: '🥤',
   };
 
+  categories$ = this.menu.getCategories();
+  restaurants$ = this.menu.getRestaurants();
+  placeholder$ = this.strings.value('searchPlaceholder');
+  selectedCategory = 'Todos';
+  selectedRestaurant = 'Todos';
+  activeRestaurantCategory = '';
+  searchQuery = '';
+  fromDishDetail = false;
+  showFilters = false;
+  sortMode: SortMode = 'popular';
+  maxPrice = 50;
+  minRating = 0;
+
+  private querySubject = new Subject<string>();
+  private categorySubject = new Subject<string>();
+  private activeCategory$ = this.categorySubject.pipe(startWith('Todos'), shareReplay(1));
+  private filtersSubject = new BehaviorSubject({ sortMode: this.sortMode, maxPrice: this.maxPrice, minRating: this.minRating });
+
+  private restaurant$ = this.route.queryParamMap.pipe(
+    map((params) => params.get('restaurante') ?? 'Todos'),
+    tap((restaurant) => {
+      this.selectedRestaurant = restaurant;
+      this.fromDishDetail = this.route.snapshot.queryParamMap.get('fromDishDetail') === '1' || history.state?.fromDishDetail === true;
+    }),
+  );
+
+  private visibleDishesSource$: Observable<Dish[]> = combineLatest([
+    this.querySubject.pipe(startWith('')),
+    this.activeCategory$,
+    this.restaurant$,
+  ]).pipe(
+    switchMap(([query, category, restaurant]) => this.menu.search(query, query.trim() ? 'Todos' : category, restaurant)),
+    shareReplay(1),
+  );
+
+  dishes$: Observable<Dish[]> = combineLatest([
+    this.visibleDishesSource$,
+    this.filtersSubject,
+  ]).pipe(
+    map(([dishes, filters]) => this.applyFilters(dishes, filters)),
+    shareReplay(1),
+  );
+
+  highlights$: Observable<Dish[]> = combineLatest([this.restaurant$, this.activeCategory$, this.filtersSubject]).pipe(
+    switchMap(([restaurant, category, filters]) =>
+      this.menu.search('', 'Todos', restaurant).pipe(
+        map((dishes) =>
+          dishes
+            .slice(0, 6)
+            .filter((dish) => this.matchesCategory(dish, category) && this.matchesFilterValues(dish, filters)),
+        ),
+      ),
+    ),
+    shareReplay(1),
+  );
+
+  cartCount$ = this.cart.items$.pipe(map((items) => items.reduce((sum, item) => sum + item.quantity, 0)));
+  selectedRestaurantInfo$: Observable<RestaurantSummary | undefined> = combineLatest([this.restaurants$, this.restaurant$]).pipe(
+    map(([restaurants, restaurant]) => restaurants.find((entry) => entry.name === restaurant)),
+  );
+  restaurantDishes$ = this.restaurant$.pipe(switchMap((restaurant) => this.menu.search('', 'Todos', restaurant)));
+  groupedDishes$ = this.restaurantDishes$.pipe(
+    map((dishes) => this.groupDishes(dishes)),
+    tap((groups) => {
+      if (!this.activeRestaurantCategory || !groups.some((group) => group.category === this.activeRestaurantCategory)) {
+        this.activeRestaurantCategory = groups[0]?.category ?? '';
+      }
+    }),
+    shareReplay(1),
+  );
+
   constructor(
-    private menuService: MenuService,
+    private route: ActivatedRoute,
+    private menu: MenuService,
+    private cart: CartService,
+    private strings: StringsService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private location: Location,
   ) {}
 
-  ngOnInit() {
-  this.carregarPratos();
-
-  this.activatedRoute.queryParamMap.subscribe(params => {
-    const tipo = params.get('tipo');
-    const categoria = params.get('categoria');
-    const pesquisa = params.get('pesquisa');
-
-    this.tipoSelecionado = tipo || 'Todos';
-    this.categoriaSelecionada = categoria || 'Todas';
-    this.termoPesquisa = pesquisa || '';
-
-    this.filtrarPratos();
-  });
-}
-
-  ionViewWillEnter() {
-    this.filtrosAberto = false;
-
-    const elementoAtivo = document.activeElement as HTMLElement | null;
-    elementoAtivo?.blur();
+  search(event: Event): void {
+    this.searchQuery = (event.target as HTMLInputElement).value ?? '';
+    this.querySubject.next(this.searchQuery);
   }
 
-  private carregarPratos() {
-  this.carregando = true;
-  this.erroCarregamento = '';
-
-  this.menuService.carregarPratos().subscribe({
-    next: (pratos: Prato[]) => {
-      this.pratos = pratos;
-      this.filtrarPratos();
-      this.carregando = false;
-    },
-    error: (erro: unknown) => {
-      console.error('Erro ao carregar menu:', erro);
-      this.erroCarregamento = 'Não foi possível carregar o menu. Atualize a página.';
-      this.carregando = false;
-    }
-  });
-}
-
-  public selecionarTipo(tipo: string) {
-    this.tipoSelecionado = tipo;
-    this.categoriaSelecionada = 'Todas';
-    this.filtrarPratos();
+  filter(category: string): void {
+    this.selectedCategory = category;
+    this.categorySubject.next(category);
   }
 
-  public selecionarCategoria(categoria: string) {
-    this.categoriaSelecionada = categoria;
-    this.filtrarPratos();
-  }
-
-  public obterCategoriasVisiveis(): string[] {
-    return this.categoriasPrincipais;
-  }
-
-  public filtrarPratos() {
-    const pesquisa = this.normalizarTexto(this.termoPesquisa);
-
-    const avaliacaoMinima =
-      this.avaliacaoMinima === 'Todas' ? 0 : Number(this.avaliacaoMinima);
-
-    let resultado = this.pratos.filter((prato: Prato) => {
-      const correspondeTipo =
-        this.tipoSelecionado === 'Todos' ||
-        prato.tipo === this.tipoSelecionado;
-
-      const correspondeCategoria =
-        this.categoriaSelecionada === 'Todas' ||
-        prato.categoria === this.categoriaSelecionada;
-
-      const correspondePesquisa =
-        pesquisa.length === 0 ||
-        this.normalizarTexto(prato.nome).includes(pesquisa);
-
-      const correspondePreco = prato.preco <= this.precoMaximo;
-      const correspondeAvaliacao = prato.avaliacao >= avaliacaoMinima;
-
-      return (
-        correspondeTipo &&
-        correspondeCategoria &&
-        correspondePesquisa &&
-        correspondePreco &&
-        correspondeAvaliacao
-      );
+  selectRestaurant(restaurant: string): void {
+    void this.router.navigate(['/menu'], {
+      queryParams: restaurant === 'Todos' ? {} : { restaurante: restaurant },
     });
-
-    resultado = this.ordenarPratos(resultado);
-
-    this.pratosFiltrados = resultado;
   }
 
-  public temPesquisaAtiva(): boolean {
-    return this.termoPesquisa.trim().length > 0;
+  backFromRestaurant(): void {
+    if (this.fromDishDetail) {
+      this.location.back();
+      return;
+    }
+
+    void this.router.navigate(['/inicio']);
   }
 
-  private normalizarTexto(texto: string): string {
-    return texto
-      .toLowerCase()
+  openFilters(): void {
+    this.showFilters = true;
+  }
+
+  closeFilters(): void {
+    this.showFilters = false;
+  }
+
+  setSortMode(sortMode: SortMode): void {
+    this.sortMode = sortMode;
+  }
+
+  setMinRating(minRating: number): void {
+    this.minRating = minRating;
+  }
+
+  updateMaxPrice(event: Event): void {
+    this.maxPrice = Number((event.target as HTMLInputElement).value);
+  }
+
+  resetFilters(): void {
+    this.sortMode = 'popular';
+    this.maxPrice = 50;
+    this.minRating = 0;
+    this.filtersSubject.next({ sortMode: this.sortMode, maxPrice: this.maxPrice, minRating: this.minRating });
+    this.closeFilters();
+  }
+
+  applyFilterSelection(): void {
+    this.filtersSubject.next({ sortMode: this.sortMode, maxPrice: this.maxPrice, minRating: this.minRating });
+    this.closeFilters();
+  }
+
+  iconFor(category: string): string {
+    return this.categoryIcons[category] ?? '🍽️';
+  }
+
+  get hasSearch(): boolean {
+    return this.searchQuery.trim().length > 0;
+  }
+
+  openDish(dish: Dish): void {
+    const queryParams = this.selectedRestaurant === 'Todos' ? { categoria: this.selectedCategory } : { categoria: this.selectedCategory, restaurante: dish.restaurant };
+
+    void this.router.navigate(['/detalhes', dish.id], {
+      queryParams,
+    });
+  }
+
+  sectionId(category: string): string {
+    return `sec-${category
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '');
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')}`;
   }
 
-  private ordenarPratos(pratos: Prato[]): Prato[] {
-    const pratosOrdenados = [...pratos];
-
-    switch (this.filtroOrdenacao) {
-      case 'Avaliação':
-        return pratosOrdenados.sort((a: Prato, b: Prato) => b.avaliacao - a.avaliacao);
-
-      case 'PrecoAsc':
-        return pratosOrdenados.sort((a: Prato, b: Prato) => a.preco - b.preco);
-
-      case 'PrecoDesc':
-        return pratosOrdenados.sort((a: Prato, b: Prato) => b.preco - a.preco);
-
-      default:
-        return pratosOrdenados.sort((a: Prato, b: Prato) => b.avaliacao - a.avaliacao);
-    }
+  scrollToSection(category: string): void {
+    this.activeRestaurantCategory = category;
+    document.getElementById(this.sectionId(category))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  public obterTituloMenu(): string {
-    return 'Todos os pratos';
-  }
-
-  public obterEmojiCategoria(categoria: string): string {
-    return this.emojisCategoria[categoria] || '🍽️';
-  }
-
-  public obterPratosDestaque(): Prato[] {
-    return this.pratosFiltrados.filter((prato: Prato) => prato.destaque);
-  }
-
-  public abrirDetalhe(id: number) {
-    const params = new URLSearchParams();
-    params.set('origem', 'menu');
-
-    if (this.termoPesquisa.trim()) {
-      params.set('pesquisa', this.termoPesquisa.trim());
+  onRestaurantScroll(): void {
+    if (this.selectedRestaurant === 'Todos') {
+      return;
     }
 
-    if (this.tipoSelecionado !== 'Todos') {
-      params.set('tipo', this.tipoSelecionado);
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('.restaurant-groups .dish-section'));
+    if (!sections.length) {
+      return;
     }
 
-    if (this.categoriaSelecionada !== 'Todas') {
-      params.set('categoria', this.categoriaSelecionada);
+    const scrollElement = document.querySelector('ion-content')?.shadowRoot?.querySelector<HTMLElement>('.inner-scroll');
+    const scrollTop = scrollElement?.scrollTop ?? window.scrollY;
+    if (scrollTop <= 4) {
+      this.activeRestaurantCategory = sections[0].dataset['category'] ?? this.activeRestaurantCategory;
+      return;
     }
 
-    this.router.navigateByUrl(`/tabs/detalhe-prato/${id}?${params.toString()}`);
+    if (scrollElement && scrollTop + scrollElement.clientHeight >= scrollElement.scrollHeight - 2) {
+      this.activeRestaurantCategory = sections[sections.length - 1].dataset['category'] ?? this.activeRestaurantCategory;
+      return;
+    }
+
+    const activationY = 150;
+    const activeSection = [...sections].reverse().find((section) => section.getBoundingClientRect().top <= activationY) ?? sections[0];
+    this.activeRestaurantCategory = activeSection.dataset['category'] ?? this.activeRestaurantCategory;
   }
 
-  public voltar() {
-    this.router.navigateByUrl('/tabs/inicio');
+  private applyFilters(dishes: Dish[], filters: { sortMode: SortMode; maxPrice: number; minRating: number }): Dish[] {
+    const filtered = dishes.filter((dish) => this.matchesFilterValues(dish, filters));
+    return [...filtered].sort((a, b) => {
+      if (filters.sortMode === 'rating') {
+        return b.rating - a.rating;
+      }
+      if (filters.sortMode === 'priceAsc') {
+        return a.price - b.price;
+      }
+      if (filters.sortMode === 'priceDesc') {
+        return b.price - a.price;
+      }
+      return b.rating - a.rating || a.time.localeCompare(b.time);
+    });
   }
 
-  public abrirFiltros() {
-    this.filtrosAberto = true;
+  private matchesFilterValues(dish: Dish, filters: { maxPrice: number; minRating: number }): boolean {
+    return dish.price <= filters.maxPrice && dish.rating >= filters.minRating;
   }
 
-  public fecharFiltros() {
-    this.filtrosAberto = false;
-
-    const elementoAtivo = document.activeElement as HTMLElement | null;
-    elementoAtivo?.blur();
+  private matchesCategory(dish: Dish, category: string): boolean {
+    return category === 'Todos' || dish.category === category;
   }
 
-  public selecionarOrdenacao(valor: string) {
-    this.filtroOrdenacao = valor;
-  }
-
-  public selecionarAvaliacao(valor: string) {
-    this.avaliacaoMinima = valor;
-  }
-
-  public concluirFiltros() {
-    this.filtrarPratos();
-    this.filtrosAberto = false;
-
-    const elementoAtivo = document.activeElement as HTMLElement | null;
-    elementoAtivo?.blur();
+  private groupDishes(dishes: Dish[]): { category: string; dishes: Dish[] }[] {
+    const order = ['Entradas', 'Pizza', 'Massas', 'Carne vegetal', 'Hambúrgueres', 'Bowls', 'Sushi', 'Tacos', 'Saladas', 'Sobremesas', 'Bebidas'];
+    return order
+      .map((category) => ({ category, dishes: dishes.filter((dish) => dish.category === category) }))
+      .filter((group) => group.dishes.length > 0);
   }
 }

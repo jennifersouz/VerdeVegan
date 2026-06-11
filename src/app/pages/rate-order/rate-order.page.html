@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start"><ion-back-button defaultHref="/historico"></ion-back-button></ion-buttons>
+    <ion-title>Avaliar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form class="page-shell rating-form" [formGroup]="form" (ngSubmit)="submit()" *ngIf="order as item">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Avaliar {{ item.id }}</ion-card-title>
+        <ion-card-subtitle>Ajuda outros utilizadores a escolher melhor.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="stars">
+          <ion-button fill="clear" *ngFor="let star of stars" (click)="setRating(star)" type="button">
+            <ion-icon [name]="(form.value.rating || 0) >= star ? 'star' : 'star-outline'"></ion-icon>
+          </ion-button>
+        </div>
+        <ion-item>
+          <ion-textarea label="Comentário" labelPlacement="stacked" formControlName="comment"></ion-textarea>
+        </ion-item>
+        <ion-button expand="block" type="submit" [disabled]="form.invalid">
+          <ion-icon name="send-outline" slot="start"></ion-icon>
+          Enviar avaliação
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

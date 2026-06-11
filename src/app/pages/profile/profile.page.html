@@ -1,0 +1,181 @@
+<ion-content>
+  <main class="profile-page" *ngIf="user$ | async as user; else loggedOutProfile">
+    <section class="profile-hero">
+      <div>
+        <h1>O meu perfil</h1>
+        <p>Gere a tua conta, pontos e histórico.</p>
+      </div>
+      <button class="edit-profile-button" type="button" (click)="openProfileModal(user)">Editar</button>
+    </section>
+
+    <section class="profile-summary">
+      <div class="identity-block">
+        <div class="avatar-wrap">
+          <img class="avatar" [src]="user.photoUrl || 'assets/logo-verdevegan.svg'" [alt]="'Foto de perfil de ' + user.name" />
+          <button class="photo-edit-button" type="button" aria-label="Alterar foto de perfil" (click)="choosePhoto(photoInput)">
+            <ion-icon name="pencil-outline"></ion-icon>
+          </button>
+          <input #photoInput class="photo-input" type="file" accept="image/*" (change)="changePhoto($event)" />
+        </div>
+        <div>
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+
+      <div class="points-panel">
+        <div class="points-copy">
+          <strong>{{ points$ | async }} pontos</strong>
+          <span>acumulados</span>
+        </div>
+        <ion-button routerLink="/pontos">Ver histórico</ion-button>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <h2>Moradas de entrega</h2>
+      <div class="profile-card-grid">
+        <article class="profile-card address-card" *ngFor="let address of addresses" [class.primary-card]="address.principal">
+          <div class="card-actions">
+            <button type="button" (click)="openAddressModal(address)"><ion-icon name="create-outline"></ion-icon></button>
+            <button type="button" (click)="deleteAddress(address.id)"><ion-icon name="trash-outline"></ion-icon></button>
+          </div>
+          <div class="card-title">
+            <ion-icon name="location-outline"></ion-icon>
+            <strong>{{ address.label }}</strong>
+          </div>
+          <p>{{ address.street }}, {{ address.number }}<br />{{ address.postalCode }} {{ address.city }}</p>
+          <span class="primary-badge" *ngIf="address.principal">Morada principal</span>
+          <button class="make-primary" type="button" *ngIf="!address.principal" (click)="setPrimaryAddress(address.id)">Tornar principal</button>
+        </article>
+
+        <button class="add-card" type="button" (click)="openAddressModal()">+ Adicionar nova morada</button>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <h2>Métodos de Pagamento</h2>
+      <div class="profile-card-grid">
+        <article class="profile-card payment-card" *ngFor="let payment of payments" [class.primary-card]="payment.principal">
+          <div class="card-actions">
+            <button type="button" (click)="openPaymentModal(payment)"><ion-icon name="create-outline"></ion-icon></button>
+            <button type="button" (click)="deletePayment(payment.id)"><ion-icon name="trash-outline"></ion-icon></button>
+          </div>
+          <div class="mastercard" aria-hidden="true" *ngIf="payment.brand === 'Mastercard'">
+            <span></span>
+            <span></span>
+          </div>
+          <strong class="visa" *ngIf="payment.brand === 'Visa'">VISA</strong>
+          <strong>**** **** **** {{ cardLastDigits(payment) }}</strong>
+          <p>Válido até {{ payment.expiry }}</p>
+          <span class="primary-badge" *ngIf="payment.principal">Cartão principal</span>
+          <button class="make-primary" type="button" *ngIf="!payment.principal" (click)="setPrimaryPayment(payment.id)">Tornar principal</button>
+        </article>
+
+        <button class="add-card" type="button" (click)="openPaymentModal()">+ Adicionar novo cartão</button>
+      </div>
+    </section>
+
+    <section class="profile-section history-section">
+      <div class="section-heading-row">
+        <h2>Histórico de Pedidos</h2>
+        <a routerLink="/historico">Ver todos <ion-icon name="chevron-forward-outline"></ion-icon></a>
+      </div>
+      <div class="history-list">
+        <a class="history-row" *ngFor="let order of recentOrders$ | async" [routerLink]="['/pedido', order.id]" [queryParams]="{ voltar: 'perfil' }">
+          <strong>#{{ order.id }}</strong>
+          <span>{{ formatDate(order.date) }} · {{ itemCount(order) }}</span>
+          <span>{{ formatMoney(order.total) }}</span>
+          <em>Ver detalhes <ion-icon name="chevron-forward-outline"></ion-icon></em>
+        </a>
+      </div>
+    </section>
+
+    <div class="profile-modal-backdrop" *ngIf="activeModal" (click)="closeModal()">
+      <section class="profile-modal" (click)="$event.stopPropagation()">
+        <header>
+          <h2>
+            {{ activeModal === 'profile'
+              ? 'Editar perfil'
+              : activeModal === 'address'
+                ? (editingId ? 'Editar morada' : 'Adicionar nova morada')
+                : (editingId ? 'Editar cartão' : 'Adicionar novo cartão') }}
+          </h2>
+          <button type="button" (click)="closeModal()"><ion-icon name="close-outline"></ion-icon></button>
+        </header>
+
+        <form *ngIf="activeModal === 'profile'" (ngSubmit)="saveProfile()">
+          <p class="modal-subtitle">Atualiza as tuas informações</p>
+          <label class="icon-field">Nome *
+            <span>
+              <ion-icon name="person-outline"></ion-icon>
+              <input name="name" [(ngModel)]="profileDraft.name" required />
+            </span>
+          </label>
+          <label class="icon-field">Email *
+            <span>
+              <ion-icon name="mail-outline"></ion-icon>
+              <input name="email" type="email" [(ngModel)]="profileDraft.email" required />
+            </span>
+          </label>
+          <label class="icon-field">Telefone
+            <span>
+              <ion-icon name="call-outline"></ion-icon>
+              <input name="phone" type="tel" inputmode="numeric" [(ngModel)]="profileDraft.phone" placeholder="912 345 678" />
+            </span>
+          </label>
+          <label>Dieta<input name="diet" [(ngModel)]="profileDraft.diet" placeholder="Vegan" /></label>
+          <label>Alergias<input name="allergies" [(ngModel)]="profileDraft.allergies" placeholder="Indica alergias ou intolerâncias" /></label>
+          <p class="profile-error" *ngIf="profileError">{{ profileError }}</p>
+          <ion-button type="submit">Guardar alterações</ion-button>
+        </form>
+
+        <form *ngIf="activeModal === 'address'" (ngSubmit)="saveAddress()">
+          <label>Nome da morada<input name="label" [(ngModel)]="addressDraft.label" required /></label>
+          <label>Rua<input name="street" [(ngModel)]="addressDraft.street" required /></label>
+          <label>Número<input name="number" [(ngModel)]="addressDraft.number" required /></label>
+          <label>Código postal<input name="postalCode" [(ngModel)]="addressDraft.postalCode" required /></label>
+          <label>Cidade<input name="city" [(ngModel)]="addressDraft.city" required /></label>
+          <label>Localidade<input name="locality" [(ngModel)]="addressDraft.locality" required /></label>
+          <label class="checkbox-row">
+            <input type="checkbox" name="addressPrincipal" [(ngModel)]="addressDraft.principal" />
+            <span>Definir como principal</span>
+          </label>
+          <ion-button type="submit">Guardar morada</ion-button>
+        </form>
+
+        <form *ngIf="activeModal === 'payment'" (ngSubmit)="savePayment()">
+          <label>Nome do titular<input name="holder" [(ngModel)]="paymentDraft.holder" required /></label>
+          <label>Número do cartão<input name="number" [(ngModel)]="paymentDraft.number" required /></label>
+          <label>Data de validade<input name="expiry" [(ngModel)]="paymentDraft.expiry" placeholder="MM/AAAA" required /></label>
+          <label>CVV<input name="cvv" [(ngModel)]="paymentDraft.cvv" maxlength="3" required /></label>
+          <label>Tipo de cartão
+            <select name="brand" [(ngModel)]="paymentDraft.brand">
+              <option value="Mastercard">Mastercard</option>
+              <option value="Visa">Visa</option>
+            </select>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" name="paymentPrincipal" [(ngModel)]="paymentDraft.principal" />
+            <span>Definir como principal</span>
+          </label>
+          <ion-button type="submit">Guardar cartão</ion-button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <ng-template #loggedOutProfile>
+    <main class="profile-empty">
+      <section>
+        <h1>Perfil</h1>
+        <p>Entra na tua conta ou cria um perfil para veres pontos, moradas e histórico.</p>
+        <div class="auth-links">
+          <a routerLink="/login">Entrar</a>
+          <span>|</span>
+          <a routerLink="/registo">Criar perfil</a>
+        </div>
+      </section>
+    </main>
+  </ng-template>
+</ion-content>

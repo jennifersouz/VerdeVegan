@@ -1,0 +1,150 @@
+[
+  {
+    "id": "VV-2048",
+    "date": "2026-05-22",
+    "restaurant": "VerdeVegan",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "bowl-tofu", "name": "Bowl de Tofu Grelhado", "quantity": 1, "price": 9.9, "extras": ["Abacate"] },
+      { "dishId": "smoothie-verde", "name": "Smoothie Verde", "quantity": 1, "price": 3.8, "extras": [] }
+    ],
+    "pointsUsed": 0,
+    "pointsEarned": 14,
+    "total": 15.1,
+    "rated": true
+  },
+  {
+    "id": "VV-2036",
+    "date": "2026-05-18",
+    "restaurant": "Jardim Vegan",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "hamburguer-verde", "name": "Hambúrguer Verde", "quantity": 1, "price": 12.9, "extras": ["Batata doce"] }
+    ],
+    "pointsUsed": 20,
+    "pointsEarned": 9,
+    "total": 9.8,
+    "rated": false
+  },
+  {
+    "id": "VV-1984",
+    "date": "2026-04-09",
+    "restaurant": "Casa do Seitan",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "wrap-seitan", "name": "Wrap de legumes", "quantity": 2, "price": 8.45, "extras": [] },
+      { "dishId": "mini-muffins-cenoura", "name": "Bolo de cenoura", "quantity": 1, "price": 5, "extras": [] }
+    ],
+    "pointsUsed": 0,
+    "pointsEarned": 22,
+    "total": 22.4,
+    "rated": true
+  },
+  {
+    "id": "VV-1862",
+    "date": "2026-03-25",
+    "restaurant": "Horta Urbana",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "lasanha-beringela", "name": "Lasanha de beringela", "quantity": 1, "price": 14.5, "extras": [] },
+      { "dishId": "sumo-laranja-gengibre", "name": "Sumo natural de morango e laranja", "quantity": 1, "price": 5, "extras": [] }
+    ],
+    "pointsUsed": 0,
+    "pointsEarned": 20,
+    "total": 22,
+    "rated": true
+  },
+  {
+    "id": "VV-1710",
+    "date": "2026-01-12",
+    "restaurant": "VerdeVegan",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "salada-mediterranica", "name": "Salada Caesar", "quantity": 2, "price": 8.9, "extras": [] }
+    ],
+    "pointsUsed": 10,
+    "pointsEarned": 18,
+    "total": 18.3,
+    "rated": false
+  },
+  {
+    "id": "VV-1542",
+    "date": "2025-12-17",
+    "restaurant": "Green Bowl Porto",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "bowl-seitan-teriyaki", "name": "Refeição familiar", "quantity": 1, "price": 63.5, "extras": [] }
+    ],
+    "pointsUsed": 0,
+    "pointsEarned": 64,
+    "total": 66,
+    "rated": true
+  },
+  {
+    "id": "VV-1396",
+    "date": "2025-10-04",
+    "restaurant": "Jardim Vegan",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "ragu-salsicha-vegan", "name": "Carne estufada vegan", "quantity": 1, "price": 13.4, "extras": [] },
+      { "dishId": "smoothie-verde", "name": "Smoothie Verde", "quantity": 1, "price": 3.8, "extras": [] }
+    ],
+    "pointsUsed": 0,
+    "pointsEarned": 18,
+    "total": 19.7,
+    "rated": false
+  },
+  {
+    "id": "VV-1218",
+    "date": "2025-07-20",
+    "restaurant": "Casa do Seitan",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "pizza-seitan-fumado", "name": "Pizza vegan de cogumelos", "quantity": 1, "price": 15.6, "extras": [] },
+      { "dishId": "mini-muffins-cenoura", "name": "Bolo de cenoura", "quantity": 2, "price": 5, "extras": [] }
+    ],
+    "pointsUsed": 30,
+    "pointsEarned": 25,
+    "total": 25.1,
+    "rated": true
+  },
+  {
+    "id": "VV-1105",
+    "date": "2025-02-11",
+    "restaurant": "Horta Urbana",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "bowl-tofu", "name": "Bowl de Tofu Grelhado", "quantity": 2, "price": 9.9, "extras": [] }
+    ],
+    "pointsUsed": 0,
+    "pointsEarned": 20,
+    "total": 22.3,
+    "rated": true
+  },
+  {
+    "id": "VV-0932",
+    "date": "2024-11-06",
+    "restaurant": "VerdeVegan",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "wrap-seitan", "name": "Wrap de legumes", "quantity": 5, "price": 8.45, "extras": [] }
+    ],
+    "pointsUsed": 0,
+    "pointsEarned": 42,
+    "total": 44.75,
+    "rated": true
+  },
+  {
+    "id": "VV-0744",
+    "date": "2024-03-25",
+    "restaurant": "Green Bowl Porto",
+    "status": "Entregue",
+    "items": [
+      { "dishId": "bowl-seitan-teriyaki", "name": "Refeição familiar", "quantity": 1, "price": 63.5, "extras": [] }
+    ],
+    "pointsUsed": 0,
+    "pointsEarned": 64,
+    "total": 63.5,
+    "rated": false
+  }
+]

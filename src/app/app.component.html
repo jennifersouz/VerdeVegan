@@ -1,3 +1,38 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <div class="web-app-shell">
+    <aside class="sidebar">
+      <a class="brand" routerLink="/inicio" aria-label="VerdeVegan início">
+        <img src="assets/logo-verdevegan.svg" alt="VerdeVegan" />
+      </a>
+
+      <nav>
+        <a
+          *ngFor="let item of navItems"
+          [routerLink]="item.path"
+          [class.active]="isActive(item)"
+        >
+          <span class="nav-icon">
+            <ion-icon [name]="item.icon"></ion-icon>
+            <span class="cart-badge" *ngIf="item.label === 'Carrinho' && ((cartCount$ | async) || 0) > 0">
+              {{ cartCount$ | async }}
+            </span>
+          </span>
+          <span>{{ item.label }}</span>
+        </a>
+      </nav>
+
+      <button class="auth-action" *ngIf="(loggedIn$ | async) === false" type="button" (click)="enter()">
+        <ion-icon name="log-in-outline"></ion-icon>
+        <span>Entrar | Registar</span>
+      </button>
+      <button class="auth-action" *ngIf="loggedIn$ | async" type="button" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span>Sair</span>
+      </button>
+    </aside>
+
+    <main class="content-frame">
+      <ion-router-outlet></ion-router-outlet>
+    </main>
+  </div>
 </ion-app>

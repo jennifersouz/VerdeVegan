@@ -1,0 +1,294 @@
+<ion-content>
+  <div class="confirmation-page" *ngIf="order as item">
+    <ng-container *ngIf="isNewOrder; else orderDetail">
+      <section class="tracking-page">
+        <button class="detail-back tracking-back" type="button" (click)="backToDetails(item.id)">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          Detalhes
+        </button>
+
+        <header class="tracking-header">
+          <h1>{{ trackingTitle(item) }}</h1>
+          <p>Estado: <strong>{{ trackingStatus(item) }}</strong> <span>Hoje às {{ statusTime(item) }}</span></p>
+        </header>
+
+        <nav class="tracking-steps" aria-label="Seguimento do pedido">
+          <div
+            class="tracking-step"
+            *ngFor="let step of steps; let i = index"
+            [class.done]="i <= activeStepIndex(item)"
+            [class.current]="i === activeStepIndex(item)"
+          >
+            <span class="tracking-line" *ngIf="i > 0"></span>
+            <button
+              class="tracking-mark"
+              type="button"
+              [attr.aria-label]="'Ir para ' + stepLabel(step)"
+              (click)="setTrackingStep(item.id, i)"
+            >
+              {{ i + 1 }}
+            </button>
+            <span class="tracking-label">{{ stepLabel(step) }}</span>
+          </div>
+        </nav>
+
+        <section class="tracking-layout">
+          <div class="gps-card">
+            <div class="map-backdrop" [class.on-route]="trackingStatus(item) === 'A caminho' || trackingStatus(item) === 'Entregue'">
+              <iframe
+                *ngIf="mapUrl"
+                class="map-frame"
+                title="Mapa do pedido"
+                [src]="mapUrl"
+                loading="lazy"
+              ></iframe>
+
+              <svg class="delivery-route" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <line
+                  [attr.x1]="restaurantPosition.x"
+                  [attr.y1]="restaurantPosition.y"
+                  [attr.x2]="homePosition.x"
+                  [attr.y2]="homePosition.y"
+                ></line>
+              </svg>
+
+              <span
+                class="restaurant-pulse"
+                [style.left.%]="restaurantPosition.x"
+                [style.top.%]="restaurantPosition.y"
+              >
+                <ion-icon name="restaurant-outline"></ion-icon>
+              </span>
+
+              <span
+                class="courier-pin"
+                *ngIf="trackingStatus(item) === 'A caminho' || trackingStatus(item) === 'Entregue'"
+                [style.left.%]="courierPosition.x"
+                [style.top.%]="courierPosition.y"
+              >
+                <ion-icon name="bicycle-outline"></ion-icon>
+              </span>
+
+              <span
+                class="home-pin"
+                [style.left.%]="homePosition.x"
+                [style.top.%]="homePosition.y"
+              >
+                <ion-icon name="home-outline"></ion-icon>
+              </span>
+            </div>
+          </div>
+
+          <aside class="tracking-panel">
+            <section class="tracking-status-card">
+              <div class="status-icon" [class.delivered]="trackingStatus(item) === 'Entregue'">
+                <ion-icon [name]="trackingStatus(item) === 'Entregue' ? 'checkmark-outline' : 'time-outline'"></ion-icon>
+              </div>
+              <h2>{{ statusHeading(item) }}</h2>
+              <p>{{ statusDescription(item) }}</p>
+              <div class="eta-row" *ngIf="trackingStatus(item) !== 'Entregue'">
+                <span>Chegada estimada</span>
+                <strong>{{ estimatedArrival(item) }}</strong>
+              </div>
+              <div class="earned-points" *ngIf="trackingStatus(item) === 'Entregue' && item.pointsEarned > 0">
+                +{{ item.pointsEarned }} pontos adicionados
+              </div>
+            </section>
+
+            <section class="cancel-card" *ngIf="canCancel(item)">
+              <h3>Cancelamento disponível</h3>
+              <p>Podes cancelar este pedido durante o primeiro minuto.</p>
+              <button type="button" (click)="showCancelSheet = true">Cancelar pedido {{ cancelCountdown }}</button>
+            </section>
+
+            <section class="rating-card" *ngIf="trackingStatus(item) === 'Entregue'">
+              <h3>Como foi a tua experiência?</h3>
+              <div class="stars" aria-label="Avaliação">
+                <button
+                  type="button"
+                  *ngFor="let star of [1, 2, 3, 4, 5]"
+                  [attr.aria-label]="star + ' estrelas'"
+                  (click)="setRating($event, star)"
+                >
+                  <span class="star-empty">★</span>
+                  <span class="star-fill" [style.width]="starFill(star)">★</span>
+                </button>
+              </div>
+              <textarea [(ngModel)]="reviewComment" placeholder="Escreve aqui a sua opinião..."></textarea>
+              <ion-button (click)="confirmDelivery(item.id)">Confirmar entrega e avaliação</ion-button>
+            </section>
+          </aside>
+        </section>
+
+        <section class="tracking-details">
+          <section class="detail-card items-card">
+            <h3>Artigos do Pedido</h3>
+            <div class="order-article" *ngFor="let orderItem of item.items">
+              <div>
+                <strong>{{ orderItem.name }}</strong>
+                <span>Quantidade: {{ orderItem.quantity }}</span>
+              </div>
+              <small>{{ formatMoney(itemTotal(orderItem)) }}</small>
+            </div>
+
+            <div class="items-divider"></div>
+            <div class="cost-row">
+              <span>Subtotal</span>
+              <small>{{ formatMoney(subtotal(item)) }}</small>
+            </div>
+            <div class="cost-row">
+              <span>Taxa de Entrega</span>
+              <small>{{ formatMoney(deliveryFee(item)) }}</small>
+            </div>
+            <div class="items-divider"></div>
+            <div class="cost-row total-row">
+              <strong>Total</strong>
+              <small>{{ formatMoney(item.total) }}</small>
+            </div>
+          </section>
+
+          <div class="tracking-info-stack">
+            <section class="detail-card compact-info-card">
+              <h3>Morada de Entrega</h3>
+              <div class="card-title-line">
+                <ion-icon name="location-outline"></ion-icon>
+                <strong>Casa</strong>
+              </div>
+              <p>Rua de Santa Catarina, 852<br />4000-443 Porto</p>
+            </section>
+
+            <section class="detail-card compact-info-card">
+              <h3>Método de Pagamento</h3>
+              <div class="payment-inline">
+                <span class="mastercard-mini"><span></span><span></span></span>
+                <strong>**** **** **** 1234</strong>
+              </div>
+              <p>Válido até 08/2028</p>
+            </section>
+          </div>
+        </section>
+
+        <div class="cancel-sheet-backdrop" *ngIf="showCancelSheet" (click)="showCancelSheet = false">
+          <section class="cancel-sheet" (click)="$event.stopPropagation()">
+            <div class="sheet-handle"></div>
+            <div class="warning-icon"><ion-icon name="alert-outline"></ion-icon></div>
+            <h2>Cancelar Pedido?</h2>
+            <p>O restaurante já recebeu o teu pedido.</p>
+            <ion-button (click)="showCancelSheet = false">Manter o pedido</ion-button>
+            <button type="button" (click)="cancelOrder(item.id)">Cancelar mesmo assim</button>
+          </section>
+        </div>
+      </section>
+    </ng-container>
+
+    <ng-template #orderDetail>
+      <section class="detail-page">
+        <button class="detail-back" type="button" [routerLink]="backLink">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          {{ backLabel }}
+        </button>
+
+        <div class="detail-main">
+          <h1>Detalhes do Pedido</h1>
+
+          <header class="detail-hero" [class.current]="trackingStatus(item) !== 'Entregue'">
+            <strong>#{{ item.id }}</strong>
+            <h2>{{ item.items[0].name }}</h2>
+            <p>{{ item.date }} · {{ trackingStatus(item) }}</p>
+          </header>
+
+          <section class="detail-card items-card">
+            <h3>Artigos do Pedido</h3>
+            <div class="order-article" *ngFor="let orderItem of item.items">
+              <div>
+                <strong>{{ orderItem.name }}</strong>
+                <span>Quantidade: {{ orderItem.quantity }}</span>
+              </div>
+              <small>{{ formatMoney(itemTotal(orderItem)) }}</small>
+            </div>
+
+            <div class="items-divider"></div>
+
+            <div class="cost-row">
+              <span>Subtotal</span>
+              <small>{{ formatMoney(subtotal(item)) }}</small>
+            </div>
+            <div class="cost-row">
+              <span>Taxa de Entrega</span>
+              <small>{{ formatMoney(deliveryFee(item)) }}</small>
+            </div>
+
+            <div class="items-divider"></div>
+
+            <div class="cost-row total-row">
+              <strong>Total</strong>
+              <small>{{ formatMoney(item.total) }}</small>
+            </div>
+          </section>
+        </div>
+
+        <aside class="detail-aside">
+          <section class="detail-card info-card">
+            <h3>Informações</h3>
+            <div class="info-line">
+              <ion-icon name="home-outline"></ion-icon>
+              <div>
+                <strong>Morada de Entrega</strong>
+                <span>Casa</span>
+                <small>Rua das Flores, 12 · Viana do Castelo</small>
+              </div>
+            </div>
+            <div class="info-line">
+              <ion-icon name="card-outline"></ion-icon>
+              <div>
+                <strong>Método de Pagamento</strong>
+                <span>MBWay</span>
+              </div>
+            </div>
+            <div class="info-line" *ngIf="trackingStatus(item) === 'Entregue' && item.pointsEarned > 0">
+              <ion-icon name="leaf-outline"></ion-icon>
+              <div>
+                <strong class="points-earned">+{{ item.pointsEarned }} pontos ganhos</strong>
+                <span>Saldo atual: 338 pts</span>
+              </div>
+            </div>
+          </section>
+
+          <div class="detail-actions">
+            <ion-button class="track-button" *ngIf="canTrack(item)" (click)="startTracking(item.id)">
+              Acompanhar pedido
+            </ion-button>
+            <ion-button class="track-button" *ngIf="canReview(item)" (click)="openReview(item)">
+              {{ reviewButtonLabel(item) }}
+            </ion-button>
+            <ion-button class="repeat-button" (click)="repeat(item.id)">Repetir pedido</ion-button>
+          </div>
+        </aside>
+
+        <div class="review-sheet-backdrop" *ngIf="showReviewSheet" (click)="closeReview()">
+          <section class="review-sheet" (click)="$event.stopPropagation()">
+            <button class="review-close" type="button" (click)="closeReview()" aria-label="Fechar">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2>Como foi a tua experiência?</h2>
+            <div class="review-stars" aria-label="Avaliação">
+              <button
+                type="button"
+                *ngFor="let star of [1, 2, 3, 4, 5]"
+                [attr.aria-label]="star + ' estrelas'"
+                (click)="setRating($event, star)"
+              >
+                <span class="star-empty">☆</span>
+                <span class="star-fill" [style.width]="starFill(star)">★</span>
+              </button>
+            </div>
+            <textarea [(ngModel)]="reviewComment" placeholder="Escreve aqui a sua opinião..."></textarea>
+            <button class="save-review-button" type="button" [disabled]="selectedRating <= 0" (click)="saveReview(item.id)">
+              Guardar review
+            </button>
+          </section>
+        </div>
+      </section>
+    </ng-template>
+  </div>
+</ion-content>

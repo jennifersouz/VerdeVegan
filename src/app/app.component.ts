@@ -1,61 +1,63 @@
 import { Component } from '@angular/core';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { App as CapacitorApp } from '@capacitor/app';
-import { Capacitor } from '@capacitor/core';
-import { ScreenOrientation } from '@capacitor/screen-orientation';
+import { AuthService } from './core/services/auth.service';
+import { CartService } from './core/services/cart.service';
+import { DeviceService } from './core/services/device.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  standalone: false
+  styleUrls: ['app.component.scss'],
+  standalone: false,
 })
 export class AppComponent {
+  loggedIn$ = this.auth.loggedIn$;
+  cartCount$ = this.cart.items$.pipe(map((items) => items.reduce((sum, item) => sum + item.quantity, 0)));
+
+  navItems = [
+    { label: 'Início', icon: 'home-outline', path: '/inicio' },
+    { label: 'Menu', icon: 'restaurant-outline', path: '/menu' },
+    { label: 'Carrinho', icon: 'cart-outline', path: '/carrinho' },
+    { label: 'Pedidos', icon: 'cube-outline', path: '/historico' },
+    { label: 'Perfil', icon: 'person-outline', path: '/perfil' },
+  ];
 
   constructor(
+    private device: DeviceService,
+    private auth: AuthService,
+    private cart: CartService,
     private router: Router,
-    private location: Location
   ) {
-    this.bloquearOrientacaoPortrait();
-    this.configurarBotaoVoltarAndroid();
+    void this.device.lockPortrait();
   }
 
-  private async bloquearOrientacaoPortrait() {
-    if (!Capacitor.isNativePlatform()) {
-      console.log('Bloqueio de orientação ignorado no browser.');
-      return;
+  isActive(item: { label: string; path: string }): boolean {
+    const url = this.router.url.split('?')[0];
+    if (item.label === 'Início') {
+      return url === '/' || url.startsWith('/inicio');
     }
-
-    try {
-      await ScreenOrientation.lock({
-        orientation: 'portrait'
-      });
-
-      console.log('Orientação bloqueada em portrait.');
-    } catch (erro) {
-      console.error('Erro ao bloquear orientação:', erro);
+    if (item.label === 'Menu') {
+      return url.startsWith('/menu') || url.startsWith('/detalhes');
     }
+    if (item.label === 'Carrinho') {
+      return url.startsWith('/carrinho') || url.startsWith('/checkout');
+    }
+    if (item.label === 'Pedidos') {
+      return url.startsWith('/historico') || url.startsWith('/pedido') || url.startsWith('/avaliar');
+    }
+    if (item.label === 'Perfil') {
+      return url.startsWith('/perfil') || url.startsWith('/pontos') || url.startsWith('/sobre');
+    }
+    return url.startsWith(item.path);
   }
 
-  private configurarBotaoVoltarAndroid() {
-    if (!Capacitor.isNativePlatform()) {
-      return;
-    }
+  enter(): void {
+    void this.router.navigate(['/login']);
+  }
 
-    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
-      const urlAtual = this.router.url.split('?')[0];
-
-      if (urlAtual === '/splash') {
-        this.router.navigateByUrl('/tabs/inicio', { replaceUrl: true });
-        return;
-      }
-
-      if (urlAtual === '/tabs/inicio' || !canGoBack) {
-        CapacitorApp.exitApp();
-        return;
-      }
-
-      this.location.back();
-    });
+  logout(): void {
+    this.auth.logout();
+    void this.router.navigate(['/inicio']);
   }
 }

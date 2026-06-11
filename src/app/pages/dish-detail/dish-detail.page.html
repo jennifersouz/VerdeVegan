@@ -1,0 +1,176 @@
+<ion-content *ngIf="dish as item">
+  <div class="detail-page">
+    <button class="back-link" type="button" routerLink="/menu" [queryParams]="backRestaurant ? { restaurante: backRestaurant } : null">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Menu
+    </button>
+
+    <main class="detail-grid">
+      <section class="product-info">
+        <img class="product-image" [src]="item.image" [alt]="item.name" />
+
+        <button class="restaurant-row" type="button" (click)="openRestaurant()">
+          <img *ngIf="restaurantInfo?.image; else initials" [src]="restaurantInfo?.image" [alt]="item.restaurant" />
+          <ng-template #initials>
+            <span class="avatar">{{ item.restaurant[0] }}{{ item.restaurant.split(' ')[1]?.[0] || '' }}</span>
+          </ng-template>
+          <span>{{ item.restaurant }}</span>
+          <small>{{ item.category }}</small>
+        </button>
+
+        <h1>{{ item.name }}</h1>
+        <p class="rating">⭐ {{ item.rating }} (120+ avaliações) 🕘 {{ item.time }}</p>
+
+        <h2>Descrição</h2>
+        <p class="description">{{ item.description }}</p>
+
+        <section class="info-panel">
+          <h2>Informações</h2>
+          <div>
+            <span>Calorias</span>
+            <strong>~{{ item.nutrition.kcal }} kcal</strong>
+          </div>
+          <div>
+            <span>Porção</span>
+            <strong>{{ item.portions }}</strong>
+          </div>
+          <div>
+            <span>Proteína</span>
+            <strong>{{ item.nutrition.protein }}g</strong>
+          </div>
+          <div>
+            <span>Hidratos</span>
+            <strong>{{ item.nutrition.carbs }}g</strong>
+          </div>
+          <div>
+            <span>Gorduras</span>
+            <strong>{{ item.nutrition.fat }}g</strong>
+          </div>
+          <div>
+            <span>Ingredientes</span>
+            <strong>{{ item.ingredients.length }}</strong>
+          </div>
+          <div>
+            <span>Tempo médio</span>
+            <strong>{{ item.time }}</strong>
+          </div>
+        </section>
+
+        <section class="allergen-panel">
+          <h2>Alergénios</h2>
+          <span *ngFor="let allergen of item.allergens">{{ allergen }}</span>
+        </section>
+      </section>
+
+      <aside class="purchase-card">
+        <h2>{{ item.name }}</h2>
+        <strong class="price">{{ item.price | currency: 'EUR' }}</strong>
+
+        <label>Quantidade</label>
+        <div class="quantity-stepper">
+          <button type="button" (click)="decreaseQuantity()">−</button>
+          <span>{{ quantity() }}</span>
+          <button type="button" (click)="increaseQuantity()">+</button>
+        </div>
+
+        <div class="summary-box">
+          <div>
+            <span>Preço base</span>
+            <strong>{{ item.price | currency: 'EUR' }}</strong>
+          </div>
+          <div>
+            <span>Quantidade</span>
+            <strong>x{{ quantity() }}</strong>
+          </div>
+          <div class="total-row">
+            <span>Total</span>
+            <strong>{{ item.price * quantity() | currency: 'EUR' }}</strong>
+          </div>
+        </div>
+
+        <button class="primary-action" type="button" [disabled]="!item.available" (click)="openCustomize()">
+          <ion-icon name="settings-outline"></ion-icon>
+          Personalizar {{ item.price * quantity() | currency: 'EUR' }}
+        </button>
+        <small>Entrega estimada: {{ item.time }}</small>
+        <ion-note color="danger" *ngIf="error">{{ error }}</ion-note>
+      </aside>
+    </main>
+  </div>
+
+  <ion-modal [isOpen]="showCustomize" (didDismiss)="closeCustomize()" cssClass="customize-modal">
+    <ng-template>
+      <div class="modal-shell">
+        <div class="modal-handle"></div>
+        <header class="modal-header">
+          <div>
+            <h2>Personalizar pedido</h2>
+            <p>{{ item.name }}</p>
+          </div>
+          <button type="button" (click)="closeCustomize()" aria-label="Fechar">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </header>
+
+        <section *ngFor="let group of item.customizations" class="option-group">
+          <h3>{{ group.title }}</h3>
+
+          <button
+            *ngFor="let option of group.options"
+            class="option-row"
+            type="button"
+            [class.selected]="
+              group.type === 'single'
+                ? isSingleSelected(group, option)
+                : group.type === 'multi'
+                  ? isMultiSelected(option)
+                  : isRemoved(option)
+            "
+            (click)="
+              group.type === 'single'
+                ? selectSingle(group, option)
+                : group.type === 'multi'
+                  ? toggleMulti(option)
+                  : toggleRemoved(option)
+            "
+          >
+            <span class="choice-dot"></span>
+            <strong>{{ option.name }}</strong>
+            <span class="option-price" *ngIf="option.included">Incluído</span>
+            <span class="option-price" *ngIf="!option.included && option.price > 0">+{{ option.price | currency: 'EUR' }}</span>
+            <span class="option-price" *ngIf="!option.included && option.price === 0">Sem custo</span>
+          </button>
+        </section>
+
+        <label class="notes-field" [formGroup]="form">
+          Notas para o restaurante
+          <textarea formControlName="notes" rows="2" placeholder="Ex.: sem cebola, entregar sem talheres"></textarea>
+        </label>
+
+        <div class="summary-box modal-summary">
+          <div>
+            <span>Preço base</span>
+            <strong>{{ item.price | currency: 'EUR' }}</strong>
+          </div>
+          <div *ngIf="customizationDelta() > 0">
+            <span>Personalização</span>
+            <strong>{{ customizationDelta() | currency: 'EUR' }}</strong>
+          </div>
+          <div>
+            <span>Quantidade</span>
+            <strong>x{{ quantity() }}</strong>
+          </div>
+          <div class="total-row">
+            <span>Total</span>
+            <strong>{{ total() | currency: 'EUR' }}</strong>
+          </div>
+        </div>
+
+        <button class="primary-action modal-action" type="button" (click)="addToCart()">
+          <ion-icon name="cart-outline"></ion-icon>
+          Adicionar ao carrinho · {{ total() | currency: 'EUR' }}
+        </button>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

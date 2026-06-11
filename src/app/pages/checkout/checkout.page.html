@@ -1,0 +1,302 @@
+<ion-content>
+  <div class="checkout-page" [formGroup]="form" *ngIf="vm$ | async as vm">
+    <nav class="checkout-steps" aria-label="Progresso do pedido">
+      <div
+        class="checkout-step"
+        *ngFor="let item of checkoutSteps; let i = index"
+        [class.done]="isStepDone(i)"
+        [class.active]="isStepActive(i)"
+      >
+        <span class="step-line" *ngIf="i > 0"></span>
+        <span class="step-mark">
+          <ion-icon *ngIf="isStepDone(i)" name="checkmark-outline"></ion-icon>
+          <span *ngIf="!isStepDone(i)">{{ i + 1 }}</span>
+        </span>
+        <span class="step-title">{{ item }}</span>
+      </div>
+    </nav>
+
+    <div class="checkout-grid" *ngIf="step < 5 || (step === 5 && !orderConfirmed)">
+      <section class="checkout-card main-card" *ngIf="step === 2">
+        <button class="back-link" type="button" routerLink="/carrinho">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          Carrinho
+        </button>
+        <h1>Descontos e Pontos</h1>
+        <p>Aplica o teu código ou usa os teus pontos</p>
+
+        <label>Código de desconto</label>
+        <div class="inline-control">
+          <div class="field-shell">
+            <ion-icon name="ticket-outline"></ion-icon>
+            <ion-input placeholder="Insere o código" formControlName="discountCode"></ion-input>
+          </div>
+          <ion-button type="button" class="soft-button">Aplicar</ion-button>
+        </div>
+
+        <label>Pontos disponíveis: {{ vm.points }} pontos</label>
+        <div class="inline-control">
+          <div class="field-shell">
+            <ion-input
+              type="number"
+              inputmode="numeric"
+              min="0"
+              [max]="maxUsablePoints(vm.points, vm.items)"
+              [value]="pointsUsed"
+              (ionInput)="setPointsUsed($event, vm.points, vm.items)"
+            ></ion-input>
+          </div>
+          <ion-button type="button" class="soft-button" (click)="useAllPoints(vm.points, vm.items)">Usar Todos</ion-button>
+        </div>
+
+        <ion-button class="continue-button" type="button" (click)="goToStep(3)">Continuar</ion-button>
+      </section>
+
+      <section class="checkout-card main-card" *ngIf="step === 3">
+        <button class="back-link" type="button" (click)="goToStep(2)">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          Descontos
+        </button>
+        <h1>Morada de entrega</h1>
+        <p>Seleciona ou adiciona uma morada</p>
+
+        <div class="address-grid">
+          <button
+            class="choice-card"
+            type="button"
+            *ngFor="let address of addresses"
+            [class.selected]="form.value.address === address.label"
+            (click)="selectAddress(address.label)"
+          >
+            <ion-icon name="location-outline"></ion-icon>
+            <span>
+              <strong>{{ address.label }}</strong>
+              <small>{{ address.street }}, {{ address.number }}<br />{{ address.postalCode }} {{ address.city }}</small>
+            </span>
+          </button>
+        </div>
+
+        <button class="add-address" type="button" (click)="openAddressModal()">+ Adicionar nova morada</button>
+        <ion-button class="continue-button" type="button" (click)="goToStep(4)">Continuar</ion-button>
+      </section>
+
+      <section class="checkout-card main-card" *ngIf="step === 4">
+        <button class="back-link" type="button" (click)="goToStep(3)">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          Morada
+        </button>
+        <ng-container *ngIf="isPaidWithPoints(vm.items); else paymentMethods">
+          <h1>Pedido pago com pontos</h1>
+          <p>Não tens nada a pagar neste pedido.</p>
+
+          <div class="choice-card selected points-paid-card">
+            <ion-icon name="receipt-outline"></ion-icon>
+            <span>
+              <strong>Pago com pontos</strong>
+              <small>O total ficou a 0,00 € depois do desconto de pontos.</small>
+            </span>
+          </div>
+        </ng-container>
+
+        <ng-template #paymentMethods>
+          <h1>Método de pagamento</h1>
+          <p>Escolhe como queres pagar</p>
+
+          <div class="payment-grid">
+            <button class="choice-card" type="button" [class.selected]="form.value.payment === 'Cartao'" (click)="selectPayment('Cartao')">
+              <ion-icon name="card-outline"></ion-icon>
+              <span>
+                <strong>Cartão de crédito/débito</strong>
+                <small *ngIf="form.value.payment !== 'Cartao'">Visa, Mastercard, Amex</small>
+                <small *ngIf="form.value.payment === 'Cartao' && selectedPaymentCard() as card">
+                  {{ card.brand }} terminado em {{ cardLastDigits(card) }}
+                </small>
+              </span>
+            </button>
+            <button class="choice-card" type="button" [class.selected]="form.value.payment === 'Apple Pay'" (click)="selectPayment('Apple Pay')">
+              <ion-icon name="phone-portrait-outline"></ion-icon>
+              <span><strong>Apple Pay</strong><small>Pagamento por telemóvel</small></span>
+            </button>
+            <button class="choice-card" type="button" [class.selected]="form.value.payment === 'MB WAY'" (click)="selectPayment('MB WAY')">
+              <ion-icon name="phone-portrait-outline"></ion-icon>
+              <span><strong>MB WAY</strong><small>Pagamento por telemóvel</small></span>
+            </button>
+            <button class="choice-card" type="button" [class.selected]="form.value.payment === 'Dinheiro'" (click)="selectPayment('Dinheiro')">
+              <ion-icon name="cash-outline"></ion-icon>
+              <span><strong>Pagamento na entrega</strong><small>Cartão crédito, Dinheiro</small></span>
+            </button>
+          </div>
+
+          <div class="payment-extra" *ngIf="form.value.payment === 'MB WAY'">
+            <label>Número de telemóvel</label>
+            <div class="field-shell">
+              <ion-icon name="phone-portrait-outline"></ion-icon>
+              <ion-input
+                type="tel"
+                inputmode="numeric"
+                maxlength="9"
+                placeholder="912345678"
+                formControlName="phone"
+                (keydown)="blockNonNumeric($event)"
+                (paste)="pasteOnlyNumbers($event)"
+                (ionInput)="normalizeMbWayPhone()"
+              ></ion-input>
+            </div>
+          </div>
+
+          <div class="selected-card-panel" *ngIf="form.value.payment === 'Cartao' && selectedPaymentCard() as card">
+            <span>{{ card.brand }}</span>
+            <strong>**** **** **** {{ cardLastDigits(card) }}</strong>
+            <button type="button" (click)="openPaymentModal()">Trocar cartão</button>
+          </div>
+
+          <div class="cash-extra" *ngIf="form.value.payment === 'Dinheiro'">
+            <label>Pagamento</label>
+            <div class="cash-type-grid">
+              <button class="cash-type-card" type="button" [class.selected]="form.value.cashType === 'Cartão crédito'" (click)="selectCashType('Cartão crédito')">
+                <ion-icon name="card-outline"></ion-icon>
+                Cartão crédito
+              </button>
+              <button class="cash-type-card" type="button" [class.selected]="form.value.cashType === 'Dinheiro'" (click)="selectCashType('Dinheiro')">
+                <ion-icon name="cash-outline"></ion-icon>
+                Dinheiro
+              </button>
+            </div>
+          </div>
+        </ng-template>
+
+        <ion-button class="continue-button payment-button" type="button" (click)="continueToConfirmation(vm.items)" [disabled]="!canContinuePayment(vm.items) || !vm.items.length">
+          Continuar
+        </ion-button>
+      </section>
+
+      <section class="checkout-card main-card confirmation-review" *ngIf="step === 5 && !orderConfirmed">
+        <button class="back-link" type="button" (click)="goToStep(4)">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+          Pagamento
+        </button>
+        <h1>Confirmação</h1>
+        <p>Confirma os dados antes de finalizar o pedido.</p>
+
+        <div class="review-block">
+          <h3>Morada de entrega</h3>
+          <p>{{ form.value.address }}</p>
+        </div>
+
+        <div class="review-block">
+          <h3>Método de pagamento</h3>
+          <p>{{ paymentSummary(vm.items) }}</p>
+        </div>
+
+        <ion-button class="continue-button payment-button" type="button" (click)="confirm()" [disabled]="!canConfirm(vm.items)">
+          Confirmar pedido
+        </ion-button>
+      </section>
+
+      <aside class="checkout-card summary-card">
+        <h2>Resumo do pedido</h2>
+        <div class="summary-items">
+          <article class="summary-item" *ngFor="let item of vm.items">
+            <div>
+              <h3>{{ item.dish.name }}</h3>
+              <p>Qty: {{ item.quantity }}</p>
+            </div>
+            <strong>{{ formatMoney(itemSubtotal(item)) }}</strong>
+          </article>
+        </div>
+
+        <div class="summary-totals">
+          <div><span>Subtotal</span><span>{{ formatMoney(vm.subtotal) }}</span></div>
+          <div><span>Taxa de Entrega</span><span>{{ formatMoney(vm.delivery) }}</span></div>
+          <div *ngIf="pointsUsed"><span>Pontos</span><span>-{{ formatMoney(pointsUsed / 10) }}</span></div>
+        </div>
+
+        <div class="summary-total">
+          <span>Total</span>
+          <strong>{{ formatMoney(cart.total(pointsUsed, vm.items)) }}</strong>
+        </div>
+      </aside>
+    </div>
+
+    <section class="checkout-card confirmation-card" *ngIf="orderConfirmed">
+      <div class="confirmation-icon">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </div>
+      <h1>Pedido confirmado!</h1>
+      <p>O teu pedido foi registado com sucesso.</p>
+      <strong *ngIf="confirmedOrderId">#{{ confirmedOrderId }}</strong>
+      <small>Vais voltar para o início dentro de {{ secondsToHome }} segundos.</small>
+    </section>
+  </div>
+
+  <div class="checkout-modal-backdrop" *ngIf="showAddressModal" (click)="closeAddressModal()">
+    <section class="checkout-modal" (click)="$event.stopPropagation()">
+      <header>
+        <h2>Adicionar nova morada</h2>
+        <button type="button" (click)="closeAddressModal()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </header>
+
+      <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+        <label>Nome da morada<input formControlName="label" placeholder="Ex.: Casa" /></label>
+        <div class="modal-row">
+          <label>Rua<input formControlName="street" placeholder="Rua" /></label>
+          <label>Número<input formControlName="number" placeholder="Nº" /></label>
+        </div>
+        <div class="modal-row">
+          <label>Código postal<input formControlName="postalCode" placeholder="0000-000" /></label>
+          <label>Cidade<input formControlName="city" placeholder="Cidade" /></label>
+        </div>
+        <label>Localidade<input formControlName="locality" placeholder="Localidade" /></label>
+
+        <ion-button type="submit" class="modal-save">Guardar morada</ion-button>
+      </form>
+    </section>
+  </div>
+
+  <div class="checkout-modal-backdrop" *ngIf="showPaymentModal" (click)="closePaymentModal()">
+    <section class="checkout-modal payment-modal" (click)="$event.stopPropagation()">
+      <header>
+        <h2>Escolher cartão</h2>
+        <button type="button" (click)="closePaymentModal()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </header>
+
+      <div class="saved-cards" *ngIf="!showNewCardForm">
+        <button
+          class="saved-card"
+          type="button"
+          *ngFor="let card of paymentCards"
+          [class.selected]="selectedPaymentCardId === card.id"
+          (click)="selectPaymentCard(card.id)"
+        >
+          <span class="card-brand">{{ card.brand }}</span>
+          <strong>**** **** **** {{ cardLastDigits(card) }}</strong>
+          <small>Válido até {{ card.expiry }}</small>
+        </button>
+
+        <button class="add-address add-card-modal" type="button" (click)="openNewCardForm()">+ Adicionar novo cartão</button>
+      </div>
+
+      <form [formGroup]="cardForm" (ngSubmit)="savePaymentCard()" *ngIf="showNewCardForm">
+        <label>Nome do titular<input formControlName="holder" placeholder="Nome no cartão" /></label>
+        <label>Número do cartão<input formControlName="number" placeholder="0000 0000 0000 0000" /></label>
+        <div class="modal-row">
+          <label>Data de validade<input formControlName="expiry" placeholder="MM/AAAA" /></label>
+          <label>CVV<input formControlName="cvv" maxlength="3" placeholder="123" /></label>
+        </div>
+        <label>Tipo de cartão
+          <select formControlName="brand">
+            <option value="Mastercard">Mastercard</option>
+            <option value="Visa">Visa</option>
+          </select>
+        </label>
+
+        <ion-button type="submit" class="modal-save">Guardar cartão</ion-button>
+        <button class="modal-secondary" type="button" (click)="showNewCardForm = false">Voltar aos cartões</button>
+      </form>
+    </section>
+  </div>
+</ion-content>

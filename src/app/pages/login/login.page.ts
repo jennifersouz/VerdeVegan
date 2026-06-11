@@ -1,108 +1,68 @@
 import { Component } from '@angular/core';
-import { PerfilService } from '../../services/perfil';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { Carrinho } from '../../services/carrinho';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class LoginPage {
-
-  public loginForm: FormGroup;
-  public formSubmetido = false;
-  public erroLogin = false;
-  public erroRecuperacao = false;
-  public recuperacaoSubmetida = false;
-  public mensagemRecuperacao = '';
-
-  public mostrarPalavraPasse = false;
+  form = this.fb.group({
+    email: ['inesmpmarinho@gmail.com', [Validators.required, Validators.email]],
+    password: ['verdevegan', [Validators.required, Validators.minLength(6)]],
+  });
+  errorMessage = '';
+  recoveryMessage = '';
+  showPassword = false;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private perfilService: PerfilService,
-    private carrinhoService: Carrinho
-  ) {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      palavraPasse: ['', [Validators.required, Validators.minLength(8)]]
-    });
+    private auth: AuthService,
+  ) {}
+
+  async submit(): Promise<void> {
+    this.recoveryMessage = '';
+    if (this.form.valid) {
+      const result = await this.auth.login(this.form.value.email ?? '', this.form.value.password ?? '');
+      if (result === 'missing') {
+        this.errorMessage = 'Esta conta ainda não existe. Cria uma conta primeiro.';
+        return;
+      }
+      if (result === 'invalid-password') {
+        this.errorMessage = 'A palavra-passe não está correta.';
+        return;
+      }
+      void this.router.navigate(['/inicio'], { queryParams: { origem: 'login' } });
+    }
   }
 
-  public alternarVisibilidadePalavraPasse() {
-    this.mostrarPalavraPasse = !this.mostrarPalavraPasse;
-  }
+  async recoverPassword(): Promise<void> {
+    const emailControl = this.form.controls.email;
+    this.errorMessage = '';
+    this.recoveryMessage = '';
 
-  public async entrar() {
-    this.formSubmetido = true;
-    this.erroLogin = false;
-    this.erroRecuperacao = false;
-    this.recuperacaoSubmetida = false;
-    this.mensagemRecuperacao = '';
-
-    if (this.loginForm.invalid) {
+    if (emailControl.invalid) {
+      emailControl.markAsTouched();
+      this.errorMessage = 'Escreve um email válido para recuperar a palavra-passe.';
       return;
     }
 
-    const email = this.loginForm.value.email.trim().toLowerCase();
-    const palavraPasse = this.loginForm.value.palavraPasse;
+    const email = emailControl.value ?? '';
+    const sent = await this.auth.recoverPassword(email);
 
-    try {
-      await this.perfilService.iniciarSessao(email, palavraPasse);
-      this.carrinhoService.migrarGuestParaUtilizador(email);
-    } catch (erro) {
-      console.error('Erro no login:', erro);
-      this.erroLogin = true;
+    if (!sent) {
+      this.errorMessage = 'Não foi possível enviar o email de recuperação. Tenta novamente.';
       return;
     }
 
-    console.log('Login efetuado:', { email });
-
-    const elementoAtivo = document.activeElement as HTMLElement | null;
-    elementoAtivo?.blur();
-
-    const returnUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl') || '/tabs/inicio';
-    this.router.navigateByUrl(returnUrl, { replaceUrl: true });
+    this.recoveryMessage = `Enviámos um email de recuperação para ${email}.`;
   }
 
-  public irParaRegisto() {
-    this.router.navigateByUrl('/registo');
-  }
-
-  public fecharLogin() {
-    this.router.navigateByUrl('/tabs/inicio');
-  }
-
-  public async esqueciPalavraPasse() {
-    const emailControl = this.loginForm.get('email');
-    this.erroLogin = false;
-    this.erroRecuperacao = false;
-    this.recuperacaoSubmetida = true;
-    this.mensagemRecuperacao = '';
-
-    if (!emailControl || emailControl.invalid) {
-      emailControl?.markAsTouched();
-      return;
-    }
-
-    const email = emailControl.value.trim().toLowerCase();
-
-    try {
-      await this.perfilService.recuperarPalavraPasse(email);
-      this.mensagemRecuperacao = `Enviámos um email de recuperação para ${email}.`;
-    } catch (erro) {
-      console.error('Erro na recuperação de palavra-passe:', erro);
-      this.erroRecuperacao = true;
-    }
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

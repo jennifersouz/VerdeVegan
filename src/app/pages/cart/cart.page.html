@@ -1,0 +1,91 @@
+<ion-content>
+  <div class="cart-page" *ngIf="vm$ | async as vm">
+    <div class="vv-empty" *ngIf="!vm.items.length">
+      <div>
+        <ion-icon name="bag-outline"></ion-icon>
+        <h2>Carrinho vazio</h2>
+        <ion-button routerLink="/menu">Ver menu</ion-button>
+      </div>
+    </div>
+
+    <ng-container *ngIf="vm.items.length">
+      <nav class="checkout-steps" aria-label="Progresso do pedido">
+        <div class="checkout-step" [class.active]="i === 0" *ngFor="let step of checkoutSteps; let i = index">
+          <span class="step-line" *ngIf="i > 0"></span>
+          <span class="step-mark">{{ i + 1 }}</span>
+          <span class="step-title">{{ step }}</span>
+        </div>
+      </nav>
+
+      <div class="cart-grid">
+        <section class="checkout-card cart-card">
+          <h1>Carrinho</h1>
+          <p>{{ vm.items.length }} artigos</p>
+
+          <div class="cart-items">
+            <article class="cart-item" *ngFor="let item of vm.items; let i = index">
+              <div>
+                <h2>{{ item.dish.name }}</h2>
+                <p>Quantidade: {{ item.quantity }}</p>
+                <strong>{{ formatMoney(itemSubtotal(item)) }}</strong>
+              </div>
+              <div class="quantity-actions">
+                <ion-button fill="clear" size="small" (click)="update(i, 0)" aria-label="Remover item">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" size="small" (click)="update(i, item.quantity - 1)" aria-label="Diminuir quantidade">
+                  <ion-icon name="remove-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" size="small" (click)="update(i, item.quantity + 1)" aria-label="Aumentar quantidade">
+                  <ion-icon name="add-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </article>
+          </div>
+
+          <ion-button class="continue-button" (click)="continueCheckout(vm.pointsUsed)">
+            Continuar
+          </ion-button>
+        </section>
+
+        <aside class="checkout-card summary-card">
+          <h2>Resumo do pedido</h2>
+          <div class="summary-items">
+            <article class="summary-item" *ngFor="let item of vm.items">
+              <div>
+                <h3>{{ item.dish.name }}</h3>
+                <p>Qty: {{ item.quantity }}</p>
+              </div>
+              <strong>{{ formatMoney(itemSubtotal(item)) }}</strong>
+            </article>
+          </div>
+
+          <div class="summary-totals">
+            <div><span>Subtotal</span><span>{{ formatMoney(vm.subtotal) }}</span></div>
+            <div><span>Taxa de Entrega</span><span>{{ formatMoney(vm.delivery) }}</span></div>
+            <div class="points-row" *ngIf="vm.pointsUsed"><span>Pontos</span><span>-{{ formatMoney(vm.pointsUsed / 10) }}</span></div>
+          </div>
+
+          <div class="summary-total">
+            <span>Total</span>
+            <strong>{{ formatMoney(vm.total) }}</strong>
+          </div>
+        </aside>
+      </div>
+    </ng-container>
+
+    <div class="auth-modal-backdrop" *ngIf="showAuthModal" (click)="closeAuthModal()">
+      <section class="auth-modal" (click)="$event.stopPropagation()">
+        <button class="auth-close" type="button" (click)="closeAuthModal()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+        <h2>Entra para finalizar o pedido</h2>
+        <p>Para avançar com a compra tens de entrar ou criar uma conta.</p>
+        <div class="auth-modal-actions">
+          <ion-button routerLink="/login">Entrar</ion-button>
+          <ion-button class="create-account" routerLink="/registo">Criar conta</ion-button>
+        </div>
+      </section>
+    </div>
+  </div>
+</ion-content>
