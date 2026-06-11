@@ -1,0 +1,93 @@
+<ion-content [fullscreen]="true" class="personalizar-content">
+
+  <div class="personalizar-overlay" *ngIf="prato" (click)="voltar()">
+
+    <section class="personalizar-modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-handle"></div>
+
+      <button type="button" class="modal-close" (click)="voltar()" aria-label="Fechar">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+
+      <header class="modal-topo">
+        <h1>Personalizar pedido</h1>
+        <p>{{ prato.nome }}</p>
+      </header>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-scroll">
+
+        <section class="grupo-opcoes" *ngFor="let grupo of gruposPersonalizacao">
+          <h2>{{ grupo.titulo }}</h2>
+
+          <button
+            type="button"
+            class="opcao-linha"
+            *ngFor="let opcao of grupo.opcoes"
+            [class.selecionada]="opcaoEstaSelecionada(grupo, opcao)"
+            (click)="selecionarOpcao(grupo, opcao)">
+
+            <span class="opcao-marcador">
+              <span></span>
+            </span>
+
+            <strong>{{ opcao.nome }}</strong>
+
+            <span class="preco-opcao">
+              {{ formatarPrecoOpcao(opcao) }}
+            </span>
+          </button>
+        </section>
+
+        <section class="sem-personalizacoes" *ngIf="gruposPersonalizacao.length === 0">
+          <p>Este prato não possui opções de personalização.</p>
+        </section>
+
+        <section class="observacoes-area">
+          <h2>Notas para o restaurante</h2>
+
+          <textarea
+            maxlength="200"
+            placeholder="Ex.: sem cebola, entregar sem talheres"
+            [(ngModel)]="observacoes">
+          </textarea>
+        </section>
+
+        <section class="resumo-card">
+          <div class="resumo-linha">
+            <span>Preço base</span>
+            <strong>{{ formatarPreco(prato.preco) }}</strong>
+          </div>
+
+          <div class="resumo-linha">
+            <span>Quantidade</span>
+            <strong>x{{ quantidade }}</strong>
+          </div>
+
+          <div class="resumo-total">
+            <span>Total</span>
+            <strong>{{ formatarPreco(calcularTotalFinal()) }}</strong>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="adicionar-button"
+          [disabled]="!formularioValido()"
+          [class.inativo]="!formularioValido()"
+          (click)="adicionarAoCarrinho()">
+          <ion-icon name="cart-outline"></ion-icon>
+          <span>Adicionar ao carrinho · {{ formatarPreco(calcularTotalFinal()) }}</span>
+        </button>
+      </div>
+
+    </section>
+
+  </div>
+
+</ion-content>

@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'pt.ipvc.verdevegan',
+  appId: 'pt.verdevegan.app',
   appName: 'VerdeVegan',
   webDir: 'www'
 };

@@ -1,38 +1,84 @@
-<ion-content>
-  <div class="auth-shell">
-    <section class="brand-panel">
-      <ion-icon name="leaf-outline"></ion-icon>
-      <h1>VerdeVegan</h1>
-      <p>Comida vegetariana à medida, com pontos, personalização e acompanhamento do pedido.</p>
+<ion-content [fullscreen]="true" class="login-content">
+
+  <div class="login-shell">
+
+    <img src="assets/imagens/verdevegan.jpg" alt="VerdeVegan" class="brand-logo">
+
+    <section class="login-card">
+
+      <button type="button" class="close-button" (click)="fecharLogin()" aria-label="Fechar">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+
+      <h1>Entrar</h1>
+
+      <form [formGroup]="loginForm" (ngSubmit)="entrar()">
+
+        <div class="campo-linha">
+          <ion-icon name="mail-outline"></ion-icon>
+
+          <label>
+            <span>Email</span>
+            <input
+              type="email"
+              placeholder="exemplo@email.com"
+              formControlName="email">
+          </label>
+        </div>
+
+        <ion-text color="danger" *ngIf="(formSubmetido || recuperacaoSubmetida) && loginForm.get('email')?.invalid">
+          <p class="erro">Introduz um email válido.</p>
+        </ion-text>
+
+        <div class="campo-linha">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+
+          <label>
+            <span>Password</span>
+            <input
+              [type]="mostrarPalavraPasse ? 'text' : 'password'"
+              placeholder="Mínimo 8 caracteres"
+              formControlName="palavraPasse">
+          </label>
+
+          <button type="button" class="eye-button" (click)="alternarVisibilidadePalavraPasse()">
+            <ion-icon [name]="mostrarPalavraPasse ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+        </div>
+
+        <ion-text color="danger" *ngIf="formSubmetido && loginForm.get('palavraPasse')?.invalid">
+          <p class="erro">A palavra-passe deve ter pelo menos 8 caracteres.</p>
+        </ion-text>
+
+        <ion-text color="danger" *ngIf="erroLogin">
+          <p class="erro">Email ou palavra-passe incorretos.</p>
+        </ion-text>
+
+        <ion-text color="danger" *ngIf="erroRecuperacao">
+          <p class="erro">Não foi possível enviar o email de recuperação. Tenta novamente.</p>
+        </ion-text>
+
+        <ion-text color="success" *ngIf="mensagemRecuperacao">
+          <p class="erro">{{ mensagemRecuperacao }}</p>
+        </ion-text>
+
+        <button type="button" class="forgot-link" (click)="esqueciPalavraPasse()">
+          Recuperar palavra-passe
+        </button>
+
+        <button type="submit" class="botao-principal">
+          <ion-icon name="log-in-outline"></ion-icon>
+          <span>ENTRAR</span>
+        </button>
+
+      </form>
+
+      <button type="button" class="registo-link" (click)="irParaRegisto()">
+        CRIAR CONTA
+      </button>
+
     </section>
 
-    <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
-      <h2>Entrar</h2>
-      <ion-item>
-        <ion-icon name="mail-outline" slot="start"></ion-icon>
-        <ion-input label="Email" labelPlacement="stacked" type="email" formControlName="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-        <ion-input label="Password" labelPlacement="stacked" [type]="showPassword ? 'text' : 'password'" formControlName="password"></ion-input>
-        <button
-          class="password-toggle"
-          type="button"
-          slot="end"
-          (click)="togglePasswordVisibility()"
-          [attr.aria-label]="showPassword ? 'Esconder palavra-passe' : 'Mostrar palavra-passe'"
-        >
-          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-        </button>
-      </ion-item>
-      <button class="forgot-password" type="button" (click)="recoverPassword()">Recuperar palavra-passe</button>
-      <p class="auth-success" *ngIf="recoveryMessage">{{ recoveryMessage }}</p>
-      <p class="auth-error" *ngIf="errorMessage">{{ errorMessage }}</p>
-      <ion-button expand="block" type="submit" [disabled]="form.invalid">
-        <ion-icon name="log-in-outline" slot="start"></ion-icon>
-        Entrar
-      </ion-button>
-      <ion-button fill="clear" expand="block" routerLink="/registo">Criar conta</ion-button>
-    </form>
   </div>
+
 </ion-content>

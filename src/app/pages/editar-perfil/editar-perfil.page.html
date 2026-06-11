@@ -1,0 +1,111 @@
+<ion-content [fullscreen]="true" class="editar-content" scrollY="true">
+
+  <div *ngIf="carregando" class="editar-loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando dados...</p>
+  </div>
+
+  <div class="editar-container" *ngIf="!carregando">
+
+    <header class="editar-topo">
+      <button type="button" class="voltar-button" (click)="voltar()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+
+      <div>
+        <h1>Editar perfil</h1>
+        <p>Atualiza as tuas informações</p>
+      </div>
+    </header>
+
+    <form class="editar-form">
+
+      <!-- Nome -->
+      <div class="campo-grupo">
+        <label>Nome *</label>
+
+        <div class="campo-input"
+          [class.invalido]="formSubmetido && (!perfil.nome.trim() || perfil.nome.trim().length < 2)">
+          <ion-icon name="person-outline"></ion-icon>
+          <input
+            type="text"
+            placeholder="Nome completo"
+            [(ngModel)]="perfil.nome"
+            name="nome">
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="campo-grupo">
+        <label>Email *</label>
+
+        <div class="campo-input"
+          [class.invalido]="formSubmetido && !emailValido(perfil.email)">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input
+            type="email"
+            placeholder="exemplo@email.com"
+            [(ngModel)]="perfil.email"
+            name="email">
+        </div>
+      </div>
+
+      <!-- Telefone -->
+      <div class="campo-grupo">
+        <label>Telefone</label>
+
+        <div class="campo-input"
+          [class.invalido]="formSubmetido && perfil.telefone.trim() && !telefoneValido(perfil.telefone)">
+          <ion-icon name="call-outline"></ion-icon>
+          <input
+            type="tel"
+            placeholder="Ex: 912345678"
+            [(ngModel)]="perfil.telefone"
+            name="telefone">
+        </div>
+      </div>
+
+      <!-- Dieta -->
+      <div class="campo-grupo">
+        <label>Dieta</label>
+
+        <div class="campo-input sem-icone">
+          <input
+            type="text"
+            placeholder="Ex: Vegan"
+            [(ngModel)]="perfil.dieta"
+            name="dieta">
+        </div>
+      </div>
+
+      <!-- Alergias -->
+      <div class="campo-grupo">
+        <label>Alergias</label>
+
+        <div class="campo-input sem-icone">
+          <input
+            type="text"
+            placeholder="Indica alergias ou intolerâncias"
+            [(ngModel)]="perfil.alergias"
+            name="alergias">
+        </div>
+      </div>
+
+      <!-- Mensagem de erro -->
+      <p class="mensagem-erro" *ngIf="mensagemErro">{{ mensagemErro }}</p>
+
+      <button
+        type="button"
+        class="guardar-button"
+        [disabled]="guardando"
+        (click)="guardarAlteracoes()">
+
+        <ion-spinner name="crescent" *ngIf="guardando"></ion-spinner>
+        <span *ngIf="!guardando">Guardar alterações</span>
+      </button>
+
+    </form>
+
+  </div>
+
+</ion-content>

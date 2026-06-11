@@ -1,573 +1,455 @@
-.menu-page {
+.menu-content {
+  --background: #ffffff;
+  --overflow: auto;
+}
+
+.menu-container {
   min-height: 100%;
-  background: #fff;
+  padding: 14px 20px 118px;
 }
 
-.menu-header {
-  margin: 24px 42px 0;
-  padding: 32px 38px 34px;
-  border: 1px solid #edf0ef;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
+.top-spacer {
+  height: 62px;
 }
 
-.menu-title-row {
+.menu-loading {
+  min-height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 18px;
+  color: #3f744d;
 }
 
-.menu-header h1 {
-  margin: 0 0 10px;
-  color: #151c2c;
-  font-size: 2rem;
-  font-weight: 900;
-  line-height: 1;
+.menu-loading p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.filter-button {
-  flex: 0 0 auto;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 22px;
-  border: 0;
-  border-radius: 12px;
-  background: #2e6629;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 900;
-  cursor: pointer;
+.erro-carregamento {
+  margin-top: 18px;
+  color: #c0392b;
+  text-align: center;
+  font-size: 16px;
 }
 
-.filter-button ion-icon {
-  font-size: 20px;
-}
-
-.menu-header p {
-  margin: 0 0 26px;
-  color: #31394a;
-  font-size: 1.22rem;
-  font-weight: 750;
-}
-
-.search-box {
-  width: 100%;
-  height: 58px;
+.menu-hero {
+  box-sizing: border-box;
+  height: 190px;
+  border: 1px solid #e4e7ec;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 20px;
+  box-shadow: 0 24px 58px rgba(17, 24, 39, 0.1);
   display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 20px;
-  border: 1px solid #dfe4ea;
-  border-radius: 16px;
-  background: #fff;
-  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.search-box:focus-within {
-  border-color: #2e6629;
-  box-shadow: 0 0 0 4px rgba(46, 102, 41, 0.12), 0 12px 28px rgba(46, 102, 41, 0.08);
-  transform: translateY(-1px);
-}
-
-.search-box ion-icon {
-  color: #39724d;
-  font-size: 24px;
-}
-
-.search-box input {
+.menu-hero-top {
   width: 100%;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: #151c2c;
-  font: inherit;
-  font-size: 1rem;
-}
-
-.content-section {
-  padding: 36px 42px 56px;
-}
-
-.content-section h2 {
-  margin: 0 0 18px;
-  color: #151c2c;
-  font-size: 1.45rem;
-  font-weight: 900;
-}
-
-.category-row {
+  box-sizing: border-box;
   display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 2px;
-}
-
-.category-row button {
-  flex: 0 0 auto;
-  min-height: 38px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 999px;
-  background: #9a9a9a;
-  color: #fff;
-  font-size: 0.82rem;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-.category-row button.active {
-  background: #2e6629;
-}
-
-.category-rule {
-  width: 100%;
-  height: 3px;
-  margin: 18px 0 36px;
-  border-radius: 999px;
-  background: #e5e7eb;
-}
-
-.dish-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  margin-bottom: 38px;
-}
-
-.dish-card {
-  overflow: hidden;
-  border: 1px solid #edf0ef;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
-  cursor: pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease;
-}
-
-.dish-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
-}
-
-.dish-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-
-.dish-body {
-  padding: 16px;
-}
-
-.dish-title-row {
-  display: flex;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
 }
 
-.dish-title-row h3 {
-  margin: 0 0 6px;
-  color: #141b2b;
-  font-size: 1rem;
-  font-weight: 900;
+.menu-hero-top div {
+  min-width: 0;
 }
 
-.dish-title-row strong {
-  color: #2e6629;
-  font-size: 0.95rem;
-  font-weight: 900;
+.menu-hero h1 {
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.08;
+  white-space: nowrap;
 }
 
-.dish-body p,
-.meta {
-  color: #6f7686;
-  font-size: 0.82rem;
-}
-
-.dish-body p {
-  margin: 0 0 10px;
+.menu-subtitle {
+  margin: 0;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 700;
   line-height: 1.35;
 }
 
-.meta {
-  font-weight: 750;
-}
-
-.unavailable {
-  opacity: 0.55;
-}
-
-.restaurant-header {
-  margin: 24px 42px 0;
-  overflow: hidden;
-  border: 1px solid #edf0ef;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
-}
-
-.restaurant-header > img {
-  width: 100%;
-  height: 230px;
-  object-fit: cover;
-}
-
-.restaurant-header-content {
-  padding: 28px 34px 32px;
-}
-
-.back-home {
-  display: inline-flex;
+.topo-filtro-button {
+  min-height: 34px;
+  border: none;
+  border-radius: 9px;
+  background: #2f6f2f;
+  color: #ffffff;
+  padding: 0 10px;
+  display: flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 14px;
-  border: 0;
-  background: transparent;
-  color: #2e6629;
-  font-weight: 900;
-  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.restaurant-header h1 {
-  margin: 0 0 8px;
-  color: #151c2c;
-  font-size: 2rem;
-  font-weight: 950;
+.topo-filtro-button ion-icon {
+  font-size: 15px;
 }
 
-.restaurant-header p {
-  margin: 0 0 18px;
-  color: #6f7686;
-  font-size: 1rem;
-  font-weight: 750;
-}
+/* Pesquisa */
 
-.restaurant-stats {
+.pesquisa-area {
+  width: 100%;
+  height: 46px;
+  min-height: 46px;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  margin-top: 18px;
+  border: 1px solid #d7dde7;
+  border-radius: 12px;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.pesquisa-area:focus-within {
+  border-color: #2f6f2f;
+  box-shadow: 0 0 0 4px rgba(47, 111, 47, 0.12), 0 12px 28px rgba(47, 111, 47, 0.14);
+}
+
+.search-icon {
+  font-size: 22px;
+  color: #377750;
+  flex-shrink: 0;
+}
+
+.pesquisa-area input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #1f2937;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1;
+}
+
+/* Secções */
+
+.secao {
+  margin-top: 34px;
+}
+
+.secao h2 {
+  margin: 0 0 16px;
+  color: #111111;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.categorias-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e5e7eb;
+  scrollbar-width: none;
+}
+
+.categorias-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.categoria-chip {
+  min-width: fit-content;
+  min-height: auto;
+  border: none;
+  border-radius: 999px;
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  background: #a7a7a7;
+  color: #ffffff;
+}
+
+.categoria-chip.ativa {
+  background: #2E6F2F;
+  color: #ffffff;
+}
+
+/* Lista */
+
+.lista-area {
+  margin-bottom: 0;
+}
+
+.lista-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.lista-header h2 {
+  margin: 0;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
+  gap: 14px;
+}
+
+.menu-card {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid #edf0f4;
+  background: #ffffff;
+  box-shadow: 0 16px 36px rgba(17, 24, 39, 0.08);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.menu-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 10px rgba(31, 41, 55, 0.08);
+}
+
+.menu-card-img {
+  width: 100%;
+  height: 112px;
+  object-fit: cover;
+  display: block;
+}
+
+.menu-card-info {
+  padding: 12px;
+}
+
+.menu-card-info h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.menu-card-info p {
+  margin: 7px 0 9px;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.menu-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-card-meta span {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.menu-card-bottom {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 10px;
 }
 
-.restaurant-stats span {
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: #f2f4f7;
-  color: #344054;
-  font-size: 0.86rem;
-  font-weight: 850;
+.menu-card-bottom strong {
+  color: #2f6f2f;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.restaurant-menu-section {
-  padding: 34px 42px 56px;
+/* Sem resultados */
+
+.sem-resultados {
+  min-height: 220px;
+  border-radius: 22px;
+  background: #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
 }
 
-.restaurant-layout {
-  display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  gap: 32px;
-  align-items: start;
+.sem-resultados ion-icon {
+  font-size: 38px;
+  color: #9ca3af;
+  margin-bottom: 6px;
 }
 
-.restaurant-nav {
-  position: sticky;
-  top: 24px;
-  display: grid;
-  gap: 4px;
-  padding: 6px 22px 0 0;
-  border-right: 1px solid #e5e7eb;
+.sem-resultados h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.restaurant-nav strong {
-  margin-bottom: 12px;
-  color: #151c2c;
-  font-size: 1rem;
-  font-weight: 950;
+.sem-resultados p {
+  margin: 0;
+  font-size: 15px;
 }
 
-.restaurant-nav button {
-  position: relative;
-  padding: 11px 14px;
-  border: 0;
-  border-left: 4px solid transparent;
-  background: transparent;
-  color: #4b5565;
-  text-align: left;
-  text-decoration: none;
-  font-weight: 800;
-  cursor: pointer;
+/* Modal filtros */
+
+.filtros-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-.restaurant-nav button:hover {
-  border-left-color: #2e6629;
-  background: #f4f7f4;
-  color: #151c2c;
-}
-
-.restaurant-nav button.active {
-  color: #151c2c;
-  font-weight: 950;
-}
-
-.restaurant-nav button.active::after {
-  content: "";
-  position: absolute;
-  left: 14px;
-  bottom: 3px;
-  width: 96px;
-  height: 3px;
-  border-radius: 999px;
-  background: #151c2c;
-}
-
-.dish-section {
-  margin-bottom: 38px;
-}
-
-.dish-section h2 {
-  margin: 0 0 18px;
-  color: #151c2c;
-  font-size: 1.55rem;
-  font-weight: 950;
-}
-
-.restaurant-dish-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.restaurant-dish-card {
-  position: relative;
-  min-height: 158px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 154px;
+.filtros-modal {
+  width: 100%;
+  max-width: 430px;
+  height: auto;
+  max-height: none;
   overflow: hidden;
-  border: 1px solid #edf0ef;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-  cursor: pointer;
+  background: #ffffff;
+  border-radius: 22px 22px 0 0;
+  padding: 14px 24px 22px;
+  position: relative;
+  animation: subirModal 0.25s ease-out;
 }
 
-.restaurant-dish-card > div {
-  padding: 18px;
-}
+@keyframes subirModal {
+  from {
+    transform: translateY(100%);
+  }
 
-.restaurant-dish-card h3 {
-  margin: 0 0 6px;
-  color: #151c2c;
-  font-size: 1rem;
-  font-weight: 950;
-}
-
-.restaurant-dish-card strong {
-  display: block;
-  margin-bottom: 8px;
-  color: #151c2c;
-}
-
-.restaurant-dish-card p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  margin: 0 0 10px;
-  color: #767d8d;
-  line-height: 1.35;
-}
-
-.restaurant-dish-card span {
-  color: #6f7686;
-  font-size: 0.86rem;
-  font-weight: 800;
-}
-
-.restaurant-dish-card img {
-  width: 154px;
-  height: 100%;
-  object-fit: cover;
-}
-
-.restaurant-dish-card button {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: #fff;
-  color: #151c2c;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
-  font-size: 1.3rem;
-  cursor: pointer;
-}
-
-ion-modal.filters-modal {
-  --width: min(480px, calc(100vw - 32px));
-  --height: auto;
-  --border-radius: 18px;
-}
-
-.filters-shell {
-  padding: 16px 28px 26px;
-  background: #fff;
+  to {
+    transform: translateY(0);
+  }
 }
 
 .modal-handle {
   width: 64px;
   height: 4px;
-  margin: 0 auto 18px;
   border-radius: 999px;
-  background: #d8dce2;
+  background: #c8c8c8;
+  margin: 0 auto 18px;
 }
 
-.filters-shell header,
-.filters-shell footer {
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: #f1f2f5;
+  color: #111827;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
+  justify-content: center;
 }
 
-.filters-shell header h2 {
-  margin: 0;
-  color: #151c2c;
-  font-size: 1.25rem;
-  font-weight: 900;
+.modal-close ion-icon {
+  font-size: 18px;
 }
 
-.filters-shell header button {
-  width: 38px;
-  height: 38px;
-  border: 0;
-  border-radius: 50%;
-  background: #f0f2f5;
-  color: #667085;
-  cursor: pointer;
-}
-
-.filters-shell section {
-  padding: 22px 0;
-  border-bottom: 1px solid #edf0ef;
-}
-
-.filters-shell h3 {
+.filtros-modal h2 {
   margin: 0 0 12px;
-  color: #31394a;
-  font-size: 0.98rem;
-  font-weight: 800;
+  color: #111111;
+  font-size: 22px;
+  font-weight: 700;
 }
 
-.filter-options {
+.filtro-grupo {
+  margin-bottom: 18px;
+}
+
+.filtro-grupo p {
+  margin: 0 0 10px;
+  color: #222222;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.filtro-grid {
   display: grid;
-  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
 }
 
-.two-cols {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.filter-options button,
-.secondary-action,
-.primary-action {
-  min-height: 42px;
-  border: 0;
-  border-radius: 12px;
-  background: #e5e8ed;
-  color: #4b5565;
-  font-weight: 900;
+.filtro-grid button {
+  height: 32px;
+  border: none;
+  border-radius: 9px;
+  background: #c8c8c8;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
 }
 
-.filter-options button.active,
-.primary-action {
-  background: #2e6629;
-  color: #fff;
+.filtro-grid button.ativo {
+  background: #2f5d27;
 }
 
-.price-range {
+.filtro-grupo input[type="range"] {
   width: 100%;
-  accent-color: #2e6629;
+  accent-color: #2f5d27;
 }
 
-.range-labels {
+.range-valores {
   display: flex;
   justify-content: space-between;
-  color: #667085;
-  font-size: 0.85rem;
+  margin-top: 6px;
+  color: #222222;
+  font-size: 13px;
 }
 
-.range-labels strong {
-  color: #2e6629;
+.modal-botoes {
+  position: static;
+  bottom: 0;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  padding-bottom: 0;
+  border-top: 1px solid #eeeeee;
 }
 
-.filters-shell footer {
-  padding-top: 22px;
-}
-
-.secondary-action,
-.primary-action {
+.modal-botoes button {
   flex: 1;
+  height: 36px;
+  border: none;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-@media (max-width: 1180px) {
-  .dish-grid,
-  .restaurant-dish-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .restaurant-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .restaurant-nav {
-    position: static;
-    display: flex;
-    overflow-x: auto;
-    border-right: 0;
-    padding-bottom: 6px;
-  }
-
-  .restaurant-nav strong {
-    display: none;
-  }
-
-  .restaurant-nav button {
-    flex: 0 0 auto;
-    border-left: 0;
-    border-radius: 999px;
-    background: #f2f4f7;
-  }
+.btn-cancelar {
+  background: #c8c8c8;
+  color: #ffffff;
 }
 
-@media (max-width: 760px) {
-  .menu-header,
-  .content-section,
-  .restaurant-header,
-  .restaurant-menu-section {
-    margin-inline: 16px;
-    padding-inline: 18px;
-  }
-
-  .dish-grid,
-  .restaurant-dish-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .restaurant-dish-card {
-    grid-template-columns: 1fr 124px;
-  }
-
-  .restaurant-dish-card img {
-    width: 124px;
-  }
+.btn-concluir {
+  background: #2f5d27;
+  color: #ffffff;
 }

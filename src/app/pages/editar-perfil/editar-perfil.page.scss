@@ -1,0 +1,170 @@
+.editar-content {
+  --background: #ffffff;
+  --overflow: auto;
+}
+
+.editar-container {
+  min-height: 100%;
+  padding: 44px 28px 118px;
+}
+
+.editar-loading {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #3f744d;
+}
+
+.editar-loading p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Topo */
+
+.editar-topo {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 36px;
+}
+
+.voltar-button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #2f5d27;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+.voltar-button ion-icon {
+  font-size: 21px;
+}
+
+.editar-topo h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 22px;
+  line-height: 1.12;
+  font-weight: 700;
+}
+
+.editar-topo p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* Form */
+
+.editar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-grupo label {
+  margin-bottom: 8px;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.campo-input {
+  height: 58px;
+  border: 1px solid #e1e4e8;
+  border-radius: 16px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  box-shadow: 0 6px 18px rgba(31, 41, 55, 0.05);
+}
+
+.campo-input ion-icon {
+  font-size: 22px;
+  color: #7a817a;
+  margin-right: 12px;
+}
+
+.campo-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #111827;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.campo-input.sem-icone {
+  padding: 0 18px;
+}
+
+.guardar-button {
+  height: 56px;
+  border: none;
+  border-radius: 18px;
+  background: #2f5d27;
+  color: #ffffff;
+  margin-top: 18px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.guardar-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.guardar-button ion-spinner {
+  width: 22px;
+  height: 22px;
+  color: #ffffff;
+}
+
+.erro-validacao {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #c0392b;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.mensagem-erro {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #e53935;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.campo-input.invalido {
+  border-color: #e53935;
+  background: #fff5f5;
+}

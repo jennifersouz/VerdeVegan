@@ -9,8 +9,6 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 
@@ -36,1075 +34,176 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-/* Dark mode desligado para manter a interface web sempre branca. */
+@import "@ionic/angular/css/palettes/dark.system.css";
 
-ion-content {
-  --background: #ffffff;
+/* ============================================================
+   Fonte Poppins — VerdeVegan
+   ============================================================ */
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
 }
 
-html,
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-ExtraLightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* ============================================================
+   Aplicar Poppins globalmente
+   ============================================================ */
+
 body,
 ion-app,
-ion-router-outlet,
-.ion-page {
-  background: #ffffff;
-}
-
-ion-toolbar {
-  --background: var(--vv-surface);
-  --border-color: var(--vv-border);
-}
-
-ion-card {
-  border-radius: var(--vv-radius);
-  box-shadow: var(--vv-shadow);
-}
-
-ion-card,
-.home-header,
-.menu-header,
-.restaurant-header,
-.restaurant-card,
-.popular-card,
-.points-panel,
-.dish-card,
-.restaurant-dish-card,
-.purchase-card,
-.info-panel,
-.allergen-panel,
-.summary-box,
-.checkout-steps,
-.checkout-card,
-.cart-item,
-.summary-card,
-.orders-header,
-.orders-list,
-.order-row,
-.detail-hero,
-.detail-card,
-.checkout-card.order-card,
-.order-state-card,
-.profile-grid ion-card,
-.brand-panel {
-  box-shadow: var(--vv-shadow) !important;
-}
-
-.page-shell {
-  width: min(1120px, 100%);
-  margin: 0 auto;
-  padding: 16px;
-}
-
-.section-title {
-  margin: 18px 0 10px;
-  font-size: 1.15rem;
-  font-weight: 800;
-}
-
-.muted {
-  color: var(--vv-muted);
-}
-
-.price {
-  font-weight: 800;
-  color: var(--ion-color-primary);
-}
-
-.vv-empty {
-  min-height: 42vh;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  color: var(--vv-muted);
-}
-
-app-orders {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-app-order-status {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-app-order-status ion-content {
-  --background: #ffffff;
-  --ion-background-color: #ffffff;
-  background: #ffffff;
-}
-
-app-order-status ion-content::part(background),
-app-order-status .confirmation-page,
-app-order-status .detail-page {
-  background: #ffffff;
-}
-
-app-orders ion-content {
-  --background: #ffffff;
-  width: 100%;
-}
-
-app-orders .orders-page {
-  width: 100%;
-  min-height: 100%;
-  background: #fff;
-}
-
-app-orders .orders-header {
-  width: auto;
-  margin: 24px 42px 0;
-  padding: 32px 38px 34px;
-  border: 1px solid #edf0ef;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
-}
-
-app-orders .orders-title-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-}
-
-app-orders .orders-title-row > div {
-  min-width: 0;
-  flex: 1 1 auto;
-}
-
-app-orders .orders-header h1 {
-  margin: 0 0 10px;
-  color: #151c2c;
-  font-size: 2rem;
-  font-weight: 900;
-  line-height: 1;
-}
-
-app-orders .orders-header p {
-  margin: 0 0 26px;
-  color: #31394a;
-  font-size: 1.22rem;
-  font-weight: 750;
-}
-
-app-orders .filter-button {
-  flex: 0 0 auto;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 22px;
-  border: 0;
-  border-radius: 12px;
-  background: #2e6629;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-app-orders .search-box {
-  width: 100%;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 20px;
-  border: 1px solid #dfe4ea;
-  border-radius: 16px;
-  background: #fff;
-}
-
-.checkout-modal input:focus,
-.checkout-modal select:focus {
-  border-color: #2e6629;
-  outline: 0;
-  box-shadow: inset 0 0 0 1px #2e6629;
-  background: #fff;
-  color: #1f2937;
-}
-
-.checkout-modal input::selection {
-  background: transparent;
-  color: #1f2937;
-}
-
-.checkout-modal input:-webkit-autofill,
-.checkout-modal input:-webkit-autofill:hover,
-.checkout-modal input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #1f2937;
-  box-shadow: 0 0 0 1000px #fff inset, inset 0 0 0 1px #2e6629;
-  caret-color: #1f2937;
-}
-
-app-orders .search-box ion-icon {
-  color: #39724d;
-  font-size: 24px;
-}
-
-app-orders .search-box input {
-  width: 100%;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: #151c2c;
-  font: inherit;
-  font-size: 1rem;
-}
-
-app-orders .content-section {
-  width: 100%;
-  padding: 36px 42px 56px;
-}
-
-app-orders .content-section h2 {
-  margin: 0 0 18px;
-  color: #151c2c;
-  font-size: 1.45rem;
-  font-weight: 900;
-}
-
-app-orders .category-row {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 2px;
-}
-
-app-orders .category-row button {
-  flex: 0 0 auto;
-  min-height: 38px;
-  padding: 0 18px;
-  border: 0;
-  border-radius: 999px;
-  background: #9a9a9a;
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-app-orders .category-row button.active {
-  background: #2e6629;
-}
-
-app-orders .category-rule {
-  width: 100%;
-  height: 3px;
-  margin: 18px 0 36px;
-  border-radius: 999px;
-  background: #e5e7eb;
-}
-
-app-orders .current-section,
-app-orders .month-section {
-  margin-bottom: 34px;
-}
-
-app-orders .current-section h2 {
-  color: #2e6629;
-}
-
-app-orders .orders-list {
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid #edf0ef;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
-}
-
-app-orders .active-list {
-  overflow: visible;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none !important;
-  padding-bottom: 28px;
-}
-
-app-orders .order-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 210px;
-  gap: 24px;
-  padding: 22px 26px;
-  border-bottom: 1px solid #edf0ef;
-  background: #fff;
-}
-
-app-orders .order-row:last-child {
-  border-bottom: 0;
-}
-
-app-orders .active-order {
-  border: 1px solid #bfe2bd;
-  border-radius: 16px;
-  background: #edf8eb;
-  box-shadow: var(--vv-shadow) !important;
-}
-
-app-orders .order-row h3 {
-  margin: 0 0 8px;
-  color: #202124;
-  font-size: 1.45rem;
-  font-weight: 900;
-  line-height: 1.12;
-}
-
-app-orders .order-row p {
-  margin: 0 0 10px;
-  color: #687386;
-  font-size: 1rem;
-  font-weight: 650;
-}
-
-app-orders .order-row strong {
-  color: #2e6629;
-  font-size: 1.32rem;
-  font-weight: 900;
-}
-
-app-orders .order-side {
-  display: grid;
-  justify-items: end;
-  align-content: start;
-  gap: 14px;
-}
-
-app-orders .order-side span {
-  min-width: 136px;
-  padding: 9px 18px;
-  border-radius: 999px;
-  background: #dff5dd;
-  color: #2e6629;
-  font-size: 1.08rem;
-  font-weight: 900;
-  text-align: center;
-}
-
-app-orders .order-side a {
-  display: inline-flex;
-  align-items: center;
-  color: #24571f;
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 900;
-  white-space: nowrap;
-}
-
-@media (max-width: 980px) {
-  app-orders .orders-title-row,
-  app-orders .order-row {
-    grid-template-columns: 1fr;
-    display: grid;
-  }
-
-  app-orders .order-side {
-    justify-items: start;
-  }
-}
-.tracking-page {
-  width: 100%;
-  display: grid;
-  gap: 28px;
-  color: #151c2c;
-}
-
-.tracking-back {
-  margin-bottom: 0;
-}
-
-.tracking-header h1 {
-  margin: 0 0 12px;
-  color: #151c2c;
-  font-size: clamp(2rem, 2.35vw, 2.55rem);
-  font-weight: 900;
-  line-height: 1.08;
-  white-space: nowrap;
-}
-
-.tracking-header p {
-  margin: 0;
-  color: #31394a;
-  font-size: 1.35rem;
-  font-weight: 750;
-}
-
-.tracking-header strong {
-  color: #31394a;
-}
-
-.tracking-header span {
-  margin-left: 12px;
-}
-
-.tracking-steps {
-  min-height: 96px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  align-items: center;
-  padding: 18px 34px 12px;
-  border: 1px solid var(--checkout-border);
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: var(--vv-shadow);
-}
-
-.tracking-step {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  color: #a2aabb;
-  font-weight: 700;
-}
-
-.tracking-line {
-  position: absolute;
-  top: 18px;
-  right: calc(50% + 26px);
-  width: calc(100% - 52px);
-  height: 3px;
-  border-radius: 999px;
-  background: #e5e7eb;
-}
-
-.tracking-step.done {
-  color: var(--checkout-green);
-}
-
-.tracking-step.done .tracking-line {
-  background: var(--checkout-green);
-}
-
-.tracking-mark {
-  position: relative;
-  z-index: 1;
-  width: 42px;
-  height: 42px;
-  padding: 0;
-  display: grid;
-  place-items: center;
-  border: 3px solid currentColor;
-  border-radius: 999px;
-  background: #fff;
-  color: inherit;
-  font: inherit;
-  font-size: 1.35rem;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.tracking-mark:hover,
-.tracking-mark:focus-visible {
-  background: #edf8eb;
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(46, 102, 41, 0.14);
-}
-
-.tracking-label {
-  font-size: 1rem;
-}
-
-.tracking-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(360px, 0.75fr);
-  gap: 28px;
-  align-items: stretch;
-}
-
-.gps-card {
-  min-height: 520px;
-  overflow: hidden;
-  border: 1px solid var(--checkout-border);
-  border-radius: 20px;
-  background: #f1f1ee;
-  box-shadow: var(--vv-shadow);
-}
-
-.map-backdrop {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 520px;
-  overflow: hidden;
-  background:
-    linear-gradient(30deg, transparent 48%, #fff 48% 52%, transparent 52%),
-    linear-gradient(120deg, transparent 46%, #fff 46% 51%, transparent 51%),
-    #efeee9;
-}
-
-.road {
-  position: absolute;
-  display: block;
-  border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 0 0 5px #dfe4ea;
-}
-
-.road-a {
-  top: 90px;
-  left: -70px;
-  width: 740px;
-  height: 24px;
-  transform: rotate(22deg);
-}
-
-.road-b {
-  top: 280px;
-  left: 120px;
-  width: 760px;
-  height: 24px;
-  transform: rotate(-32deg);
-}
-
-.road-c {
-  top: 64px;
-  left: 380px;
-  width: 24px;
-  height: 620px;
-  transform: rotate(18deg);
-}
-
-.road-d {
-  top: 370px;
-  left: -60px;
-  width: 680px;
-  height: 20px;
-  transform: rotate(8deg);
-}
-
-.road-e {
-  top: 160px;
-  left: 30px;
-  width: 24px;
-  height: 480px;
-  transform: rotate(-24deg);
-}
-
-.building {
-  position: absolute;
-  display: block;
-  width: 86px;
-  height: 58px;
-  border: 1px solid #d8d6d0;
-  background: #e3e1dc;
-  transform: rotate(-24deg);
-}
-
-.b1 { top: 150px; left: 120px; }
-.b2 { top: 210px; right: 160px; }
-.b3 { bottom: 110px; left: 230px; }
-.b4 { bottom: 170px; right: 90px; }
-
-.restaurant-pulse {
-  position: absolute;
-  top: 43%;
-  left: 46%;
-  width: 138px;
-  height: 138px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: rgba(130, 195, 85, 0.32);
-  box-shadow: 0 0 0 34px rgba(130, 195, 85, 0.24);
-  color: #4d5961;
-  transform: translate(-50%, -50%);
-}
-
-.restaurant-pulse ion-icon {
-  font-size: 74px;
-}
-
-.delivery-route {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.delivery-route path {
-  fill: none;
-  stroke: #4caf58;
-  stroke-width: 9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.courier-pin,
-.home-pin {
-  position: absolute;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  color: #fff;
-}
-
-.courier-pin {
-  left: 84%;
-  top: 8%;
-  width: 58px;
-  height: 58px;
-  background: #4caf58;
-  transform: translate(-50%, -50%);
-}
-
-.courier-pin ion-icon,
-.home-pin ion-icon {
-  font-size: 30px;
-}
-
-.home-pin {
-  left: 84%;
-  top: 73%;
-  width: 62px;
-  height: 62px;
-  background: var(--checkout-green);
-  transform: translate(-50%, -50%);
-}
-
-.tracking-panel {
-  display: grid;
-  gap: 18px;
-  align-content: start;
-}
-
-.tracking-status-card,
-.cancel-card,
-.rating-card {
-  padding: 24px;
-  border: 1px solid var(--checkout-border);
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: var(--vv-shadow);
-}
-
-.rating-card {
-  padding-top: 20px;
-}
-
-.status-icon {
-  width: 58px;
-  height: 58px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: #e7f8e6;
-  color: var(--checkout-green);
-}
-
-.status-icon.delivered {
-  background: #51b65d;
-  color: #fff;
-}
-
-.status-icon ion-icon {
-  font-size: 34px;
-}
-
-.tracking-status-card h2,
-.cancel-card h3,
-.rating-card h3 {
-  margin: 14px 0 8px;
-  color: #151c2c;
-  font-size: 1.35rem;
-  font-weight: 900;
-  line-height: 1.15;
-}
-
-.tracking-status-card p,
-.cancel-card p {
-  margin: 0;
-  color: #31394a;
-  font-size: 1rem;
-  line-height: 1.35;
-}
-
-.eta-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  margin-top: 22px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  background: #edf8eb;
-  color: var(--checkout-green);
-  font-weight: 900;
-}
-
-.earned-points {
-  margin-top: 22px;
-  padding: 14px 16px;
-  border-radius: 10px;
-  background: #edf8eb;
-  color: #008000;
-  font-size: 1.15rem;
-  font-weight: 900;
-}
-
-.cancel-card button {
-  width: 100%;
-  height: 48px;
-  margin-top: 20px;
-  border: 1px solid #ff6b6b;
-  border-radius: 10px;
-  background: #fff;
-  color: #ff5a5f;
-  font: inherit;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.stars {
-  display: flex;
-  gap: 6px;
-  margin: 12px 0 14px;
-}
-
-.stars button {
-  position: relative;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #ffffff;
-  font-size: 2rem;
-  line-height: 1;
-  text-shadow: 0 0 1px #c5bd1a, 0 0 0 1px #c5bd1a;
-  cursor: pointer;
-}
-
-.star-empty {
-  color: #ffffff;
-  -webkit-text-stroke: 1px #fff22e;
-}
-
-.star-fill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  overflow: hidden;
-  color: #fff22e;
-  -webkit-text-stroke: 1px #fff22e;
-  pointer-events: none;
-}
-
-.stars button:hover,
-.stars button:focus-visible {
-  outline: none;
-  transform: translateY(-1px);
-}
-
-.rating-card textarea {
-  width: 100%;
-  min-height: 96px;
-  padding: 14px;
-  border: 1px solid #d7d7d7;
-  border-radius: 10px;
-  background: #fff;
-  color: #151c2c;
-  font: inherit;
-  resize: vertical;
-}
-
-.rating-card textarea::placeholder {
-  color: #9aa0aa;
-}
-
-.rating-card ion-button {
-  --background: var(--checkout-green);
-  --border-radius: 10px;
-  width: 100%;
-  height: 46px;
-  margin-top: 12px;
-  font-weight: 900;
-  text-transform: none;
-}
-
-.tracking-details {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(360px, 0.75fr);
-  gap: 28px;
-}
-
-.tracking-info-stack {
-  display: grid;
-  gap: 20px;
-  align-content: start;
-}
-
-.compact-info-card h3 {
-  margin-bottom: 18px;
-}
-
-.tracking-info-stack .compact-info-card {
-  min-height: 180px;
-  padding: 28px;
-}
-
-.card-title-line {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #1f2024;
-  font-size: 1.05rem;
-  font-weight: 900;
-}
-
-.card-title-line ion-icon {
-  font-size: 24px;
-}
-
-.compact-info-card p {
-  margin: 8px 0 0 32px;
-  color: #687386;
-  line-height: 1.45;
-}
-
-.payment-inline {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.mastercard-mini {
-  position: relative;
-  width: 48px;
-  height: 26px;
-}
-
-.mastercard-mini span {
-  position: absolute;
-  width: 26px;
-  height: 26px;
-  border-radius: 999px;
-}
-
-.mastercard-mini span:first-child {
-  left: 0;
-  background: #f1322f;
-}
-
-.mastercard-mini span:last-child {
-  left: 19px;
-  background: #ffc845;
-  mix-blend-mode: multiply;
-}
-
-.cancel-sheet-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: grid;
-  place-items: center;
-  padding: 34px;
-  background: rgba(15, 23, 42, 0.36);
-}
-
-.cancel-sheet {
-  width: min(560px, 100%);
-  padding: 26px 34px 30px;
-  border-radius: 22px;
-  background: #fff;
-  text-align: center;
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
-}
-
-.sheet-handle {
-  width: 82px;
-  height: 5px;
-  margin: 0 auto 22px;
-  border-radius: 999px;
-  background: #c7c7c7;
-}
-
-.warning-icon {
-  width: 62px;
-  height: 62px;
-  display: grid;
-  place-items: center;
-  margin: 0 auto 14px;
-  border-radius: 999px;
-  background: #ffe2e2;
-  color: #ff1f1f;
-}
-
-.warning-icon ion-icon {
-  font-size: 32px;
-}
-
-.cancel-sheet h2 {
-  margin: 0 0 10px;
-  color: #111;
-  font-size: 1.5rem;
-  font-weight: 900;
-}
-
-.cancel-sheet p {
-  margin: 0 0 22px;
-  color: #3f3f46;
-}
-
-.cancel-sheet ion-button {
-  --background: var(--checkout-green);
-  --border-radius: 10px;
-  width: 100%;
-  height: 48px;
-  font-weight: 900;
-  text-transform: none;
-}
-
-.cancel-sheet button:not(.detail-back) {
-  margin-top: 16px;
-  border: 0;
-  background: transparent;
-  color: var(--checkout-green);
-  font: inherit;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.review-sheet-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: 22px;
-  background: rgba(17, 24, 39, 0.42);
-}
-
-.review-sheet {
-  position: relative;
-  width: min(430px, 100%);
-  display: grid;
-  gap: 16px;
-  padding: 30px 34px 32px;
-  border: 1px solid #9dd39b;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 24px 60px rgba(17, 24, 39, 0.22);
-}
-
-.review-close {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: #f3f4f6;
-  color: #111827;
-  cursor: pointer;
-}
-
-.review-sheet h2 {
-  max-width: none;
-  margin: 0;
-  color: #111827;
-  padding-right: 48px;
-  font-size: 1.45rem;
-  font-weight: 950;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-.review-stars {
-  display: flex;
-  gap: 8px;
-}
-
-.review-stars button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border: 0;
-  background: transparent;
-  color: #f4c400;
-  font-size: 2.35rem;
-  cursor: pointer;
-}
-
-.review-stars .star-empty,
-.review-stars .star-fill {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  color: #f4c400;
-}
-
-.review-stars .star-fill {
-  white-space: nowrap;
-}
-
-.review-sheet textarea {
-  width: 100%;
-  min-height: 105px;
-  resize: vertical;
-  padding: 18px 20px;
-  border: 1px solid #d1d5db;
-  border-radius: 14px;
-  outline: 0;
-  background: #fff;
-  color: #111827;
-  font: inherit;
-  font-size: 1.05rem;
-  line-height: 1.35;
-}
-
-.review-sheet textarea::placeholder {
-  color: #9ca3af;
-}
-
-.save-review-button {
-  min-height: 48px;
-  border: 0;
-  border-radius: 12px;
-  background: #2e6629;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.save-review-button:disabled {
-  opacity: 0.55;
-}
-
-@media (max-width: 680px) {
-  .review-sheet {
-    gap: 14px;
-    padding: 34px 22px 24px;
-  }
-
-  .review-close {
-    top: 18px;
-    right: 18px;
-  }
-
-  .review-stars {
-    gap: 8px;
-  }
-
-  .review-stars button {
-    width: 38px;
-    height: 38px;
-    font-size: 2.25rem;
-  }
-
-  .review-sheet textarea {
-    min-height: 100px;
-    padding: 16px;
-    font-size: 1rem;
-  }
+ion-content,
+ion-label,
+ion-input,
+ion-button,
+ion-text,
+p,
+h1,
+h2,
+h3,
+span,
+input,
+button {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Pesos mais leves — sobrepõe os defaults do browser e do Ionic */
+body,
+ion-app,
+ion-content,
+p,
+span,
+ion-label,
+ion-text,
+input {
+  font-weight: 400;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+}
+
+button,
+ion-button {
+  font-weight: 500;
 }

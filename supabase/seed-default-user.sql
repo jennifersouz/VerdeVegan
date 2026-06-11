@@ -66,6 +66,22 @@ seeded_orders (
 ) as (
   values
   (
+    'VV-3078',
+    '2026-05-28'::date,
+    null::timestamptz,
+    null::integer,
+    'Green Bowl Porto',
+    'A caminho',
+    '[{"dishId":"bowl-tofu","name":"Bowl de Tofu Grelhado","quantity":1,"price":9.9,"extras":["Abacate"]},{"dishId":"smoothie-verde","name":"Smoothie Verde","quantity":1,"price":3.8,"extras":[]}]'::jsonb,
+    0,
+    16,
+    null::numeric,
+    16.20,
+    false,
+    null::integer,
+    null::text
+  ),
+  (
     'VV-2048',
     '2026-05-22'::date,
     null::timestamptz,

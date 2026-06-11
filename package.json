@@ -1,8 +1,8 @@
 {
-  "name": "verdevegan-app",
+  "name": "verde-vegan",
   "version": "0.0.1",
-  "author": "Inês Marinho, Jennifer Silva, Mafalda Rodrigues",
-  "homepage": "https://verdevegan.local/",
+  "author": "Ionic Framework",
+  "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,7 +21,7 @@
     "@angular/platform-browser": "^20.0.0",
     "@angular/platform-browser-dynamic": "^20.0.0",
     "@angular/router": "^20.0.0",
-    "@capacitor/android": "^8.3.4",
+    "@capacitor/android": "8.3.4",
     "@capacitor/app": "8.1.0",
     "@capacitor/core": "8.3.4",
     "@capacitor/haptics": "8.0.2",
@@ -65,5 +65,5 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.0"
   },
-  "description": "Protótipo funcional Ionic/Angular da plataforma VerdeVegan para IHM."
+  "description": "An Ionic project"
 }

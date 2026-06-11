@@ -1,0 +1,313 @@
+.registo-content {
+  --background: #ffffff;
+}
+
+.registo-content::part(scroll) {
+  min-height: 100%;
+  padding: 44px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.registo-card {
+  width: min(100%, 720px);
+  margin: 0 auto;
+  border: 1px solid #d7ead3;
+  border-radius: 8px;
+  padding: 30px 44px 34px;
+  background: #ffffff;
+  box-shadow: 0 22px 66px rgba(31, 41, 55, 0.14);
+  display: block;
+}
+
+.back-link {
+  border: 0;
+  padding: 0;
+  margin: 0 0 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  color: #2E6F2F;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.back-link ion-icon {
+  font-size: 28px;
+}
+
+.registo-header {
+  margin-bottom: 28px;
+}
+
+.registo-header h1 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.registo-header p {
+  margin: 0;
+  color: #667085;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.campo-linha {
+  position: relative;
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid #d8dee7;
+}
+
+.campo-linha > ion-icon {
+  color: #667085;
+  font-size: 30px;
+}
+
+.campo-linha:focus-within {
+  border-bottom-color: #207A4D;
+}
+
+.campo-linha:focus-within > ion-icon,
+.campo-linha:focus-within label span,
+.campo-linha:focus-within input,
+.campo-linha:focus-within .dieta-trigger,
+.campo-linha:focus-within .eye-button,
+.campo-linha:focus-within .select-icon {
+  color: #207A4D;
+}
+
+.campo-linha label {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.campo-linha label span {
+  color: #111827;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.campo-linha input,
+.dieta-trigger {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  appearance: none;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #111827;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  box-shadow: none !important;
+}
+
+.campo-linha input::placeholder {
+  color: #b8bec8;
+  opacity: 1;
+}
+
+.eye-button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: #667085;
+}
+
+.eye-button ion-icon,
+.select-icon {
+  font-size: 22px;
+}
+
+.dieta-linha.aberta {
+  z-index: 3;
+}
+
+.dieta-trigger {
+  min-height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.dieta-trigger strong {
+  font-weight: 700;
+}
+
+.dieta-trigger ion-icon {
+  color: #777777;
+  font-size: 18px;
+}
+
+.dieta-menu {
+  position: absolute;
+  left: 58px;
+  right: 0;
+  top: calc(100% + 8px);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 14px 28px rgba(17, 24, 39, 0.24);
+  z-index: 10;
+}
+
+.dieta-menu button {
+  width: 100%;
+  min-height: 64px;
+  border: 0;
+  padding: 0 28px;
+  display: block;
+  background: #ffffff;
+  color: #20232b;
+  text-align: left;
+  font-size: 22px;
+}
+
+.dieta-menu button.ativa {
+  background: #eef4ef;
+}
+
+.alergias {
+  min-height: 82px;
+  align-items: start;
+  padding-top: 18px;
+}
+
+.erro {
+  margin: 6px 0 0 58px;
+  font-size: 12px;
+}
+
+.botao-principal {
+  width: 100%;
+  min-height: 58px;
+  border: 0;
+  border-radius: 9px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #9fc9ae;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(31, 41, 55, 0.16);
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.botao-principal ion-icon {
+  font-size: 25px;
+}
+
+.login-link {
+  margin: 22px 0 0;
+  text-align: center;
+  color: #667085;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.login-link button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #207A4D;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .registo-content::part(scroll) {
+    padding: 28px 20px;
+    align-items: center;
+  }
+
+  .registo-card {
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 26px 30px;
+  }
+
+  .back-link {
+    margin-bottom: 22px;
+    font-size: 18px;
+  }
+
+  .registo-header {
+    margin-bottom: 22px;
+  }
+
+  .registo-header h1 {
+    font-size: 36px;
+  }
+
+  .registo-header p {
+    font-size: 18px;
+  }
+
+  .campo-linha {
+    min-height: 66px;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+
+  .campo-linha > ion-icon {
+    font-size: 26px;
+  }
+
+  .campo-linha label span {
+    font-size: 15px;
+  }
+
+  .campo-linha input,
+  .dieta-trigger {
+    font-size: 19px;
+  }
+
+  .dieta-menu {
+    left: 46px;
+  }
+
+  .dieta-menu button {
+    min-height: 54px;
+    padding: 0 20px;
+    font-size: 19px;
+  }
+
+  .botao-principal {
+    min-height: 52px;
+    font-size: 17px;
+  }
+}

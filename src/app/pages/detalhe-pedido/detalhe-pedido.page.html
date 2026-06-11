@@ -1,0 +1,134 @@
+<ion-content [fullscreen]="true" class="detalhe-pedido-page" scrollY="true">
+  <div class="estado-vazio" *ngIf="carregando">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>A carregar detalhes do pedido...</p>
+  </div>
+
+  <div class="estado-vazio" *ngIf="!carregando && pedidoNaoEncontrado">
+    <ion-icon name="receipt-outline"></ion-icon>
+    <h2>Pedido não encontrado</h2>
+    <p>Este pedido já não está disponível ou ainda não foi sincronizado.</p>
+    <button type="button" class="botao-principal" (click)="voltarPedidos()">
+      Voltar aos pedidos
+    </button>
+  </div>
+
+  <div class="detalhe-wrapper" *ngIf="pedido">
+    <button type="button" class="voltar-button" (click)="voltarPedidos()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      <span>Pedidos</span>
+    </button>
+
+    <h1>Detalhes do Pedido</h1>
+
+    <main class="detalhe-layout">
+      <section class="pedido-resumo">
+        <strong>{{ pedido.id }}</strong>
+        <h2>{{ pedido.nome }}</h2>
+        <p>{{ dataPedido }} · {{ pedido.estado }}</p>
+      </section>
+
+      <section class="artigos-card">
+        <h2>Artigos do Pedido</h2>
+
+        <div class="artigo-linha" *ngFor="let artigo of artigos">
+          <div>
+            <strong>{{ artigo.nome }}</strong>
+            <span>Quantidade: {{ artigo.quantidade }}</span>
+          </div>
+
+          <b>{{ formatarMoeda(artigo.preco) }}</b>
+        </div>
+
+        <div class="totais">
+          <div>
+            <span>Subtotal</span>
+            <strong>{{ formatarMoeda(subtotal) }}</strong>
+          </div>
+
+          <div>
+            <span>Taxa de Entrega</span>
+            <strong>{{ formatarMoeda(taxaEntrega) }}</strong>
+          </div>
+        </div>
+
+        <div class="total-final">
+          <span>Total</span>
+          <strong>{{ formatarMoeda(pedido.total) }}</strong>
+        </div>
+      </section>
+
+      <section class="info-card">
+        <h2>Informações</h2>
+
+        <div class="info-linha">
+          <ion-icon name="home-outline"></ion-icon>
+
+          <div>
+            <strong>Morada de Entrega</strong>
+            <span>{{ pedido.morada }}</span>
+            <p>{{ pedido.moradaDetalhe || 'Rua das Flores, 12 · Viana do Castelo' }}</p>
+          </div>
+        </div>
+
+        <div class="info-linha">
+          <ion-icon name="card-outline"></ion-icon>
+
+          <div>
+            <strong>Método de Pagamento</strong>
+            <p>{{ pedido.pagamento }}</p>
+          </div>
+        </div>
+
+        <div class="info-linha pontos">
+          <ion-icon name="leaf-outline"></ion-icon>
+
+          <div>
+            <strong>+{{ pontosGanhos }} pontos ganhos</strong>
+            <p>Saldo atual: {{ saldoAtual }} pts</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div slot="fixed" class="detalhe-footer" *ngIf="pedido">
+    <button type="button" class="botao-secundario" *ngIf="podeAcompanharPedido" (click)="acompanharPedido()">
+      Acompanhar pedido
+    </button>
+
+    <button type="button" class="botao-secundario" *ngIf="podeDarReview" (click)="abrirReview()">
+      {{ textoBotaoReview }}
+    </button>
+
+    <button type="button" class="botao-principal" (click)="repetirPedido()">
+      Repetir pedido
+    </button>
+  </div>
+</ion-content>
+
+<div class="review-overlay" *ngIf="reviewAberta" (click)="fecharReview()">
+  <section class="review-modal" (click)="$event.stopPropagation()">
+    <button type="button" class="review-close" aria-label="Fechar" (click)="fecharReview()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+
+    <h2>Como foi a tua experiência?</h2>
+
+    <div class="review-stars">
+      <button
+        type="button"
+        class="review-star"
+        *ngFor="let estrela of estrelas"
+        (click)="selecionarAvaliacao($event, estrela)">
+        <span class="star-base">☆</span>
+        <span class="star-fill" [style.width.%]="preenchimentoEstrela(estrela)">★</span>
+      </button>
+    </div>
+
+    <textarea [(ngModel)]="comentarioAvaliacao" placeholder="Escreve aqui a sua opinião..."></textarea>
+
+    <button type="button" class="botao-principal review-submit" (click)="guardarReview()">
+      Guardar review
+    </button>
+  </section>
+</div>

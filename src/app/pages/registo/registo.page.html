@@ -1,0 +1,104 @@
+<ion-content [fullscreen]="true" class="registo-content">
+
+  <section class="registo-card">
+
+    <button type="button" class="back-link" (click)="irParaLogin()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      <span>Entrar</span>
+    </button>
+
+    <header class="registo-header">
+      <h1>Criar conta</h1>
+      <p>Guarda as tuas preferências e acompanha os teus pedidos num só sítio.</p>
+    </header>
+
+    <form [formGroup]="registoForm" (ngSubmit)="criarConta()">
+
+      <div class="campo-linha">
+        <ion-icon name="person-outline"></ion-icon>
+        <label>
+          <span>Nome</span>
+          <input type="text" placeholder="Nome Apelido" formControlName="nome">
+        </label>
+      </div>
+      <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('nome')?.errors?.['required']">
+        <p class="erro">Introduz o teu nome.</p>
+      </ion-text>
+
+      <div class="campo-linha">
+        <ion-icon name="mail-outline"></ion-icon>
+        <label>
+          <span>Email</span>
+          <input type="email" placeholder="email@exemplo.com" formControlName="email">
+        </label>
+      </div>
+      <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('email')?.invalid">
+        <p class="erro" *ngIf="!emailJaExiste">Introduz um email válido.</p>
+        <p class="erro" *ngIf="emailJaExiste">Este email já tem conta. Faz login.</p>
+      </ion-text>
+
+      <div class="campo-linha">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <label>
+          <span>Palavra-passe</span>
+          <input
+            [type]="mostrarPalavraPasse ? 'text' : 'password'"
+            placeholder="Mínimo 6 caracteres"
+            formControlName="palavraPasse">
+        </label>
+        <button type="button" class="eye-button" (click)="alternarVisibilidadePalavraPasse()">
+          <ion-icon [name]="mostrarPalavraPasse ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </button>
+      </div>
+      <ion-text color="danger" *ngIf="formSubmetido && registoForm.get('palavraPasse')?.invalid">
+        <p class="erro">A palavra-passe deve ter pelo menos 6 caracteres.</p>
+      </ion-text>
+
+      <ion-text color="danger" *ngIf="erroRegisto">
+        <p class="erro">Não foi possível criar a conta. Verifica os dados ou tenta fazer login.</p>
+      </ion-text>
+
+      <div class="campo-linha dieta-linha" [class.aberta]="dietaAberta">
+        <ion-icon name="nutrition-outline"></ion-icon>
+        <label>
+          <span>Tipo de dieta</span>
+          <button type="button" class="dieta-trigger" (click)="alternarDieta()">
+            <strong>{{ registoForm.get('tipoDieta')?.value }}</strong>
+            <ion-icon [name]="dietaAberta ? 'caret-up-outline' : 'chevron-down-outline'"></ion-icon>
+          </button>
+        </label>
+
+        <div class="dieta-menu" *ngIf="dietaAberta">
+          <button
+            type="button"
+            *ngFor="let dieta of opcoesDieta"
+            [class.ativa]="registoForm.get('tipoDieta')?.value === dieta"
+            (click)="selecionarDieta(dieta)">
+            {{ dieta }}
+          </button>
+        </div>
+      </div>
+
+      <div class="campo-linha alergias">
+        <ion-icon name="warning-outline"></ion-icon>
+        <label>
+          <span>Alergénios a evitar</span>
+          <input type="text" placeholder="Ex.: frutos secos, soja" formControlName="alergenios">
+        </label>
+      </div>
+
+      <button type="submit" class="botao-principal">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <span>CRIAR CONTA</span>
+      </button>
+
+      <p class="login-link">
+        Já tens conta?
+        <button type="button" (click)="irParaLogin()">Entrar</button>
+      </p>
+
+    </form>
+
+  </section>
+
+</ion-content>

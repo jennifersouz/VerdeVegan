@@ -1,0 +1,77 @@
+<ion-content class="checkout-pontos-page">
+
+  <div class="page-wrapper">
+
+    <div class="logo-area">
+      <img src="assets/logo-verdevegan.png" alt="VerdeVegan" />
+    </div>
+
+    <a class="back-link" routerLink="/tabs/carrinho">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Carrinho
+    </a>
+
+    <div class="steps">
+      <span></span>
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <section class="page-title">
+      <h1>Descontos e Pontos</h1>
+      <p>Aplica o teu código ou usa os teus pontos</p>
+    </section>
+
+    <section class="form-section">
+      <label>Código de desconto</label>
+
+      <div class="input-row">
+        <div class="input-box">
+          <ion-icon name="ticket-outline"></ion-icon>
+          <input
+            type="text"
+            placeholder="Insere o código"
+            [(ngModel)]="codigoDesconto"
+          />
+        </div>
+
+        <button class="small-button">
+          Aplicar
+        </button>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <label>Pontos disponíveis: {{ pontosDisponiveis }} pontos</label>
+
+      <div class="input-row">
+        <div class="input-box">
+          <input
+            type="number"
+            min="0"
+            [max]="maximoPontosUsaveis"
+            [(ngModel)]="pontosUsados"
+            (input)="validarPontosUsados()"
+          />
+        </div>
+
+        <button class="small-button" (click)="usarTodosPontos()">
+          Usar Todos
+        </button>
+      </div>
+    </section>
+
+    <section class="summary-card">
+      <span>Total</span>
+      <strong>{{ totalFinal.toFixed(2) }}€</strong>
+    </section>
+
+    <ion-button expand="block" routerLink="/checkout-morada">
+      Continuar
+    </ion-button>
+
+  </div>
+
+</ion-content>

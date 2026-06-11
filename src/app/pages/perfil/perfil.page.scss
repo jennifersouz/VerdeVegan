@@ -1,0 +1,332 @@
+.perfil-content {
+  --background: #ffffff;
+  --overflow: hidden;
+}
+
+.perfil-container {
+  height: calc(100vh - 78px);
+  padding: 76px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.perfil-loading {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #3f744d;
+}
+
+.perfil-loading p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Card principal */
+
+.perfil-card {
+  position: relative;
+  min-height: 210px;
+  border-radius: 8px;
+  background: #3f6635;
+  padding: 34px 24px 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.editar-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  border-radius: 6px;
+  background: #31542a;
+  color: #ffffff;
+  padding: 7px 13px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.avatar-wrap {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  margin-bottom: 18px;
+}
+
+.avatar {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: #244f17;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  font-weight: 700;
+}
+
+.avatar-foto {
+  object-fit: cover;
+  display: block;
+}
+
+.foto-button {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #3f6635;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #2f6f2f;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 15px;
+  box-shadow: 0 4px 10px rgba(17, 24, 39, 0.18);
+}
+
+.foto-input {
+  display: none;
+}
+
+.perfil-card h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.perfil-card p {
+  margin: 2px 0 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 14px;
+}
+
+/* Pontos */
+
+.pontos-card {
+  width: calc(100% - 40px);
+  min-height: 76px;
+  margin: -38px auto 28px;
+  position: relative;
+  z-index: 2;
+  border-radius: 8px;
+  background: #eef4eb;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pontos-card div {
+  display: flex;
+  flex-direction: column;
+}
+
+.pontos-card strong {
+  color: #3f6635;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.pontos-card span {
+  color: #3f6635;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pontos-card button {
+  min-width: 118px;
+  height: 42px;
+  border: none;
+  border-radius: 22px;
+  background: #3f6635;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Histórico de pontos */
+
+.historico-pontos {
+  border-radius: 16px;
+  background: #f5f7f3;
+  padding: 18px;
+  margin-bottom: 28px;
+}
+
+.historico-pontos h2 {
+  margin: 0 0 14px;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.historico-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.historico-item:last-child {
+  border-bottom: none;
+}
+
+.historico-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.historico-item strong {
+  color: #111827;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.historico-item span {
+  margin-top: 4px;
+  color: #7b818c;
+  font-size: 13px;
+}
+
+.historico-item p {
+  margin: 0;
+  color: #3f6635;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Secções */
+
+.perfil-secao {
+  margin-top: 24px;
+}
+
+.perfil-secao h2 {
+  margin: 0 0 12px;
+  color: #333333;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.opcao-linha {
+  width: 100%;
+  min-height: 58px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  cursor: pointer;
+  color: #222222;
+}
+
+.opcao-linha div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.opcao-linha ion-icon {
+  font-size: 24px;
+  color: #7a817a;
+}
+
+.opcao-linha span {
+  color: #222222;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.opcao-linha > ion-icon {
+  font-size: 21px;
+  color: #95a18c;
+}
+
+.ajuda-secao {
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  bottom: 96px;
+  z-index: 4;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.ajuda-secao .opcao-linha {
+  min-height: 44px;
+}
+
+.sair-linha div ion-icon,
+.sair-linha div span {
+  color: #e53935;
+}
+
+.perfil-guest-card {
+  border-radius: 8px;
+  border: 1px solid #e4e7ec;
+  background: #ffffff;
+  padding: 42px 24px;
+  text-align: center;
+  box-shadow: 0 34px 72px rgba(17, 24, 39, 0.16);
+}
+
+.perfil-guest-container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 118px;
+}
+
+.perfil-guest-card h1 {
+  margin: 0 0 16px;
+  color: #111827;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.perfil-guest-card p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.perfil-guest-actions {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #2f6f2f;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.perfil-guest-actions button {
+  border: none;
+  background: transparent;
+  color: #2f6f2f;
+  font: inherit;
+  cursor: pointer;
+}

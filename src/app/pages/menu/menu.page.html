@@ -1,182 +1,244 @@
-<ion-content [scrollEvents]="true" (ionScroll)="onRestaurantScroll()">
-  <div class="menu-page">
-    <ng-container *ngIf="selectedRestaurant === 'Todos'; else restaurantMenu">
-      <header class="menu-header">
-        <div class="menu-title-row">
-          <h1>Todos os pratos</h1>
-          <button class="filter-button" type="button" (click)="openFilters()">
-            <ion-icon name="options-outline"></ion-icon>
-            Filtros
-          </button>
-        </div>
-        <p>Escolhe refeições, sobremesas e bebidas dos nossos parceiros vegan.</p>
-        <label class="search-box">
-          <ion-icon name="search-outline"></ion-icon>
-          <input type="search" [placeholder]="(placeholder$ | async) || 'Procurar pratos...'" (input)="search($event)" />
-        </label>
-      </header>
+<ion-content [fullscreen]="true" class="menu-content" scrollY="true">
 
-      <section class="content-section">
-        <ng-container *ngIf="!hasSearch">
-          <h2>Categorias</h2>
-          <div class="category-row">
-            <button
-              *ngFor="let category of categories$ | async"
-              type="button"
-              [class.active]="selectedCategory === category"
-              (click)="filter(category)"
-            >
-              <span>{{ iconFor(category) }}</span>
-              {{ category }}
-            </button>
-          </div>
-          <div class="category-rule"></div>
-
-          <ng-container *ngIf="highlights$ | async as highlights">
-            <ng-container *ngIf="highlights.length">
-              <h2>Pratos em destaque</h2>
-              <div class="dish-grid">
-                <article *ngFor="let dish of highlights" class="dish-card" [class.unavailable]="!dish.available" (click)="openDish(dish)">
-                  <img [src]="dish.image" [alt]="dish.name" />
-                  <div class="dish-body">
-                    <div class="dish-title-row">
-                      <h3>{{ dish.name }}</h3>
-                      <strong>{{ dish.price | currency: 'EUR' }}</strong>
-                    </div>
-                    <p>{{ dish.restaurant }} · {{ dish.category }}</p>
-                    <div class="meta">⭐ {{ dish.rating }} · 🕘 {{ dish.time }}</div>
-                  </div>
-                </article>
-              </div>
-            </ng-container>
-          </ng-container>
-        </ng-container>
-
-        <h2>Todos os pratos</h2>
-        <div class="dish-grid all-dishes">
-          <article *ngFor="let dish of dishes$ | async" class="dish-card" [class.unavailable]="!dish.available" (click)="openDish(dish)">
-            <img [src]="dish.image" [alt]="dish.name" />
-            <div class="dish-body">
-              <div class="dish-title-row">
-                <h3>{{ dish.name }}</h3>
-                <strong>{{ dish.price | currency: 'EUR' }}</strong>
-              </div>
-              <p>{{ dish.restaurant }} · {{ dish.category }}</p>
-              <div class="meta">⭐ {{ dish.rating }} · 🕘 {{ dish.time }}</div>
-            </div>
-          </article>
-        </div>
-      </section>
-    </ng-container>
-
-    <ng-template #restaurantMenu>
-      <header class="restaurant-header" *ngIf="selectedRestaurantInfo$ | async as restaurant">
-        <img [src]="restaurant.image" [alt]="restaurant.name" />
-        <div class="restaurant-header-content">
-          <button class="back-home" type="button" (click)="backFromRestaurant()">
-            <ion-icon name="chevron-back-outline"></ion-icon>
-            {{ fromDishDetail ? 'Detalhes' : 'Início' }}
-          </button>
-          <h1>{{ restaurant.name }}</h1>
-          <p>{{ restaurant.categories.join(' · ') }}</p>
-          <div class="restaurant-stats">
-            <span>⭐ {{ restaurant.rating }}</span>
-            <span>🕘 {{ restaurant.time }}</span>
-            <span>{{ restaurant.deliveryFee | currency: 'EUR' }} entrega</span>
-            <span>{{ restaurant.dishCount }} opções</span>
-          </div>
-        </div>
-      </header>
-
-      <section class="restaurant-menu-section">
-        <div class="restaurant-layout">
-          <aside class="restaurant-nav">
-            <strong>Menu</strong>
-            <button
-              *ngFor="let group of groupedDishes$ | async"
-              type="button"
-              [class.active]="activeRestaurantCategory === group.category"
-              (click)="scrollToSection(group.category)"
-            >
-              {{ group.category }}
-            </button>
-          </aside>
-
-          <main class="restaurant-groups">
-            <section
-              *ngFor="let group of groupedDishes$ | async"
-              [id]="sectionId(group.category)"
-              [attr.data-category]="group.category"
-              class="dish-section"
-            >
-              <h2>{{ group.category }}</h2>
-              <div class="restaurant-dish-grid">
-                <article *ngFor="let dish of group.dishes" class="restaurant-dish-card" (click)="openDish(dish)">
-                  <div>
-                    <h3>{{ dish.name }}</h3>
-                    <strong>{{ dish.price | currency: 'EUR' }}</strong>
-                    <p>{{ dish.description }}</p>
-                    <span>⭐ {{ dish.rating }} · {{ dish.time }}</span>
-                  </div>
-                  <img [src]="dish.image" [alt]="dish.name" />
-                  <button type="button" aria-label="Adicionar {{ dish.name }}">
-                    <ion-icon name="add-outline"></ion-icon>
-                  </button>
-                </article>
-              </div>
-            </section>
-          </main>
-        </div>
-      </section>
-    </ng-template>
+  <div *ngIf="carregando" class="menu-loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando menu...</p>
   </div>
 
-  <ion-modal [isOpen]="showFilters" (didDismiss)="closeFilters()" cssClass="filters-modal">
-    <ng-template>
-      <div class="filters-shell">
-        <div class="modal-handle"></div>
-        <header>
-          <h2>Filtros</h2>
-          <button type="button" (click)="closeFilters()" aria-label="Fechar">
-            <ion-icon name="close-outline"></ion-icon>
-          </button>
-        </header>
+  <div class="menu-container" *ngIf="!carregando">
 
-        <section>
-          <h3>Ordenar por:</h3>
-          <div class="filter-options two-cols">
-            <button type="button" [class.active]="sortMode === 'popular'" (click)="setSortMode('popular')">Popular</button>
-            <button type="button" [class.active]="sortMode === 'rating'" (click)="setSortMode('rating')">Avaliação</button>
-            <button type="button" [class.active]="sortMode === 'priceAsc'" (click)="setSortMode('priceAsc')">Preço ↑</button>
-            <button type="button" [class.active]="sortMode === 'priceDesc'" (click)="setSortMode('priceDesc')">Preço ↓</button>
-          </div>
-        </section>
+    <div class="top-spacer"></div>
 
-        <section>
-          <h3>Preço máximo:</h3>
-          <input class="price-range" type="range" min="5" max="50" step="1" [value]="maxPrice" (input)="updateMaxPrice($event)" />
-          <div class="range-labels">
-            <span>5€</span>
-            <strong>{{ maxPrice | currency: 'EUR' }}</strong>
-            <span>50€</span>
-          </div>
-        </section>
+    <section class="menu-hero">
+      <div class="menu-hero-top">
+        <div>
+          <h1>Todos os pratos</h1>
+        </div>
 
-        <section>
-          <h3>Avaliação mínima:</h3>
-          <div class="filter-options two-cols">
-            <button type="button" [class.active]="minRating === 0" (click)="setMinRating(0)">Todas</button>
-            <button type="button" [class.active]="minRating === 3" (click)="setMinRating(3)">3+ ⭐</button>
-            <button type="button" [class.active]="minRating === 4" (click)="setMinRating(4)">4+ ⭐</button>
-            <button type="button" [class.active]="minRating === 4.5" (click)="setMinRating(4.5)">4.5+ ⭐</button>
-          </div>
-        </section>
-
-        <footer>
-          <button class="secondary-action" type="button" (click)="resetFilters()">Cancelar</button>
-          <button class="primary-action" type="button" (click)="applyFilterSelection()">Concluir</button>
-        </footer>
+        <button type="button" class="topo-filtro-button" (click)="abrirFiltros()">
+          <ion-icon name="options-outline"></ion-icon>
+          <span>Filtros</span>
+        </button>
       </div>
-    </ng-template>
-  </ion-modal>
+
+      <p class="menu-subtitle">Escolhe refeições, sobremesas e bebidas dos nossos parceiros vegan.</p>
+
+      <label class="pesquisa-area">
+        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+
+        <input
+          type="text"
+          placeholder="Pesquisar comida..."
+          [(ngModel)]="termoPesquisa"
+          (input)="filtrarPratos()">
+      </label>
+    </section>
+
+    <section class="secao categorias-area">
+      <h2>Categorias</h2>
+
+      <div class="categorias-scroll">
+        <button
+          type="button"
+          class="categoria-chip"
+          *ngFor="let categoria of obterCategoriasVisiveis()"
+          [class.ativa]="categoriaSelecionada === categoria"
+          (click)="selecionarCategoria(categoria)">
+
+          {{ obterEmojiCategoria(categoria) }} {{ categoria }}
+        </button>
+      </div>
+    </section>
+
+    <section class="secao lista-area" *ngIf="!temPesquisaAtiva() && obterPratosDestaque().length > 0">
+      <div class="lista-header">
+        <h2>Pratos em destaque</h2>
+      </div>
+
+      <div class="menu-grid">
+        <article
+          class="menu-card"
+          *ngFor="let prato of obterPratosDestaque()"
+          (click)="abrirDetalhe(prato.id)">
+
+          <img
+            [src]="prato.imagem"
+            [alt]="prato.nome"
+            class="menu-card-img">
+
+          <div class="menu-card-info">
+            <div class="menu-card-bottom">
+              <h3>{{ prato.nome }}</h3>
+              <strong>€{{ prato.preco | number:'1.2-2' }}</strong>
+            </div>
+
+            <p>{{ prato.restaurante }} · {{ prato.categoria }}</p>
+
+            <div class="menu-card-meta">
+              <span>⭐ {{ prato.avaliacao }}</span>
+              <span>🕘 {{ prato.tempo }}</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="secao lista-area">
+
+      <div class="lista-header">
+        <h2>Todos os pratos</h2>
+      </div>
+
+      <div class="menu-grid">
+        <article
+          class="menu-card"
+          *ngFor="let prato of pratosFiltrados"
+          (click)="abrirDetalhe(prato.id)">
+
+          <img
+            [src]="prato.imagem"
+            [alt]="prato.nome"
+            class="menu-card-img">
+
+          <div class="menu-card-info">
+            <div class="menu-card-bottom">
+              <h3>{{ prato.nome }}</h3>
+              <strong>€{{ prato.preco | number:'1.2-2' }}</strong>
+            </div>
+
+            <p>{{ prato.restaurante }} · {{ prato.categoria }}</p>
+
+            <div class="menu-card-meta">
+              <span>⭐ {{ prato.avaliacao }}</span>
+              <span>🕘 {{ prato.tempo }}</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="sem-resultados" *ngIf="pratosFiltrados.length === 0 && !erroCarregamento">
+        <ion-icon name="search-outline"></ion-icon>
+        <h3>Nenhum item encontrado</h3>
+        <p>Tenta alterar a pesquisa, categoria ou filtros.</p>
+      </div>
+
+      <p class="erro-carregamento" *ngIf="erroCarregamento">
+        {{ erroCarregamento }}
+      </p>
+
+    </section>
+
+  </div>
+
 </ion-content>
+
+<!-- Modal de filtros -->
+<div class="filtros-overlay" *ngIf="filtrosAberto" (click)="fecharFiltros()">
+
+  <div class="filtros-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-handle"></div>
+
+    <button type="button" class="modal-close" (click)="fecharFiltros()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+
+    <h2>Filtros</h2>
+
+    <div class="filtro-grupo">
+      <p>Ordenar por:</p>
+
+      <div class="filtro-grid">
+        <button
+          type="button"
+          [class.ativo]="filtroOrdenacao === 'Popular'"
+          (click)="selecionarOrdenacao('Popular')">
+          Popular
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="filtroOrdenacao === 'Avaliação'"
+          (click)="selecionarOrdenacao('Avaliação')">
+          Avaliação
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="filtroOrdenacao === 'PrecoAsc'"
+          (click)="selecionarOrdenacao('PrecoAsc')">
+          Preço ↑
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="filtroOrdenacao === 'PrecoDesc'"
+          (click)="selecionarOrdenacao('PrecoDesc')">
+          Preço ↓
+        </button>
+      </div>
+    </div>
+
+    <div class="filtro-grupo">
+      <p>Preço máximo:</p>
+
+      <input
+        type="range"
+        min="0"
+        max="50"
+        step="1"
+        [(ngModel)]="precoMaximo">
+
+      <div class="range-valores">
+        <span>0€</span>
+        <span>{{ precoMaximo }}€</span>
+      </div>
+    </div>
+
+    <div class="filtro-grupo">
+      <p>Avaliação mínima:</p>
+
+      <div class="filtro-grid">
+        <button
+          type="button"
+          [class.ativo]="avaliacaoMinima === 'Todas'"
+          (click)="selecionarAvaliacao('Todas')">
+          Todas
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="avaliacaoMinima === '3'"
+          (click)="selecionarAvaliacao('3')">
+          3+ ⭐
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="avaliacaoMinima === '4'"
+          (click)="selecionarAvaliacao('4')">
+          4+ ⭐
+        </button>
+
+        <button
+          type="button"
+          [class.ativo]="avaliacaoMinima === '4.5'"
+          (click)="selecionarAvaliacao('4.5')">
+          4.5+ ⭐
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-botoes">
+      <button type="button" class="btn-cancelar" (click)="fecharFiltros()">
+        Cancelar
+      </button>
+
+      <button type="button" class="btn-concluir" (click)="concluirFiltros()">
+        Concluir
+      </button>
+    </div>
+
+  </div>
+
+</div>
